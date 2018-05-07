@@ -32,7 +32,7 @@ public class asd {
 	}
 	/*	public static void main(String[] args) {
 	OneMaxObjectiveFunction om = new OneMaxObjectiveFunction();
-	Population pop1 = new Population(20, 10, om);
+	Population pop1 = new Population(20, 10, om);asdasdsad
 	Population pop2 = pop1.clone();
 	Individual ind = pop1.getIndividuals().iterator().next();
 	System.out.println(pop1.getIndividuals().get(0).getAllele());
