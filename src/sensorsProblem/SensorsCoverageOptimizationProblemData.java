@@ -1,6 +1,6 @@
 package sensorsProblem;
 
-import GeneticAlgorithms.GAProblemData;
+import geneticAlgorithms.GAProblemData;
 
 public class SensorsCoverageOptimizationProblemData extends GAProblemData{
 	private SquareGridProblemData squareGridProblemData;

@@ -1,6 +1,6 @@
 package executor;
 
-import GeneticAlgorithms.CanonicalGA;
+import geneticAlgorithms.CanonicalGA;
 import oneMaxProblem.OneMaxObjectiveFunction;
 import oneMaxProblem.OneMaxProblemData;
 import sensorsProblem.Location;
@@ -15,6 +15,8 @@ public class MainExecutor{
 		int maxGen = 1000; //2000 numero màximo de generaciones
 		float maxFit = 1111.11f; //maximo fitness a encontrar hasta parar
 		int alfa = 2;
+		float crossoverProbability = 0.5f;
+		float mutationProbability = 0.01f;
 		int sensorRatio = 10;
 		int gridSizeX = 60;
 		int gridSizeY = 60;

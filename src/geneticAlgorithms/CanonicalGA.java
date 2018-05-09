@@ -1,4 +1,4 @@
-package GeneticAlgorithms;
+package geneticAlgorithms;
 //probar usar polimorfismo con binaryTournament y esas yerbas para hacer mas reusable el codigo mas adelante
 
 import generics.Population;
@@ -31,5 +31,9 @@ public class CanonicalGA {
 		}
 		while( genNumber<data.getMaxGen() && bestFitness<data.getMaxFit() );
 		System.out.println("Numero de iteraciones necesarias= "+genNumber);
+	}
+	
+	private Population applyReproductionStrategy() {
+		
 	}
 }

@@ -1,4 +1,4 @@
-package GeneticAlgorithms;
+package geneticAlgorithms;
 
 import generics.ObjectiveFunction;
 
