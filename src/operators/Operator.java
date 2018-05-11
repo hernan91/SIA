@@ -1,9 +1,9 @@
 package operators;
 
-import generics.Population;
-import java.util.Iterator;
+import java.util.ArrayList;
+
 import generics.Individual;
 
 public abstract class Operator {
-	public abstract Iterator<Individual> execute(Population population);
+	public abstract ArrayList<Individual> operate(ArrayList<Individual> population);
 }

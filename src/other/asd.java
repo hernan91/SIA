@@ -7,14 +7,14 @@ import java.util.Random;
 import generics.Individual;
 import generics.Population;
 import oneMaxProblem.OneMaxObjectiveFunction;
-import operators.MutationOperator;
-import operators.TwoPointsCrossover;
+import operators.BitFlipMutationOperator;
+import operators.TwoPointsCrossoverOperator;
 
 public class asd {
 
 	public static void main(String[] args) {
-		TwoPointsCrossover tpc = new TwoPointsCrossover(1);
-		MutationOperator mop = new MutationOperator(1);
+		TwoPointsCrossoverOperator tpc = new TwoPointsCrossoverOperator(1);
+		BitFlipMutationOperator mop = new BitFlipMutationOperator(1);
 		OneMaxObjectiveFunction om = new OneMaxObjectiveFunction();
 		Population pop1 = new Population(10,40,om);
 		Population pop1Copy = pop1.clone();

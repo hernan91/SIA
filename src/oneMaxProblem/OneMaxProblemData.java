@@ -1,9 +1,9 @@
 package oneMaxProblem;
 
 import generics.ObjectiveFunction;
-import geneticAlgorithms.GAProblemData;
+import geneticAlgorithms.ProblemData;
 
-public class OneMaxProblemData extends GAProblemData{
+public class OneMaxProblemData extends ProblemData{
 
 	public OneMaxProblemData(ObjectiveFunction objFunc, int alleleLength, int popSolutionNumber, int maxGen,
 			float maxFit, int alfa, float crossoverProbability, float mutationProbability) {

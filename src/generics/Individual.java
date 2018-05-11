@@ -31,7 +31,7 @@ public class Individual implements Cloneable{
 		this.fitness = fitness;
 	}
 	
-	public Individual clone() {
+	public Individual copy() {
 		int[] oldAllele = this.getAllele();
 		int[] newAllele = new int[oldAllele.length];
 		for(int i=0; i<newAllele.length; i++) {

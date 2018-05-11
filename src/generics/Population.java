@@ -57,11 +57,11 @@ public class Population {
 		return individuals;
 	}
 	
-	public Population clone() {
+	public Population copy() {
 		Iterator<Individual> it = this.getIndividuals().iterator();
 		ArrayList<Individual> clone = new ArrayList<Individual>();
 		while(it.hasNext()) {
-			clone.add(it.next().clone());
+			clone.add(it.next().copy());
 		}
 		return new Population(clone);
 	}

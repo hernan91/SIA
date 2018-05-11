@@ -3,20 +3,41 @@ package executor;
 import geneticAlgorithms.CanonicalGA;
 import oneMaxProblem.OneMaxObjectiveFunction;
 import oneMaxProblem.OneMaxProblemData;
+import operators.BinaryTournamentSelectionOperator;
+import operators.BitFlipMutationOperator;
+import operators.Operator;
+import operators.ReplacementOperator;
+import operators.TwoPointsCrossoverOperator;
 import sensorsProblem.Location;
 import sensorsProblem.SensorsCoverageOptimizationProblemData;
 import sensorsProblem.SquareGridProblemData;
 
 public class MainExecutor{
-
+	private static int alleleLength = 30; //longitud del alelo
+	private static int popSolutionNumber = 200; //numero de soluciones de la poblacion
+	private static int maxGen = 1000; //2000 numero màximo de generaciones
+	private static float maxFit = 1111.11f; //maximo fitness a encontrar hasta parar
+	private static int alfa = 2;
+	private static float crossoverProbability = 0.5f;
+	private static float mutationProbability = 0.01f;
+		
+	
+	
+	
 	public static void main(String[] args) {
-		int alleleLength = 30; //longitud del alelo
-		int popSolutionNumber = 200; //numero de soluciones de la poblacion
-		int maxGen = 1000; //2000 numero màximo de generaciones
-		float maxFit = 1111.11f; //maximo fitness a encontrar hasta parar
-		int alfa = 2;
-		float crossoverProbability = 0.5f;
-		float mutationProbability = 0.01f;
+		//oneMax();
+		sensorsCoverage();
+	}
+	
+	public static void oneMax() {
+		OneMaxProblemData oneMaxProblemData = new OneMaxProblemData(new OneMaxObjectiveFunction(), alleleLength, popSolutionNumber, maxGen, maxFit, alfa, crossoverProbability, mutationProbability);
+		//ga.execute(oneMaxProblemData); //ver porque no esta llegando al optimo, si no a 90
+		
+		//ga.executeWithSensorsProblemObjectiveF(sensorsCoverageOptimizationProblemData);
+		//problema con referenceiias
+	}
+	
+	public static void sensorsCoverage() {
 		int sensorRatio = 10;
 		int gridSizeX = 60;
 		int gridSizeY = 60;
@@ -34,22 +55,18 @@ public class MainExecutor{
 				new Location(10,10), new Location(10,30), new Location(10,50)		
 		};
 		
-		
-		
-		OneMaxProblemData oneMaxProblemData = new OneMaxProblemData(new OneMaxObjectiveFunction(), alleleLength, popSolutionNumber, maxGen, maxFit, alfa, crossoverProbability, mutationProbability);
-		SensorsCoverageOptimizationProblemData sensorsCoverageOptimizationProblemData = new SensorsCoverageOptimizationProblemData(alleleLength, 
-				popSolutionNumber, maxGen, maxFit, alfa, crossoverProbability, mutationProbability, 
+		SensorsCoverageOptimizationProblemData sensorsCoverageOptimizationProblemData = new SensorsCoverageOptimizationProblemData(
+				alleleLength, popSolutionNumber, maxGen, maxFit, alfa, crossoverProbability, mutationProbability, 
 				squareGridProblemData, transmissorsPositions);
 		
-		CanonicalGA ga = new CanonicalGA();
-		//ga.execute(oneMaxProblemData); //ver porque no esta llegando al optimo, si no a 90
-		ga.execute(sensorsCoverageOptimizationProblemData);
-		//ga.executeWithSensorsProblemObjectiveF(sensorsCoverageOptimizationProblemData);
-		//problema con referenceiias
+		Operator selectionOperator = new BinaryTournamentSelectionOperator(sensorsCoverageOptimizationProblemData.getObjFunc());
+		Operator crossoverOperator = new TwoPointsCrossoverOperator();
+		Operator mutationOperator = new BitFlipMutationOperator();
+		Operator replacementOperator = new ReplacementOperator(sensorsCoverageOptimizationProblemData.getObjFunc(), popSolutionNumber);
 		
-	}
-	
-	public static void OneMax() {
+		CanonicalGA ga = new CanonicalGA(crossoverProbability, mutationProbability, 
+				selectionOperator, crossoverOperator, mutationOperator, replacementOperator, sensorsCoverageOptimizationProblemData);
+		ga.execute();
 		
 	}
 

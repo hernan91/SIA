@@ -1,10 +1,11 @@
 package sensorsProblem;
 
-import geneticAlgorithms.GAProblemData;
+import geneticAlgorithms.ProblemData;
 
-public class SensorsCoverageOptimizationProblemData extends GAProblemData{
+public class SensorsCoverageOptimizationProblemData extends ProblemData{
 	private SquareGridProblemData squareGridProblemData;
 	private Location[] transmissorsPositions;
+	
 	
 	public SensorsCoverageOptimizationProblemData(int alleleLength, int popSolutionNumber, int maxGen, float maxFit,
 			int alfa, float crossoverProbability, float mutationProbability, SquareGridProblemData squareGridProblemData, Location[] transmissorsPositions) {

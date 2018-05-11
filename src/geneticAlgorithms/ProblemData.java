@@ -2,7 +2,7 @@ package geneticAlgorithms;
 
 import generics.ObjectiveFunction;
 
-public abstract class GAProblemData{
+public abstract class ProblemData{
 	private ObjectiveFunction objFunc;
 	private int alleleLength; //longitud del alelo
 	private int popSolutionNumber; //numero de soluciones de la poblacion
@@ -12,7 +12,7 @@ public abstract class GAProblemData{
 	private float crossoverProbability;
 	private float mutationProbability;
 	
-	public GAProblemData(ObjectiveFunction objFunc, int alleleLength, int popSolutionNumber, int maxGen, float maxFit, int alfa,
+	public ProblemData(ObjectiveFunction objFunc, int alleleLength, int popSolutionNumber, int maxGen, float maxFit, int alfa,
 			float crossoverProbability, float mutationProbability) {
 		super();
 		this.alleleLength = alleleLength;
