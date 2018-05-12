@@ -45,4 +45,10 @@ public class Individual implements Cloneable{
 		else if (objFunction.obtainFitness(this) == objFunction.obtainFitness(ind)) return 0;
 		else return -1;
 	}
+	
+	public void printAllele() {
+		System.out.print("Alelo = ");
+		for(int x : genotype) System.out.print(x);
+		System.out.println();
+	}
 }

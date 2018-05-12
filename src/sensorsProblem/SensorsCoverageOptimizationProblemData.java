@@ -6,12 +6,9 @@ public class SensorsCoverageOptimizationProblemData extends ProblemData{
 	private SquareGridProblemData squareGridProblemData;
 	private Location[] transmissorsPositions;
 	
-	
-	public SensorsCoverageOptimizationProblemData(int alleleLength, int popSolutionNumber, int maxGen, float maxFit,
-			int alfa, float crossoverProbability, float mutationProbability, SquareGridProblemData squareGridProblemData, Location[] transmissorsPositions) {
-		super(
-				new SensorsProblemObjectiveFunction(squareGridProblemData, transmissorsPositions, alfa),
-				alleleLength, popSolutionNumber, maxGen, maxFit, alfa, crossoverProbability, mutationProbability);
+	public SensorsCoverageOptimizationProblemData(float maxFit,	int alfa, SquareGridProblemData squareGridProblemData, 
+			Location[] transmissorsPositions, SensorsProblemObjectiveFunction sensorsProblemObjectiveFunction) {
+		super(sensorsProblemObjectiveFunction, maxFit, alfa);
 		this.squareGridProblemData = squareGridProblemData;
 		this.transmissorsPositions = transmissorsPositions;
 	}
@@ -31,5 +28,4 @@ public class SensorsCoverageOptimizationProblemData extends ProblemData{
 	public void setTransmissorsPositions(Location[] transmissorsPositions) {
 		this.transmissorsPositions = transmissorsPositions;
 	}
-	
 }

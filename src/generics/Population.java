@@ -107,8 +107,17 @@ public class Population {
 				+ "Fitness= "+format.format(bestFitnessScore)+"\n"
 				+ "Error porcentual Ebest= "+format.format(((bestFitnessScore-optimalScore)/optimalScore)*100)+"%\n"
 				+ "Media poblacional Epop= "+format.format(mean)+"\n"
-				+ "Desviacion estándar= "+format.format(Math.sqrt(sumatoriaCuad/getNumberOfIndividuals()))+"\n"
+				+ "Desviacion estandar= "+format.format(Math.sqrt(sumatoriaCuad/getNumberOfIndividuals()))+"\n"
 				+ ""+"\n";
 		System.out.println(str);
+	}
+	
+	public void printIndividualsAllels() {
+		for( Individual ind : getIndividuals()) {
+			for( int allele : ind.getAllele()) {
+				System.out.print(allele);
+			}
+			System.out.println();
+		}
 	}
 }
