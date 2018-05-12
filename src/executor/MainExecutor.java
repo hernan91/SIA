@@ -64,7 +64,7 @@ public class MainExecutor{
 		Operator mutationOperator = new BitFlipMutationOperator();
 		Operator replacementOperator = new ReplacementOperator(sensorsCoverageOptimizationProblemData.getObjFunc(), popSolutionNumber);
 		
-		CanonicalGA ga = new CanonicalGA(alleleLength, popSolutionNumber, maxGen, crossoverProbability, mutationProbability, 
+		CanonicalGA ga = new CanonicalGA(transmissorsPositions.length, popSolutionNumber, maxGen, crossoverProbability, mutationProbability, 
 				selectionOperator, crossoverOperator, mutationOperator, replacementOperator, sensorsCoverageOptimizationProblemData);
 		ga.execute(tracing);
 	}

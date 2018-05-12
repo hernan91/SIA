@@ -50,9 +50,10 @@ public class CanonicalGA {
 		}
 		while( genNumber<getMaxGen() && bestFitness<data.getMaxFit() );
 		replacedPopulation.printStatisticInfo(data.getMaxFit(), data.getObjFunc());
+		System.out.println("Numero de iteraciones necesarias= "+genNumber);
 		replacedPopulation.getBestFitIndividual(data.getObjFunc()).printAllele();
 		System.out.println("Fitness = " + replacedPopulation.getBestFitIndividual(data.getObjFunc()).getFitness());
-		System.out.println("Numero de iteraciones necesarias= "+genNumber);
+		
 	}
 	
 	private Population applySelectionStrategy(Population population) {
