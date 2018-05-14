@@ -16,7 +16,7 @@ public class CsvWriter {
 			for (Location location : locationsArray) {
 				fileWriter.append(String.valueOf(location.getPosX()));
 				fileWriter.append(",");
-				fileWriter.append(String.valueOf(location.getPosX()));
+				fileWriter.append(String.valueOf(location.getPosY()));
 				fileWriter.append("\n");
 
 			}
