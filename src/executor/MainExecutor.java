@@ -78,8 +78,8 @@ public class MainExecutor{
 				selectionOperator, crossoverOperator, mutationOperator, replacementOperator, sensorsCoverageOptimizationProblemData);
 		ga.execute(tracing);
 		CsvWriter writer = new CsvWriter();
-		writer.writeCsvFile("locations.csv", transmissorsPositions);
-		writer.writeCsvFile(fileName, locationsArray);
+		writer.writeCsvLocationsFile("locations.csv", transmissorsPositions);
+		writer.writeCsvFile("solution.csv", locationsArray);
 	}
 	
 	//esto va temporalmente
