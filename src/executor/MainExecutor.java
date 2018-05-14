@@ -20,7 +20,7 @@ import sensorsProblem.SquareGridProblemData;
 public class MainExecutor{
 	private static int alleleLength = 30; //longitud del alelo
 	private static int popSolutionNumber = 100; //numero de soluciones de la poblacion
-	private static int maxGen = 1000; //2000 numero màximo de generaciones
+	private static int maxGen = 5000; //2000 numero màximo de generaciones
 	private static float maxFit = 11.11f; //maximo fitness a encontrar hasta parar
 	private static int alfa = 1;
 	private static float crossoverProbability = 0.5f;
@@ -83,10 +83,11 @@ public class MainExecutor{
 	
 	//esto va temporalmente
 	public static ArrayList<Location> addRandomDistributedSensors(int numSensors, int xLim, int yLim, ArrayList<Location> locationArray) {
-		Random rand = new Random();
 		int arraySize = locationArray.size();
-		for(int i=arraySize; i<numSensors+arraySize; i++) {			
-			locationArray.add(new Location(rand.nextInt(xLim), rand.nextInt(yLim)));
+		for(int i=arraySize; i<numSensors+arraySize; i++) {
+			Random randX = new Random();
+			Random randY = new Random();
+			locationArray.add(new Location(randX.nextInt(xLim), randY.nextInt(yLim)));
 		}
 		return locationArray;
 	}

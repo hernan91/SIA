@@ -74,6 +74,7 @@ public class Population {
 				return ind1.compareTo(ind2);
 			}	
 		});
+		//
 		Collections.reverse(individuals);
 	}
 	
