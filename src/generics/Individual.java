@@ -1,6 +1,6 @@
 package generics;
 
-public class Individual implements Cloneable{
+public class Individual implements Cloneable, Comparable<Individual>{
 	private int genotype[]; //sensor status allele
 	private double fitness;
 	
@@ -43,12 +43,20 @@ public class Individual implements Cloneable{
 	public int compareTo(Individual ind, ObjectiveFunction objFunction) {
 		if(objFunction.obtainFitness(this) < objFunction.obtainFitness(ind)) return 1;
 		else if (objFunction.obtainFitness(this) == objFunction.obtainFitness(ind)) return 0;
-		else return -1;
+		else if (objFunction.obtainFitness(this) > objFunction.obtainFitness(ind)) return -1; //lo agregue porque si no salta un error que dice que la funcion no es transitiva
+		else return 0;
 	}
 	
 	public void printAllele() {
 		System.out.print("Alelo = ");
 		for(int x : genotype) System.out.print(x);
 		System.out.println();
+	}
+
+	@Override
+	public int compareTo(Individual ind2) {
+		if(fitness < ind2.getFitness()) return -1;
+		else if(fitness == ind2.getFitness()) return 0;
+		else return 1;
 	}
 }

@@ -71,9 +71,10 @@ public class Population {
 		Collections.sort(individuals, new Comparator<Individual>(){
 			@Override
 			public int compare(Individual ind1, Individual ind2) {
-				return ind1.compareTo(ind2, objFunc);
+				return ind1.compareTo(ind2);
 			}	
 		});
+		Collections.reverse(individuals);
 	}
 	
 	public Individual getBestFitIndividual(ObjectiveFunction objFunc) {
