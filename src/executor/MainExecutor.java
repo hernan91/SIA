@@ -79,6 +79,7 @@ public class MainExecutor{
 		ga.execute(tracing);
 		CsvWriter writer = new CsvWriter();
 		writer.writeCsvFile("locations.csv", transmissorsPositions);
+		writer.writeCsvFile(fileName, locationsArray);
 	}
 	
 	//esto va temporalmente
