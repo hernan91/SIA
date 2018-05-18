@@ -105,12 +105,13 @@ public class Population {
 		float sumatoriaCuad = 0;
 		while(it.hasNext()) sumatoriaCuad += Math.pow(it.next().getFitness()-mean, 2);
 		DecimalFormat format = new DecimalFormat("#.###");
-		String str = "Mejor solucion:\n"
-				+ "Fitness= "+format.format(bestFitnessScore)+"\n"
-				+ "Error porcentual Ebest= "+format.format(((bestFitnessScore-optimalScore)/optimalScore)*100)+"%\n"
-				+ "Media poblacional Epop= "+format.format(mean)+"\n"
-				+ "Desviacion estandar= "+format.format(Math.sqrt(sumatoriaCuad/getNumberOfIndividuals()))+"\n"
-				+ ""+"\n";
+//		String str = "Mejor solucion:\n"
+//				+ "Fitness= "+format.format(bestFitnessScore)+"\n"
+//				+ "Error porcentual Ebest= "+format.format(((bestFitnessScore-optimalScore)/optimalScore)*100)+"%\n"
+//				+ "Media poblacional Epop= "+format.format(mean)+"\n"
+//				+ "Desviacion estandar= "+format.format(Math.sqrt(sumatoriaCuad/getNumberOfIndividuals()))+"\n"
+//				+ ""+"\n";
+		String str = format.format(bestFitnessScore);
 		System.out.println(str);
 	}
 	

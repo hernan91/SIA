@@ -2,7 +2,8 @@
 library(sp)
 
 # Create sample town points
-towns <- data.frame(lon = sample(100), lat = sample(100))
+#towns <- data.frame(lon = sample(100), lat = sample(100))
+towns <- read.csv("~/git/SIA/locations.csv", header = TRUE, sep = ",", dec = ".")
 towns <- SpatialPoints(towns)
 
 # Create sample polygon grid
