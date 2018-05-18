@@ -26,7 +26,7 @@ public class MainExecutor{
 	private static int alfa = 2; //siempre tiene que ser >1 para que funcione bien la func objetivo
 	/**
 	 * Ver lo de Math.pow(100, alfa)/alleleLength
-	 * alleleLength? No voy a tener la solucion optima siempre, no?
+	 * alleleLength? No voy a tener la solucion optima siempre, no? Entonces, queda infinito?
 	 */
 	private static double maxFit = Math.pow(100, alfa)/alleleLength; //maximo fitness a encontrar hasta parar
 	private static float crossoverProbability = 0.5f;
