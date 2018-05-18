@@ -3,6 +3,7 @@ package executor;
 import java.util.ArrayList;
 import java.util.Random;
 
+import generics.Individual;
 import geneticAlgorithms.CanonicalGA;
 import oneMaxProblem.OneMaxObjectiveFunction;
 import oneMaxProblem.OneMaxProblemData;
@@ -18,11 +19,16 @@ import sensorsProblem.SensorsProblemObjectiveFunction;
 import sensorsProblem.SquareGridProblemData;
 
 public class MainExecutor{
-	private static int alleleLength = 30; //longitud del alelo
+	private static int alleleLength = 9; //longitud del alelo
+	private static int randomlyDistributedTransmissors = 21;
 	private static int popSolutionNumber = 100; //numero de soluciones de la poblacion
-	private static int maxGen = 100; //2000 numero màximo de generaciones
-	private static float maxFit = 11.11f; //maximo fitness a encontrar hasta parar
-	private static int alfa = 1;
+	private static int maxGen = 1000; //2000 numero màximo de generaciones
+	private static int alfa = 2; //siempre tiene que ser >1 para que funcione bien la func objetivo
+	/**
+	 * Ver lo de Math.pow(100, alfa)/alleleLength
+	 * alleleLength? No voy a tener la solucion optima siempre, no?
+	 */
+	private static double maxFit = Math.pow(100, alfa)/alleleLength; //maximo fitness a encontrar hasta parar
 	private static float crossoverProbability = 0.5f;
 	private static float mutationProbability = 0.01f;
 	private static boolean tracing = false;
@@ -59,14 +65,14 @@ public class MainExecutor{
 		transmissorsPositions.add(new Location(50,10));
 		transmissorsPositions.add(new Location(50,30));
 		transmissorsPositions.add(new Location(50,50));
-		addRandomDistributedSensors(21, gridSizeX, gridSizeY, transmissorsPositions);
+		addRandomDistributedSensors(randomlyDistributedTransmissors, gridSizeX, gridSizeY, transmissorsPositions);
 		
 		
 		SensorsProblemObjectiveFunction sensorsProblemObjectiveFunction = new SensorsProblemObjectiveFunction(
-				squareGridProblemData, transmissorsPositions.toArray(new Location[30]), alfa);
+				squareGridProblemData, transmissorsPositions, alfa);
 		
 		SensorsCoverageOptimizationProblemData sensorsCoverageOptimizationProblemData = new SensorsCoverageOptimizationProblemData(
-				maxFit, alfa, squareGridProblemData, transmissorsPositions.toArray(new Location[30]), sensorsProblemObjectiveFunction);
+				maxFit, alfa, squareGridProblemData, transmissorsPositions, sensorsProblemObjectiveFunction);
 		
 		Operator selectionOperator = new BinaryTournamentSelectionOperator(sensorsCoverageOptimizationProblemData.getObjFunc());
 		Operator crossoverOperator = new TwoPointCrossoverOperator();
@@ -76,10 +82,9 @@ public class MainExecutor{
 		
 		CanonicalGA ga = new CanonicalGA(transmissorsPositions.size(), popSolutionNumber, maxGen, crossoverProbability, mutationProbability, 
 				selectionOperator, crossoverOperator, mutationOperator, replacementOperator, sensorsCoverageOptimizationProblemData);
-		ga.execute(tracing);
-		CsvWriter writer = new CsvWriter();
-		writer.writeCsvLocationsFile("locations.csv", transmissorsPositions);
-		writer.writeCsvFile("solution.csv", locationsArray);
+		Individual bestIndividual = ga.execute(tracing);
+		CsvWriter.writeLocations("locations.csv", transmissorsPositions);
+		CsvWriter.writeSolution("solution.csv", bestIndividual);
 	}
 	
 	//esto va temporalmente

@@ -36,7 +36,7 @@ public class CanonicalGA {
 		this.data = data;
 	}
 
-	public void execute(Boolean tracing) {
+	public Individual execute(Boolean tracing) {
 		int genNumber = 0;
 		double bestFitness = 0;
 		Population replacedPopulation = new Population(getAlleleLength(), getPopSolutionNumber());
@@ -51,8 +51,10 @@ public class CanonicalGA {
 		while( genNumber<getMaxGen() && bestFitness<data.getMaxFit() );
 		replacedPopulation.printStatisticInfo(data.getMaxFit(), data.getObjFunc());
 		System.out.println("Numero de iteraciones necesarias= "+genNumber);
-		replacedPopulation.getBestFitIndividual(data.getObjFunc()).printAllele();
+		Individual bestIndividual = replacedPopulation.getBestFitIndividual(data.getObjFunc());
+		bestIndividual.printAllele();
 		System.out.println("Fitness = " + replacedPopulation.getBestFitIndividual(data.getObjFunc()).getFitness());
+		return bestIndividual;
 		
 	}
 	

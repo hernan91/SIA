@@ -1,15 +1,17 @@
 package sensorsProblem;
 
+import java.util.ArrayList;
+
 import generics.Individual;
 import generics.ObjectiveFunction;
 
 public class SensorsProblemObjectiveFunction extends ObjectiveFunction{
 	private SquareGridProblemData conf;
-	private Location transmissorsPositions[];
+	private ArrayList<Location> transmissorsPositions;
 	private float alfa;
 	
 	
-	public SensorsProblemObjectiveFunction(SquareGridProblemData conf, Location transmissorsPositions[], float alfa) {
+	public SensorsProblemObjectiveFunction(SquareGridProblemData conf, ArrayList<Location> transmissorsPositions, float alfa) {
 		super();
 		this.conf = conf;
 		this.transmissorsPositions = transmissorsPositions;
@@ -23,7 +25,7 @@ public class SensorsProblemObjectiveFunction extends ObjectiveFunction{
 		for(int t=0; t<availableTransmissorsNumber; t++) { //t = transmissor
 			int[] transmissorStatusAllele = transmissorsPopulationStatus.getAllele(); //describe el estado de los transmisores //apagados, desactivados
 			if(transmissorStatusAllele[t]==1) {
-				Location transmissorLocation = transmissorsPositions[t];
+				Location transmissorLocation = transmissorsPositions.get(t);
 				CoverageLimits limits = new CoverageLimits(transmissorLocation, conf);
 				for(int i=limits.getLimInfX(); i<limits.getLimSupX(); i++){
 					for(int j=limits.getLimInfY(); j<limits.getLimSupY(); j++) {
@@ -48,7 +50,12 @@ public class SensorsProblemObjectiveFunction extends ObjectiveFunction{
 	
 	public double getFitness(int coverageGrid[][], int usedTransmissors, float alfa) {
 		float coverRange = (100*getCoveredPoints(coverageGrid)) /conf.getGridSize();
+		if(coverRange==0) return 0;
 		return Math.pow(coverRange, alfa) / usedTransmissors;
+		/**
+		 * El problema es que cuando se usa un solo transmisor, entonces queda (11**1)/1 = 11.11
+		 * El fitness es el mismo que cuando se usan 9, queda (100**1)/9=11.11
+		 */
 	}
 	
 	public int getCoveredPoints(int coverageGrid[][]) {

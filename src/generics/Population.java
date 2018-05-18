@@ -97,7 +97,7 @@ public class Population {
 		}
 	}
 	
-	public void printStatisticInfo(float optimalScore, ObjectiveFunction objFunc) {
+	public void printStatisticInfo(double optimalScore, ObjectiveFunction objFunc) {
 		Individual best = getBestFitIndividual(objFunc);
 		double bestFitnessScore = best.getFitness();
 		double mean = getPopulationFitnessMean(objFunc);

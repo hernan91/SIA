@@ -1,13 +1,15 @@
 package sensorsProblem;
 
+import java.util.ArrayList;
+
 import geneticAlgorithms.ProblemData;
 
 public class SensorsCoverageOptimizationProblemData extends ProblemData{
 	private SquareGridProblemData squareGridProblemData;
-	private Location[] transmissorsPositions;
+	private ArrayList<Location> transmissorsPositions;
 	
-	public SensorsCoverageOptimizationProblemData(float maxFit,	int alfa, SquareGridProblemData squareGridProblemData, 
-			Location[] transmissorsPositions, SensorsProblemObjectiveFunction sensorsProblemObjectiveFunction) {
+	public SensorsCoverageOptimizationProblemData(double maxFit, int alfa, SquareGridProblemData squareGridProblemData, 
+			ArrayList<Location> transmissorsPositions, SensorsProblemObjectiveFunction sensorsProblemObjectiveFunction) {
 		super(sensorsProblemObjectiveFunction, maxFit, alfa);
 		this.squareGridProblemData = squareGridProblemData;
 		this.transmissorsPositions = transmissorsPositions;
@@ -17,7 +19,7 @@ public class SensorsCoverageOptimizationProblemData extends ProblemData{
 		return squareGridProblemData;
 	}
 
-	public Location[] getTransmissorsPositions() {
+	public ArrayList<Location> getTransmissorsPositions() {
 		return transmissorsPositions;
 	}
 
@@ -25,7 +27,7 @@ public class SensorsCoverageOptimizationProblemData extends ProblemData{
 		this.squareGridProblemData = squareGridProblemData;
 	}
 
-	public void setTransmissorsPositions(Location[] transmissorsPositions) {
+	public void setTransmissorsPositions(ArrayList<Location> transmissorsPositions) {
 		this.transmissorsPositions = transmissorsPositions;
 	}
 }

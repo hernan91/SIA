@@ -4,10 +4,10 @@ import generics.ObjectiveFunction;
 
 public abstract class ProblemData{
 	private ObjectiveFunction objFunc;
-	private float maxFit; //maximo fitness a encontrar hasta parar
+	private double maxFit; //maximo fitness a encontrar hasta parar
 	private int alfa;
 	
-	public ProblemData(ObjectiveFunction objFunc, float maxFit, int alfa) {
+	public ProblemData(ObjectiveFunction objFunc, double maxFit, int alfa) {
 		super();
 		this.maxFit = maxFit;
 		this.alfa = alfa;
@@ -18,7 +18,7 @@ public abstract class ProblemData{
 		return objFunc;
 	}
 
-	public float getMaxFit() {
+	public double getMaxFit() {
 		return maxFit;
 	}
 
@@ -30,7 +30,7 @@ public abstract class ProblemData{
 		this.objFunc = objFunc;
 	}
 
-	public void setMaxFit(float maxFit) {
+	public void setMaxFit(double maxFit) {
 		this.maxFit = maxFit;
 	}
 
