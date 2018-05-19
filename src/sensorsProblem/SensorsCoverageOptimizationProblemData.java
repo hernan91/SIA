@@ -5,17 +5,17 @@ import java.util.ArrayList;
 import geneticAlgorithms.ProblemData;
 
 public class SensorsCoverageOptimizationProblemData extends ProblemData{
-	private SquareGridProblemData squareGridProblemData;
+	private SearchSpaceProblemData squareGridProblemData;
 	private ArrayList<Location> transmissorsPositions;
 	
-	public SensorsCoverageOptimizationProblemData(double maxFit, int alfa, SquareGridProblemData squareGridProblemData, 
+	public SensorsCoverageOptimizationProblemData(double maxFit, int alfa, SearchSpaceProblemData squareGridProblemData, 
 			ArrayList<Location> transmissorsPositions, SensorsProblemObjectiveFunction sensorsProblemObjectiveFunction) {
 		super(sensorsProblemObjectiveFunction, maxFit, alfa);
 		this.squareGridProblemData = squareGridProblemData;
 		this.transmissorsPositions = transmissorsPositions;
 	}
 	
-	public SquareGridProblemData getSquareGridProblemData() {
+	public SearchSpaceProblemData getSquareGridProblemData() {
 		return squareGridProblemData;
 	}
 
@@ -23,7 +23,7 @@ public class SensorsCoverageOptimizationProblemData extends ProblemData{
 		return transmissorsPositions;
 	}
 
-	public void setSquareGridProblemData(SquareGridProblemData squareGridProblemData) {
+	public void setSquareGridProblemData(SearchSpaceProblemData squareGridProblemData) {
 		this.squareGridProblemData = squareGridProblemData;
 	}
 

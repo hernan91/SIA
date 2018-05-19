@@ -1,17 +1,15 @@
 package sensorsProblem;
 
-public class SquareGridProblemData {
+public class SearchSpaceProblemData {
 	private int transmissorRangeRatio;
 	private int gridSizeX;
 	private int gridSizeY;
-	private int gridSize;
 	
-	public SquareGridProblemData(int sensorRatio, int gridSizeX, int gridSizeY) {
+	public SearchSpaceProblemData(int sensorRatio, int gridSizeX, int gridSizeY) {
 		super();
 		this.transmissorRangeRatio = sensorRatio;
 		this.gridSizeX = gridSizeX;
 		this.gridSizeY = gridSizeY;
-		this.gridSize = gridSizeX*gridSizeY;
 	}
 
 	public int getTransmissorRangeRatio() {
@@ -39,6 +37,6 @@ public class SquareGridProblemData {
 	}
 	
 	public int getGridSize() {
-		return gridSize;
+		return gridSizeX*gridSizeY;
 	}
 }

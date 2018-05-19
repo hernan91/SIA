@@ -3,7 +3,7 @@ package other;
 import generics.Individual;
 import sensorsProblem.Location;
 import sensorsProblem.SensorsProblemObjectiveFunction;
-import sensorsProblem.SquareGridProblemData;
+import sensorsProblem.SearchSpaceProblemData;
 
 /**
  * n=60
@@ -45,7 +45,7 @@ public class PruebaCuadrada {
 
 	
 	public static void main(String[] args) {
-		SquareGridProblemData conf = new SquareGridProblemData(sensorRatio, gridSizeX, gridSizeY);
+		SearchSpaceProblemData conf = new SearchSpaceProblemData(sensorRatio, gridSizeX, gridSizeY);
 		SensorsProblemObjectiveFunction fitnessFunc = new SensorsProblemObjectiveFunction(conf);
 		
 		double fitness = fitnessFunc.fitnessMaximizeRange(transmissorsPopulation, transmissorsPositions, alfa);

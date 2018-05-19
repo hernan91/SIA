@@ -56,4 +56,30 @@ public class CsvWriter {
 			}
 		}
 	}
+	
+	public static void writeGrid(String fileName, int[][] coverageGrid) {
+		FileWriter fileWriter = null;
+		try {
+			fileWriter = new FileWriter(fileName);
+			fileWriter.append("x,y\n");
+			for(int i=0; i<coverageGrid.length; i++) {
+				for(int j=0; j<coverageGrid[0].length; j++) {
+					if(coverageGrid[i][j]==1)
+						fileWriter.append(i+","+j+"\n");
+				}
+			}
+			System.out.println("Escrito correctamente");
+		} catch (Exception e) {
+			System.out.println("Error");
+			e.printStackTrace();
+		} finally {
+			try {
+				fileWriter.flush();
+				fileWriter.close();
+			} catch (IOException e) {
+				System.out.println("Error while flushing/closing fileWriter !!!");
+				e.printStackTrace();
+			}
+		}
+	}
 }

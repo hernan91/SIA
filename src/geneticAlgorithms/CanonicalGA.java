@@ -11,8 +11,8 @@ public class CanonicalGA {
 	private int alleleLength; //longitud del alelo
 	private int popSolutionNumber; //numero de soluciones de la poblacion
 	private int maxGen; //2000 numero màximo de generaciones
-	private float crossoverProbability = 0.5f;
-	private float mutationProbability = 0.01f;
+	private float crossoverProbability;
+	private float mutationProbability;
 	private Operator selectionOperator;
 	private Operator crossoverOperator;
 	private Operator mutationOperator;
