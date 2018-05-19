@@ -12,7 +12,7 @@ toImage = FALSE;
 if(toImage) png("~/git/SIA/r/img.png", width=800, height=800)
 
 # Graph the cars vector with all defaults
-plot(x,y,pch=20, ylim=c(0,60), xlim=c(0,60))
+plot(x,y,pch=20, ylim=c(0,120), xlim=c(0,120))
 
 range=12
 
