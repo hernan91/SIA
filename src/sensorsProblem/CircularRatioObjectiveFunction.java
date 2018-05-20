@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import generics.Individual;
 
-public class SensorsProblemCircularRatioObjectiveFunction extends SensorsProblemObjectiveFunction {
-	public SensorsProblemCircularRatioObjectiveFunction(SearchSpaceProblemData conf, ArrayList<Location> transmissorsPositions, float alfa){
+public class CircularRatioObjectiveFunction extends SensorsProblemObjectiveFunction {
+	public CircularRatioObjectiveFunction(SearchSpaceProblemData conf, ArrayList<Location> transmissorsPositions, float alfa){
 		super(conf, transmissorsPositions, alfa);
 	}
 	

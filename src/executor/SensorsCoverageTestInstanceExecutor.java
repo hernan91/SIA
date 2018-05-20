@@ -4,76 +4,121 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import generics.Individual;
+import generics.ObjectiveFunction;
+import generics.Population;
 import geneticAlgorithms.CanonicalGA;
-import oneMaxProblem.OneMaxObjectiveFunction;
-import oneMaxProblem.OneMaxProblemData;
 import operators.BinaryTournamentSelectionOperator;
 import operators.BitFlipMutationOperator;
 import operators.OnePointCrossoverOperator;
 import operators.Operator;
 import operators.ReplacementOperator;
+import operators.ThreePointCrossoverOperator;
 import operators.TwoPointCrossoverOperator;
 import other.CsvWriter;
 import sensorsProblem.Location;
 import sensorsProblem.SearchSpaceProblemData;
 import sensorsProblem.SensorsCoverageOptimizationProblemData;
-import sensorsProblem.SensorsProblemCircularRatioObjectiveFunction;
-import sensorsProblem.SensorsProblemSquareRatioObjectiveFunction;
+import sensorsProblem.CircularRatioObjectiveFunction;
+import sensorsProblem.SensorsProblemObjectiveFunction;
+import sensorsProblem.SquareRatioObjectiveFunction;
 
 public class SensorsCoverageTestInstanceExecutor{
-	private static int numExecutions = 30;
-	private static String[] operators = {"1PC", "2PC"};
-	private static int[] maxGens = {100, 500};
-	private static float[] crossoverProbabilities = {0.8f, 0.9f, 1.0f};
-	private static String[] objectiveFunctions = {"SquareRatio", "CircularRatio"};
-	private static int popSolutionNumber = 100; //numero de soluciones de la poblacion
-	private static float mutationProbability = 1/popSolutionNumber;
-	private static int alfa = 2; //siempre tiene que ser >1 para que funcione bien la func objetivo
-	private static double maxFit = 9999999999999f; //maximo fitness a encontrar hasta parar
-	private static boolean tracing = false;
-	
 	static int sensorRatio = 10;
 	static int gridSizeX = 60;
 	static int gridSizeY = 60;
+	static SearchSpaceProblemData searchSpaceProblemData = new SearchSpaceProblemData(sensorRatio, gridSizeX, gridSizeY);
 	static int randomlyDistributedTransmissors = 0;
-	static SearchSpaceProblemData squareGridProblemData = new SearchSpaceProblemData(sensorRatio, gridSizeX, gridSizeY);
 	static int[] arrayCoord = {10,10 , 10,30 , 10,50 , 30,10 , 30,30 , 30,50 , 50,10 , 50,30 , 50,50 , 23,38 , 1,11 , 5,26 , 38,56 , 34,50,
 			18,36, 48,14, 8,1, 57,27, 18,56, 49,44, 2,28, 49,51, 47,44, 21,4, 9,25, 6,42, 3,0, 50,31, 31,41, 11,47, 20,15, 30,22,
 			42,25, 48,36, 36,47, 18,45, 3,58, 29,59, 58,59, 42,4, 56,37, 57,52, 8,17, 19,23, 24,31, 38,12, 34,36, 41,37, 58,3,
 			53,19, 2,54, 12,60, 37,11, 54,14, 44,19, 31,3, 48,57, 8,36, 46,59, 25,37};
-
+	static String outputDir = "/home/hernan/git/SIA/instanciaPruebaRadioCuadrado1";
 	
+	private static int[] numExecutions = {30};
+	private static Operator[] crossoverOperators = {
+			new OnePointCrossoverOperator(),
+			new TwoPointCrossoverOperator(),
+			new ThreePointCrossoverOperator()};
+	private static int[] maxGens = {100, 500};
+	private static float[] crossoverProbabilities = {0.8f, 0.9f, 1.0f};
+	private static float[] mutationProbability; //1/popSOoutionNumber
+	private static int alfa = 2; //siempre tiene que ser >1 para que funcione bien la func objetivo
+	private static SensorsProblemObjectiveFunction[] objectiveFunctions = {new SquareRatioObjectiveFunction(searchSpaceProblemData, getTransmissorsPositions(), alfa)};
+	//new SensorsProblemCircularRatioObjectiveFunction(searchSpaceProblemData, getTransmissorsPositions(), alfa)
+	private static int[] popSolutionNumbers = {100}; //numero de soluciones de la poblacion
+	private static double[] maxFit = {9999999999999f}; //maximo fitness a encontrar hasta parar
+	private static boolean tracing = false;
+	
+	
+
 	public static void main(String[] args) {
-		Individual indConf1 = sensorsCoverage(numExecutions, crossoverProbabilities[0], operators[0], maxGens[0], objectiveFunctions[0]);
-		
+		ArrayList<RunConfiguration> runConfigurations = getRunConfigurations();
+		int r = 0;
+		for(RunConfiguration runConf : runConfigurations) {
+			ArrayList<Individual> bestIndividuals = new ArrayList<Individual>();
+			System.out.println("RunConf= "+r);
+			for(int i=0; i<runConf.getNumExecutions(); i++) {
+				bestIndividuals.add(sensorsCoverage(runConf));
+				System.out.println("Ejecucion "+i);
+			}
+			r++;
+			runConf.setBestIndividualsAfterRun(new Population(bestIndividuals));
+			Individual bestFitIndividual = runConf.getBestFitIndividual(runConf.getObjectiveFunction());
+			runConf.setBestFitIndividual(bestFitIndividual);
+			String filename = String.valueOf(runConf.getCrossoverProbability())+"-"+runConf.getCrossoverOperatorName()+"-"+runConf.getMaxGen()+".csv";
+			CsvWriter.writeRunConfigurationInfo(outputDir, filename, runConf);
+			CsvWriter.writeSolution(outputDir, filename, bestFitIndividual);
+		}
+		CsvWriter.writeLocations(outputDir, getTransmissorsPositions());
 	}
 	
-	public static Individual sensorsCoverage(float numExecutions, float crossoverProbability, String operator,  int maxGen, String objectiveFunction) {
+	public static Individual sensorsCoverage(RunConfiguration conf){
 		ArrayList<Location> transmissorsPositions = new ArrayList<Location>();
-		for(int i=0; i<arrayCoord.length; i=i+2) transmissorsPositions.add(new Location(arrayCoord[i], arrayCoord[i+1]));
-		addRandomDistributedSensors(randomlyDistributedTransmissors, gridSizeX, gridSizeY, transmissorsPositions);
+		for(int i=0; i<conf.getArrayCoord().length; i=i+2) transmissorsPositions.add(new Location(conf.getArrayCoord()[i], conf.getArrayCoord()[i+1]));
+		addRandomDistributedSensors(conf.getRandomlyDistributedTransmissors(), conf.getGridSizeX(), conf.getGridSizeY(), transmissorsPositions);
 		
 		//int alleleLength = transmissorsPositions.size()+randomlyDistributedTransmissors;
-		
-		//SensorsProblemCircularRatioObjectiveFunction sensorsProblemObjectiveFunction = new SensorsProblemCircularRatioObjectiveFunction(squareGridProblemData, transmissorsPositions, alfa);
-		SensorsProblemSquareRatioObjectiveFunction sensorsProblemObjectiveFunction = new SensorsProblemSquareRatioObjectiveFunction(squareGridProblemData, transmissorsPositions, alfa);
-		
+		SensorsProblemObjectiveFunction sensorsProblemObjectiveFunction = conf.getObjectiveFunction();
 		SensorsCoverageOptimizationProblemData sensorsCoverageOptimizationProblemData = new SensorsCoverageOptimizationProblemData(
-				maxFit, alfa, squareGridProblemData, transmissorsPositions, sensorsProblemObjectiveFunction);
+				conf.getMaxFit(), conf.getAlfa(), conf.getSearchSpaceProblemData(), transmissorsPositions, sensorsProblemObjectiveFunction);
 		
 		Operator selectionOperator = new BinaryTournamentSelectionOperator(sensorsCoverageOptimizationProblemData.getObjFunc());
-		Operator crossoverOperator = new OnePointCrossoverOperator();
-		//Operator crossoverOperator = new TwoPointCrossoverOperator();
-		//Operator crossoverOperator = new ThreePointCrossoverOperator();
+		Operator crossoverOperator = conf.getCrossoverOperator();
 		Operator mutationOperator = new BitFlipMutationOperator();
-		Operator replacementOperator = new ReplacementOperator(sensorsCoverageOptimizationProblemData.getObjFunc(), popSolutionNumber);
+		Operator replacementOperator = new ReplacementOperator(sensorsCoverageOptimizationProblemData.getObjFunc(), conf.getPopSolutionNumber());
 		
-		CanonicalGA ga = new CanonicalGA(transmissorsPositions.size(), popSolutionNumber, maxGen, crossoverProbability, mutationProbability, 
+		CanonicalGA ga = new CanonicalGA(transmissorsPositions.size(), conf.getPopSolutionNumber(), conf.getMaxGen(), conf.getCrossoverProbability(), conf.getMutationProbability(), 
 				selectionOperator, crossoverOperator, mutationOperator, replacementOperator, sensorsCoverageOptimizationProblemData);
-		Individual bestIndividual = ga.execute(tracing);
-		CsvWriter.writeLocations("locations.csv", transmissorsPositions);
-		CsvWriter.writeSolution("solution.csv", bestIndividual);
+		Individual bestIndividual = ga.execute(conf.getTracing());
 		return bestIndividual;
+	}
+	
+	public static ArrayList<RunConfiguration> getRunConfigurations(){
+		ArrayList<RunConfiguration> runConfigurations = new ArrayList<RunConfiguration>();
+		for(int i=0; i<numExecutions.length; i++) {
+			for(int j=0; j<crossoverOperators.length; j++) {
+				for(int k=0; k<maxGens.length; k++) {
+					for(int l=0; l<crossoverProbabilities.length; l++) {
+						for(int m=0; m<objectiveFunctions.length; m++) {
+							for(int n=0; n<popSolutionNumbers.length; n++) {
+								for(int o=0; o<maxFit.length; o++) {
+									runConfigurations.add(new RunConfiguration(numExecutions[i], crossoverOperators[j], maxGens[k], crossoverProbabilities[l],
+											objectiveFunctions[m], popSolutionNumbers[n], alfa, maxFit[o], tracing, searchSpaceProblemData, 
+											randomlyDistributedTransmissors, arrayCoord));
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		return runConfigurations;
+	}
+	
+	public static ArrayList<Location> getTransmissorsPositions(){
+		ArrayList<Location> transmissorsPositions = new ArrayList<Location>();
+		for(int i=0; i<arrayCoord.length; i=i+2) transmissorsPositions.add(new Location(arrayCoord[i], arrayCoord[i+1]));
+		return transmissorsPositions;
 	}
 	
 	public static ArrayList<Location> addRandomDistributedSensors(int numSensors, int xLim, int yLim, ArrayList<Location> locationArray) {

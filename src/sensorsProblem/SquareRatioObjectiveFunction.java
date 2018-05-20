@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import generics.Individual;
 
-public class SensorsProblemSquareRatioObjectiveFunction extends SensorsProblemObjectiveFunction {
-	public SensorsProblemSquareRatioObjectiveFunction(SearchSpaceProblemData conf, ArrayList<Location> transmissorsPositions, float alfa){
+public class SquareRatioObjectiveFunction extends SensorsProblemObjectiveFunction {
+	public SquareRatioObjectiveFunction(SearchSpaceProblemData conf, ArrayList<Location> transmissorsPositions, float alfa){
 		super(conf, transmissorsPositions, alfa);
 	}
 	

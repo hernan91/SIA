@@ -52,6 +52,12 @@ public class Individual implements Cloneable, Comparable<Individual>{
 		for(int x : genotype) System.out.print(x);
 		System.out.println();
 	}
+	
+	public String getAlleleString() {
+		String alleleString = "";
+		for(int x : genotype) alleleString += x;
+		return alleleString;
+	}
 
 	@Override
 	public int compareTo(Individual ind2) {

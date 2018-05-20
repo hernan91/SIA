@@ -17,8 +17,8 @@ import other.CsvWriter;
 import sensorsProblem.Location;
 import sensorsProblem.SearchSpaceProblemData;
 import sensorsProblem.SensorsCoverageOptimizationProblemData;
-import sensorsProblem.SensorsProblemCircularRatioObjectiveFunction;
-import sensorsProblem.SensorsProblemSquareRatioObjectiveFunction;
+import sensorsProblem.CircularRatioObjectiveFunction;
+import sensorsProblem.SquareRatioObjectiveFunction;
 
 public class MainExecutor{
 	private static int popSolutionNumber = 100; //numero de soluciones de la poblacion
@@ -55,7 +55,7 @@ public class MainExecutor{
 		maxFit = 99999999999999999999999999999999999f;//Math.pow(100, alfa)/transmissorsPositions.size();
 		
 		//SensorsProblemCircularRatioObjectiveFunction sensorsProblemObjectiveFunction = new SensorsProblemCircularRatioObjectiveFunction(squareGridProblemData, transmissorsPositions, alfa);
-		SensorsProblemSquareRatioObjectiveFunction sensorsProblemObjectiveFunction = new SensorsProblemSquareRatioObjectiveFunction(squareGridProblemData, transmissorsPositions, alfa);
+		SquareRatioObjectiveFunction sensorsProblemObjectiveFunction = new SquareRatioObjectiveFunction(squareGridProblemData, transmissorsPositions, alfa);
 		
 		SensorsCoverageOptimizationProblemData sensorsCoverageOptimizationProblemData = new SensorsCoverageOptimizationProblemData(
 				maxFit, alfa, squareGridProblemData, transmissorsPositions, sensorsProblemObjectiveFunction);

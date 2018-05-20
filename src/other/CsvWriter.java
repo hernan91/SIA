@@ -1,18 +1,23 @@
 package other;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import executor.RunConfiguration;
 import generics.Individual;
 import sensorsProblem.Location;
 
 public class CsvWriter {
 
-	public static void writeLocations(String fileName, ArrayList<Location> locationsArray) {
+	public static void writeLocations(String directory, ArrayList<Location> locationsArray) {
 		FileWriter fileWriter = null;
+		File dir = new File(directory);
+		String filename = "locations.csv";
 		try {
-			fileWriter = new FileWriter(fileName);
+			dir.mkdirs();
+			fileWriter = new FileWriter(new File(dir.getAbsolutePath(), filename));
 			fileWriter.append("x,y\n");
 			for (Location location : locationsArray) {
 				fileWriter.append(String.valueOf(location.getPosX()));
@@ -21,7 +26,6 @@ public class CsvWriter {
 				fileWriter.append("\n");
 
 			}
-			System.out.println("Escrito correctamente");
 		} catch (Exception e) {
 			System.out.println("Error");
 			e.printStackTrace();
@@ -36,13 +40,13 @@ public class CsvWriter {
 		}
 	}
 	
-	public static void writeSolution(String fileName, Individual individual) {
+	public static void writeSolution(String directory, String filename, Individual individual) {
 		FileWriter fileWriter = null;
+		File dir = new File(directory+"/solution");
 		try {
-			fileWriter = new FileWriter(fileName);
-			//fileWriter.append("\n");
-			for(int num : individual.getAllele()) fileWriter.append(String.valueOf(num)+"\n");
-			System.out.println("Escrito correctamente");
+			dir.mkdirs();
+			fileWriter = new FileWriter(new File(dir.getAbsolutePath(), filename));
+			for(int num : individual.getAllele()) fileWriter.write(String.valueOf(num)+"\n");
 		} catch (Exception e) {
 			System.out.println("Error");
 			e.printStackTrace();
@@ -68,7 +72,32 @@ public class CsvWriter {
 						fileWriter.append(i+","+j+"\n");
 				}
 			}
-			System.out.println("Escrito correctamente");
+		} catch (Exception e) {
+			System.out.println("Error");
+			e.printStackTrace();
+		} finally {
+			try {
+				fileWriter.flush();
+				fileWriter.close();
+			} catch (IOException e) {
+				System.out.println("Error while flushing/closing fileWriter !!!");
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public static void writeRunConfigurationInfo(String directory, String filename, RunConfiguration runConf) {
+		FileWriter fileWriter = null;
+		File dir = new File(directory+"/runConf");
+		try {
+			dir.mkdirs();
+			fileWriter = new FileWriter(new File(dir.getAbsolutePath(), filename));
+			fileWriter.write("Fitness del mejor individuo de cada generacion\n");
+			for(Individual ind : runConf.getBestIndividualsAfterRun().getIndividuals()) {
+				fileWriter.append(ind.getFitness()+"\n");
+			}
+			fileWriter.append("\n\n");
+			fileWriter.append(runConf.getInfo());
 		} catch (Exception e) {
 			System.out.println("Error");
 			e.printStackTrace();

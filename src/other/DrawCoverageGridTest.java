@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import generics.Individual;
 import sensorsProblem.Location;
 import sensorsProblem.SearchSpaceProblemData;
-import sensorsProblem.SensorsProblemCircularRatioObjectiveFunction;
+import sensorsProblem.CircularRatioObjectiveFunction;
 import sensorsProblem.SensorsProblemObjectiveFunction;
-import sensorsProblem.SensorsProblemSquareRatioObjectiveFunction;
+import sensorsProblem.SquareRatioObjectiveFunction;
 
 public class DrawCoverageGridTest {
 
@@ -22,18 +22,18 @@ public class DrawCoverageGridTest {
 		int[][] coverageGrid;
 		
 		if(draw=="circulo") {
-			obj = new SensorsProblemCircularRatioObjectiveFunction(new SearchSpaceProblemData(20, 60, 60),transmissorsPositions,2f);
+			obj = new CircularRatioObjectiveFunction(new SearchSpaceProblemData(20, 60, 60),transmissorsPositions,2f);
 			coverageGrid = obj.getCoverageGrid(ind);
 			System.out.println(obj.obtainFitness(ind));
 			CsvWriter.writeGrid("circularGrid.csv", coverageGrid);
-			CsvWriter.writeSolution("circularGridSolution.csv", ind);
+			CsvWriter.writeSolution("", "circularGridSolution.csv", ind); //////SACARRRRRRRRR ""
 		}
 		else if(draw=="cuadrado") {
-			obj = new SensorsProblemSquareRatioObjectiveFunction(new SearchSpaceProblemData(10, 60, 60),transmissorsPositions,2f);
+			obj = new SquareRatioObjectiveFunction(new SearchSpaceProblemData(10, 60, 60),transmissorsPositions,2f);
 			coverageGrid = obj.getCoverageGrid(ind);
 			System.out.println(obj.obtainFitness(ind));
 			CsvWriter.writeGrid("circularGrid.csv", coverageGrid);
-			CsvWriter.writeSolution("squareGridSolution.csv", ind);
+			CsvWriter.writeSolution("", "squareGridSolution.csv", ind);
 		}
 		else{
 			System.out.println("Fail");
