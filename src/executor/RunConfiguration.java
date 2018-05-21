@@ -65,7 +65,7 @@ public class RunConfiguration {
 				"Fitness óptimo= "+ maxFit +"\n" +
 				"Radio de cobertura de los sensores= "+ searchSpaceProblemData.getTransmissorRangeRatio() +"\n" +
 				"Tamaño del área de despliegue en X= "+ searchSpaceProblemData.getGridSizeX() +"\n" +
-				"Tamaño del área de despliegue en Y= "+ searchSpaceProblemData.getGridSizeY() +"\n" +
+				"Tamaño del área de despliegue en Y= "+ searchSpaceProblemData.getGridSizeY();
 	}
 	
 	public StringTokenizer getInfoTokenizer(){
