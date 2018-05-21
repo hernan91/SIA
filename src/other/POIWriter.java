@@ -42,6 +42,7 @@ public class POIWriter {
 			column = 7;
 			StringTokenizer tokenizer = runConf.getInfoTokenizer();
 			while(tokenizer.hasMoreTokens()) {
+				if(sheet.getRow(r)==null) row = sheet.createRow(r);
 				row = sheet.getRow(r);
 				cell = row.createCell(column);
 				cell.setCellValue(tokenizer.nextToken());

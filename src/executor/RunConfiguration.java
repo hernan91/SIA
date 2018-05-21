@@ -46,9 +46,14 @@ public class RunConfiguration {
 	}
 	
 	public String getInfo() {
-		return  "DATOS DE CORRIDA\n"+
+		double mean = bestIndividualsAfterRun.getPopulationFitnessMean(objectiveFunction);
+		return  "DATOS DE CORRIDA Y POBLACION\n"+
+				"Media= "+ mean +"\n" +
+				"Desvío estándar= "+ bestIndividualsAfterRun.getPopulationFitnessStandardDeviation(mean) +"\n" +
 				"Best individual fitness= "+ bestFitIndividual.getFitness() +"\n" +
 				"Best individual allele= "+ bestFitIndividual.getAlleleString() +"\n" +
+				"Allele length= " + bestFitIndividual.getAllele().length +"\n" +
+				"RandomlyDistributedTransmissors= " + randomlyDistributedTransmissors +"\n"+
 				"NumExecutions= "+ numExecutions +"\n" +
 				"CrossoverOperator= "+ getCrossoverOperatorName() +"\n" +
 				"MaxGen= "+ maxGen +"\n" +

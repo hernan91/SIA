@@ -47,7 +47,7 @@ public class SensorsCoverageTestInstanceExecutor{
 	private static SensorsProblemObjectiveFunction[] objectiveFunctions = {new SquareRatioObjectiveFunction(searchSpaceProblemData, getTransmissorsPositions(), alfa)};
 	//new SensorsProblemCircularRatioObjectiveFunction(searchSpaceProblemData, getTransmissorsPositions(), alfa)
 	private static int[] popSolutionNumbers = {100}; //numero de soluciones de la poblacion
-	private static double[] maxFit = {9999999999999f}; //maximo fitness a encontrar hasta parar
+	private static double[] maxFit = {99999f}; //maximo fitness a encontrar hasta parar
 	private static boolean tracing = false;
 	
 	private static String filename = "SquareRadioTest";
@@ -61,11 +61,7 @@ public class SensorsCoverageTestInstanceExecutor{
 			ArrayList<Individual> bestIndividuals = new ArrayList<Individual>();
 			System.out.println("RunConf= "+r);
 			for(int i=0; i<runConf.getNumExecutions(); i++) {
-				if(r==7) {
-					System.out.println();
-				}
 				bestIndividuals.add(sensorsCoverage(runConf));
-				System.out.println("Ejecucion "+i);
 			}
 			r++;
 			runConf.setBestIndividualsAfterRun(new Population(bestIndividuals));
@@ -80,8 +76,7 @@ public class SensorsCoverageTestInstanceExecutor{
 	}
 	
 	public static Individual sensorsCoverage(RunConfiguration conf){
-		ArrayList<Location> transmissorsPositions = new ArrayList<Location>();
-		for(int i=0; i<conf.getArrayCoord().length; i=i+2) transmissorsPositions.add(new Location(conf.getArrayCoord()[i], conf.getArrayCoord()[i+1]));
+		ArrayList<Location> transmissorsPositions = getTransmissorsPositions();
 		addRandomDistributedSensors(conf.getRandomlyDistributedTransmissors(), conf.getGridSizeX(), conf.getGridSizeY(), transmissorsPositions);
 		
 		//int alleleLength = transmissorsPositions.size()+randomlyDistributedTransmissors;

@@ -115,6 +115,13 @@ public class Population {
 		System.out.println(str);
 	}
 	
+	public double getPopulationFitnessStandardDeviation(double mean) {
+		Iterator<Individual> it = individuals.iterator();
+		float sumatoriaCuad = 0;
+		while(it.hasNext()) sumatoriaCuad += Math.pow(it.next().getFitness()-mean, 2);
+		return sumatoriaCuad/getNumberOfIndividuals();
+	}
+	
 	public void printIndividualsAllels() {
 		for( Individual ind : getIndividuals()) {
 			for( int allele : ind.getAllele()) {

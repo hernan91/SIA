@@ -49,6 +49,11 @@ public class CanonicalGA {
 			genNumber++;
 		}
 		while( genNumber<getMaxGen() && bestFitness<data.getMaxFit() );
+		String cross = crossoverOperator.getClass().getName();
+		if(crossoverProbability==0.8f && maxGen==500 && cross.substring(cross.indexOf(".")+1)=="TwoPointCrossoverOperator") {
+			int a = 3;
+			int b = a+a;
+		}
 		Individual bestIndividual = replacedPopulation.getBestFitIndividual(data.getObjFunc());
 		if(tracing) {
 			System.out.println("Numero de iteraciones necesarias= "+genNumber);
