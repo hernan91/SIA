@@ -53,7 +53,7 @@ public class RunConfiguration {
 				"Fitness del mejor individuo= "+ bestFitIndividual.getFitness() +"\n" +
 				"Cromosoma del mejor individuo= "+ bestFitIndividual.getAlleleString() +"\n" +
 				"Numero de sensores utilizado= " + bestFitIndividual.getAllele().length +"\n" +
-				"Numero de Sensores aleatoriamente distribuidos= " + randomlyDistributedTransmissors +"\n"+
+				"Numero de sensores aleatoriamente distribuidos= " + randomlyDistributedTransmissors +"\n"+
 				"Numero de ejecuciones= "+ numExecutions +"\n" +
 				"Operador de cruza= "+ getCrossoverOperatorName() +"\n" +
 				"Numero de generaciones= "+ maxGen +"\n" +
@@ -66,7 +66,6 @@ public class RunConfiguration {
 				"Radio de cobertura de los sensores= "+ searchSpaceProblemData.getTransmissorRangeRatio() +"\n" +
 				"Tamaño del área de despliegue en X= "+ searchSpaceProblemData.getGridSizeX() +"\n" +
 				"Tamaño del área de despliegue en Y= "+ searchSpaceProblemData.getGridSizeY() +"\n" +
-				"Numero de sensores aleatoriamente distribuidos= "+ randomlyDistributedTransmissors;
 	}
 	
 	public StringTokenizer getInfoTokenizer(){

@@ -51,7 +51,7 @@ public class POIWriter {
 		}
 		try {
 			File directory = new File(dir + "/runConf");
-			directory.mkdir();
+			directory.mkdirs();
 			FileOutputStream outputStream = new FileOutputStream(directory.getAbsolutePath() + "/" +filename+".xlsx");
 			workbook.write(outputStream);
 			workbook.close();
