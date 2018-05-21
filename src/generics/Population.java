@@ -79,7 +79,7 @@ public class Population {
 	}
 	
 	public Individual getBestFitIndividual(ObjectiveFunction objFunc) {
-		evaluatePopulation(objFunc);
+		sortByFitness(objFunc);
 		return this.getIndividuals().get(0);
 	}
 	

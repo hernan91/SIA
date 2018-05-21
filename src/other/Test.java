@@ -1,5 +1,7 @@
 package other;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import generics.Individual;
@@ -8,13 +10,13 @@ import operators.OnePointCrossoverOperator;
 
 public class Test {
 	public static void main(String args[]) {
-		ArrayList<Individual> individuals = new ArrayList<Individual>();
-		int[] allele1 = {0,0,0,0,0,0,0,0,0,0};
-		int[] allele2 = {1,1,1,1,1,1,1,1,1,1};
-		individuals.add(new Individual(allele1));
-		individuals.add(new Individual(allele2));
-		OnePointCrossoverOperator operator = new OnePointCrossoverOperator();
-		Population pop = new Population(operator.operate(individuals));
-		pop.printIndividualsAllels();
+		double asd = 1.111323122f;
+		System.out.println(round(asd));
+	}
+	
+	public static String round(double value) {
+		DecimalFormat df = new DecimalFormat("#.####");
+		df.setRoundingMode(RoundingMode.CEILING);
+		return df.format(value);
 	}
 }

@@ -1,5 +1,6 @@
 package executor;
 
+import java.util.StringTokenizer;
 import generics.Individual;
 import generics.ObjectiveFunction;
 import generics.Population;
@@ -62,6 +63,10 @@ public class RunConfiguration {
 				"GridSizeX= "+ searchSpaceProblemData.getGridSizeX() +"\n" +
 				"GridSizeY= "+ searchSpaceProblemData.getGridSizeY() +"\n" +
 				"RandomlyDistributedTransmissors= "+ randomlyDistributedTransmissors;
+	}
+	
+	public StringTokenizer getInfoTokenizer(){
+		return new StringTokenizer(getInfo(), "\n");
 	}
 
 	public int getNumExecutions() {

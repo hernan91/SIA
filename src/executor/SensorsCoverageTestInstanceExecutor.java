@@ -15,6 +15,7 @@ import operators.ReplacementOperator;
 import operators.ThreePointCrossoverOperator;
 import operators.TwoPointCrossoverOperator;
 import other.CsvWriter;
+import other.POIWriter;
 import sensorsProblem.Location;
 import sensorsProblem.SearchSpaceProblemData;
 import sensorsProblem.SensorsCoverageOptimizationProblemData;
@@ -49,6 +50,8 @@ public class SensorsCoverageTestInstanceExecutor{
 	private static double[] maxFit = {9999999999999f}; //maximo fitness a encontrar hasta parar
 	private static boolean tracing = false;
 	
+	private static String filename = "SquareRadioTest";
+	
 	
 
 	public static void main(String[] args) {
@@ -58,6 +61,9 @@ public class SensorsCoverageTestInstanceExecutor{
 			ArrayList<Individual> bestIndividuals = new ArrayList<Individual>();
 			System.out.println("RunConf= "+r);
 			for(int i=0; i<runConf.getNumExecutions(); i++) {
+				if(r==7) {
+					System.out.println();
+				}
 				bestIndividuals.add(sensorsCoverage(runConf));
 				System.out.println("Ejecucion "+i);
 			}
@@ -66,10 +72,11 @@ public class SensorsCoverageTestInstanceExecutor{
 			Individual bestFitIndividual = runConf.getBestFitIndividual(runConf.getObjectiveFunction());
 			runConf.setBestFitIndividual(bestFitIndividual);
 			String filename = String.valueOf(runConf.getCrossoverProbability())+"-"+runConf.getCrossoverOperatorName()+"-"+runConf.getMaxGen()+".csv";
-			CsvWriter.writeRunConfigurationInfo(outputDir, filename, runConf);
+			//CsvWriter.writeRunConfigurationInfo(outputDir, filename, runConf);
 			CsvWriter.writeSolution(outputDir, filename, bestFitIndividual);
 		}
 		CsvWriter.writeLocations(outputDir, getTransmissorsPositions());
+		POIWriter.writeData(outputDir, filename, runConfigurations);
 	}
 	
 	public static Individual sensorsCoverage(RunConfiguration conf){
