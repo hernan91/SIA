@@ -40,7 +40,7 @@ public class SensorsCoverageTestInstanceExecutor{
 			new OnePointCrossoverOperator(),
 			new TwoPointCrossoverOperator(),
 			new ThreePointCrossoverOperator()};
-	private static int[] maxGens = {100, 500};
+	private static int[] maxGens = {100,500};
 	private static float[] crossoverProbabilities = {0.8f, 0.9f, 1.0f};
 	private static float[] mutationProbability; //1/popSOoutionNumber
 	private static int alfa = 2; //siempre tiene que ser >1 para que funcione bien la func objetivo
@@ -48,7 +48,7 @@ public class SensorsCoverageTestInstanceExecutor{
 			new SquareRatioObjectiveFunction(searchSpaceProblemData, getTransmissorsPositions(), alfa)};
 	//new SensorsProblemCircularRatioObjectiveFunction(searchSpaceProblemData, getTransmissorsPositions(), alfa)
 	private static int[] popSolutionNumbers = {100}; //numero de soluciones de la poblacion
-	private static double[] maxFit = {99999f}; //maximo fitness a encontrar hasta parar
+	private static double[] maxFit = {99999f}; //1111.11
 	private static boolean tracing = false;
 	
 	private static String filename = "SquareRadioTest";
@@ -74,6 +74,7 @@ public class SensorsCoverageTestInstanceExecutor{
 		}
 		CsvWriter.writeLocations(outputDir, getTransmissorsPositions());
 		POIWriter.writeData(outputDir, filename, runConfigurations);
+		POIWriter.writeRelevantData(outputDir, "ResumenDatos", runConfigurations);
 	}
 	
 	public static Individual sensorsCoverage(RunConfiguration conf){

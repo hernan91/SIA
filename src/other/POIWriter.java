@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
@@ -25,7 +25,7 @@ public class POIWriter {
 			String crossoverOperatorShorterName = shortenCrossoverOperator(runConf.getCrossoverOperatorName());
 			String genNumber = String.valueOf(runConf.getMaxGen());
 			XSSFSheet sheet = workbook.createSheet(crossoverProbability + "-" + crossoverOperatorShorterName + "-" + genNumber);
-			int r=0;
+			int r = 0;
 			int column = 0;
 			Row row = sheet.createRow(r);
 			Cell cell = row.createCell(column);
@@ -34,15 +34,19 @@ public class POIWriter {
 			for (Individual individual : runConf.getBestIndividualsAfterRun().getIndividuals()) {
 				row = sheet.createRow(r);
 				cell = row.createCell(column);
-				String fit = round(individual.getFitness(), 4);
+				DecimalFormatSymbols symbol = new DecimalFormatSymbols();
+				symbol.setDecimalSeparator(',');
+				DecimalFormat formatter = new DecimalFormat("#.###", symbol);
+				String fit = formatter.format(individual.getFitness());
 				cell.setCellValue(fit);
 				r++;
 			}
-			r=7;
+			r = 7;
 			column = 7;
 			StringTokenizer tokenizer = runConf.getInfoTokenizer();
-			while(tokenizer.hasMoreTokens()) {
-				if(sheet.getRow(r)==null) row = sheet.createRow(r);
+			while (tokenizer.hasMoreTokens()) {
+				if (sheet.getRow(r) == null)
+					row = sheet.createRow(r);
 				row = sheet.getRow(r);
 				cell = row.createCell(column);
 				cell.setCellValue(tokenizer.nextToken());
@@ -52,7 +56,42 @@ public class POIWriter {
 		try {
 			File directory = new File(dir + "/runConf");
 			directory.mkdirs();
-			FileOutputStream outputStream = new FileOutputStream(directory.getAbsolutePath() + "/" +filename+".xlsx");
+			FileOutputStream outputStream = new FileOutputStream(
+					directory.getAbsolutePath() + "/" + filename + ".xlsx");
+			workbook.write(outputStream);
+			workbook.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void writeRelevantData(String dir, String filename, ArrayList<RunConfiguration> runConfigs) {
+		XSSFWorkbook workbook = new XSSFWorkbook();
+		XSSFSheet sheet = workbook.createSheet();
+		String[] columnHeaders = { "Configuracion", "Mejor fitness", "Peor fitness", "Media", "Desvio estandar" };
+		int colNum = 0;
+		Row row = sheet.createRow(0);
+		for (String header : columnHeaders) {
+			Cell cell = row.createCell(colNum++);
+			cell.setCellValue(header);
+		}
+		int rowNum = 1;
+		for (RunConfiguration runConf : runConfigs) {
+			row = sheet.createRow(rowNum++);
+			colNum = 0;
+			for (String field : runConf.getRelevantInfo()) {
+				Cell cell = row.createCell(colNum++);
+				cell.setCellValue(field);
+			}
+		}
+
+		try {
+			File directory = new File(dir);
+			directory.mkdirs();
+			FileOutputStream outputStream = new FileOutputStream(
+					directory.getAbsolutePath() + "/" + filename + ".xlsx");
 			workbook.write(outputStream);
 			workbook.close();
 		} catch (FileNotFoundException e) {
@@ -72,12 +111,5 @@ public class POIWriter {
 			return "3PC";
 		}
 		return crossoverOperatorName;
-	}
-	
-	public static String round(double value, int places) {
-	    if (places < 0) throw new IllegalArgumentException();
-	    BigDecimal bd = new BigDecimal(value);
-	    bd = bd.setScale(places, RoundingMode.HALF_UP);
-	    return String.valueOf(bd.doubleValue());
 	}
 }

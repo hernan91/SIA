@@ -2,11 +2,7 @@ package other;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-
-import generics.Individual;
-import generics.Population;
-import operators.OnePointCrossoverOperator;
+import java.text.DecimalFormatSymbols;
 
 public class Test {
 	public static void main(String args[]) {
@@ -15,7 +11,9 @@ public class Test {
 	}
 	
 	public static String round(double value) {
-		DecimalFormat df = new DecimalFormat("#.####");
+		DecimalFormatSymbols symbol = new DecimalFormatSymbols();
+		symbol.setDecimalSeparator(',');
+		DecimalFormat df = new DecimalFormat("#.####", symbol);
 		df.setRoundingMode(RoundingMode.CEILING);
 		return df.format(value);
 	}

@@ -83,6 +83,11 @@ public class Population {
 		return this.getIndividuals().get(0);
 	}
 	
+	public Individual getWorstFitIndividual(ObjectiveFunction objFunc) {
+		sortByFitness(objFunc);
+		return this.getIndividuals().get(this.getIndividuals().size()-1);
+	}
+	
 	public double getPopulationFitnessMean(ObjectiveFunction objFunc) {
 		evaluatePopulation(objFunc);
 		Iterator<Individual> it = individuals.iterator();

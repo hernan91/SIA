@@ -1,6 +1,9 @@
 package executor;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.StringTokenizer;
+
 import generics.Individual;
 import generics.ObjectiveFunction;
 import generics.Population;
@@ -47,10 +50,13 @@ public class RunConfiguration {
 	
 	public String getInfo() {
 		double mean = bestIndividualsAfterRun.getPopulationFitnessMean(objectiveFunction);
+		DecimalFormatSymbols symbol = new DecimalFormatSymbols();
+		symbol.setDecimalSeparator(',');
+		DecimalFormat formatter = new DecimalFormat("#.###", symbol);
 		return  "DATOS DE CORRIDA Y POBLACION\n"+
-				"Media= "+ mean +"\n" +
-				"Desvío estándar= "+ bestIndividualsAfterRun.getPopulationFitnessStandardDeviation(mean) +"\n" +
-				"Fitness del mejor individuo= "+ bestFitIndividual.getFitness() +"\n" +
+				"Media= "+ formatter.format(mean) +"\n" +
+				"Desvío estándar= "+ formatter.format(bestIndividualsAfterRun.getPopulationFitnessStandardDeviation(mean)) +"\n" +
+				"Fitness del mejor individuo= "+ formatter.format(bestFitIndividual.getFitness()) +"\n" +
 				"Cromosoma del mejor individuo= "+ bestFitIndividual.getAlleleString() +"\n" +
 				"Numero de sensores utilizado= " + bestFitIndividual.getAllele().length +"\n" +
 				"Numero de sensores aleatoriamente distribuidos= " + randomlyDistributedTransmissors +"\n"+
@@ -66,6 +72,20 @@ public class RunConfiguration {
 				"Radio de cobertura de los sensores= "+ searchSpaceProblemData.getTransmissorRangeRatio() +"\n" +
 				"Tamaño del área de despliegue en X= "+ searchSpaceProblemData.getGridSizeX() +"\n" +
 				"Tamaño del área de despliegue en Y= "+ searchSpaceProblemData.getGridSizeY();
+	}
+	
+	public String[] getRelevantInfo() {
+		String[] array = new String[5];
+		DecimalFormatSymbols symbol = new DecimalFormatSymbols();
+		symbol.setDecimalSeparator(',');
+		DecimalFormat formatter = new DecimalFormat("#.###", symbol);
+		double mean = bestIndividualsAfterRun.getPopulationFitnessMean(objectiveFunction);
+		array[0] = getName();
+		array[1] = formatter.format(getBestFitIndividual(objectiveFunction).getFitness());
+		array[2] = formatter.format(getWorstFitIndividual(objectiveFunction).getFitness());
+		array[3] = formatter.format(mean);
+		array[4] = formatter.format(bestIndividualsAfterRun.getPopulationFitnessStandardDeviation(mean));
+		return array;
 	}
 	
 	public StringTokenizer getInfoTokenizer(){
@@ -86,7 +106,13 @@ public class RunConfiguration {
 
 	public String getCrossoverOperatorName() {
 		String s = crossoverOperator.getClass().getName();
-		return s.substring(s.indexOf(".")+1);
+		s = s.substring(s.indexOf(".")+1);
+		switch(s) {
+			case "OnePointCrossoverOperator": return "Cruza1Punto";
+			case "TwoPointCrossoverOperator": return "Cruza2Puntos";
+			case "ThreePointCrossoverOperator": return "Cruza3Puntos";
+		}
+		return "None";
 	}
 	
 	public void setCrossoverOperator(Operator crossoverOperator) {
@@ -123,7 +149,16 @@ public class RunConfiguration {
 	
 	public String getObjectiveFunctionName() {
 		String s = objectiveFunction.getClass().getName();
-		return s.substring(s.indexOf(".")+1);
+		s = s.substring(s.indexOf(".")+1);
+		switch(s) {
+			case "SquareRatioObjectiveFunction": return "RadioCuadrado";
+			case "CircularRatioObjectiveFunction": return "RadioCircular";
+		}
+		return "None";
+	}
+	
+	public String getName() {
+		return getObjectiveFunctionName()+"-"+getCrossoverProbability()+"-"+getCrossoverOperatorName()+"-"+getMaxGen();
 	}
 
 	public void setObjectiveFunction(SensorsProblemObjectiveFunction objectiveFunction) {
@@ -212,6 +247,10 @@ public class RunConfiguration {
 
 	public Individual getBestFitIndividual(ObjectiveFunction objFunc) {
 		return bestIndividualsAfterRun.getBestFitIndividual(objFunc);
+	}
+	
+	public Individual getWorstFitIndividual(ObjectiveFunction objFunc) {
+		return bestIndividualsAfterRun.getWorstFitIndividual(objFunc);
 	}
 	
 	public void setBestFitIndividual(Individual bestIndividual) {
