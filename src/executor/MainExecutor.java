@@ -15,7 +15,7 @@ import operators.ReplacementOperator;
 import operators.TwoPointCrossoverOperator;
 import other.CsvWriter;
 import sensorsProblem.Location;
-import sensorsProblem.SearchSpaceProblemData;
+import sensorsProblem.DeploymentAreaData;
 import sensorsProblem.SensorsCoverageOptimizationProblemData;
 import sensorsProblem.CircularRatioObjectiveFunction;
 import sensorsProblem.SquareRatioObjectiveFunction;
@@ -42,7 +42,7 @@ public class MainExecutor{
 		int gridSizeY = 60;
 		int randomlyDistributedTransmissors = 0;
 		
-		SearchSpaceProblemData squareGridProblemData = new SearchSpaceProblemData(sensorRatio, gridSizeX, gridSizeY);
+		DeploymentAreaData squareGridProblemData = new DeploymentAreaData(sensorRatio, gridSizeX, gridSizeY);
 		int[] arrayCoord = {10,10 , 10,30 , 10,50 , 30,10 , 30,30 , 30,50 , 50,10 , 50,30 , 50,50 , 23,38 , 1,11 , 5,26 , 38,56 , 34,50,
 				18,36, 48,14, 8,1, 57,27, 18,56, 49,44, 2,28, 49,51, 47,44, 21,4, 9,25, 6,42, 3,0, 50,31, 31,41, 11,47, 20,15, 30,22,
 				42,25, 48,36, 36,47, 18,45, 3,58, 29,59, 58,59, 42,4, 56,37, 57,52, 8,17, 19,23, 24,31, 38,12, 34,36, 41,37, 58,3,

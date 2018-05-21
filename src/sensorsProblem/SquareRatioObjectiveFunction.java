@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import generics.Individual;
 
 public class SquareRatioObjectiveFunction extends SensorsProblemObjectiveFunction {
-	public SquareRatioObjectiveFunction(SearchSpaceProblemData conf, ArrayList<Location> transmissorsPositions, float alfa){
+	public SquareRatioObjectiveFunction(DeploymentAreaData conf, ArrayList<Location> transmissorsPositions, float alfa){
 		super(conf, transmissorsPositions, alfa);
 	}
 	

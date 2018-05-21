@@ -13,7 +13,7 @@ public abstract class CoverageLimits {
 //		limSupY = Math.min( transmissorLocation.getPosY()+conf.getTransmissorRangeRatio(), conf.getGridSizeY() );
 //	}
 	
-	public CoverageLimits(Location transmissorLocation, SearchSpaceProblemData conf) {
+	public CoverageLimits(Location transmissorLocation, DeploymentAreaData conf) {
 		limInfX = Math.max( transmissorLocation.getPosX()-conf.getTransmissorRangeRatio(), 0);
 		limInfY = Math.max( transmissorLocation.getPosY()-conf.getTransmissorRangeRatio(), 0);
 	}

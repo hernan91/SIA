@@ -5,7 +5,7 @@ import generics.Individual;
 import generics.ObjectiveFunction;
 import generics.Population;
 import operators.Operator;
-import sensorsProblem.SearchSpaceProblemData;
+import sensorsProblem.DeploymentAreaData;
 import sensorsProblem.SensorsProblemObjectiveFunction;
 
 public class RunConfiguration {
@@ -20,14 +20,14 @@ public class RunConfiguration {
 	private double maxFit; //maximo fitness a encontrar hasta parar
 	private boolean tracing;
 	private int randomlyDistributedTransmissors;
-	private SearchSpaceProblemData searchSpaceProblemData;
+	private DeploymentAreaData searchSpaceProblemData;
 	private int[] arrayCoord;
 	private Population bestIndividualsAfterRun;
 	private Individual bestFitIndividual;
 	
 	public RunConfiguration(int numExecutions, Operator crossoverOperator, int maxGen, float crossoverProbability,
 			SensorsProblemObjectiveFunction objectiveFunction, int popSolutionNumber, int alfa, double maxFit, boolean tracing, 
-			SearchSpaceProblemData searchSpaceProblemData, int randomlyDistributedTransmissors,	int[] arrayCoord) {
+			DeploymentAreaData searchSpaceProblemData, int randomlyDistributedTransmissors,	int[] arrayCoord) {
 		super();
 		this.numExecutions = numExecutions;
 		this.crossoverOperator = crossoverOperator;
@@ -50,24 +50,23 @@ public class RunConfiguration {
 		return  "DATOS DE CORRIDA Y POBLACION\n"+
 				"Media= "+ mean +"\n" +
 				"Desvío estándar= "+ bestIndividualsAfterRun.getPopulationFitnessStandardDeviation(mean) +"\n" +
-				"Best individual fitness= "+ bestFitIndividual.getFitness() +"\n" +
-				"Best individual allele= "+ bestFitIndividual.getAlleleString() +"\n" +
-				"Allele length= " + bestFitIndividual.getAllele().length +"\n" +
-				"RandomlyDistributedTransmissors= " + randomlyDistributedTransmissors +"\n"+
-				"NumExecutions= "+ numExecutions +"\n" +
-				"CrossoverOperator= "+ getCrossoverOperatorName() +"\n" +
-				"MaxGen= "+ maxGen +"\n" +
-				"CrossoverProbability= "+ crossoverProbability +"\n" +
-				"MutationProbability= "+ mutationProbability +"\n" +
-				"ObjectiveFunction= "+ getObjectiveFunctionName() +"\n" +
-				"PopSolutionNumber= "+ popSolutionNumber +"\n" +
+				"Fitness del mejor individuo= "+ bestFitIndividual.getFitness() +"\n" +
+				"Cromosoma del mejor individuo= "+ bestFitIndividual.getAlleleString() +"\n" +
+				"Numero de sensores utilizado= " + bestFitIndividual.getAllele().length +"\n" +
+				"Numero de Sensores aleatoriamente distribuidos= " + randomlyDistributedTransmissors +"\n"+
+				"Numero de ejecuciones= "+ numExecutions +"\n" +
+				"Operador de cruza= "+ getCrossoverOperatorName() +"\n" +
+				"Numero de generaciones= "+ maxGen +"\n" +
+				"Probabilidad de cruza= "+ crossoverProbability +"\n" +
+				"Probabilidad de mutación= "+ mutationProbability +"\n" +
+				"Función objetivo= "+ getObjectiveFunctionName() +"\n" +
+				"Número de individuos de la población= "+ popSolutionNumber +"\n" +
 				"Alfa= "+ alfa +"\n" +
-				"MaxFit= "+ maxFit +"\n" +
-				"Tracing= "+ tracing +"\n" +
-				"SensorRatio= "+ searchSpaceProblemData.getTransmissorRangeRatio() +"\n" +
-				"GridSizeX= "+ searchSpaceProblemData.getGridSizeX() +"\n" +
-				"GridSizeY= "+ searchSpaceProblemData.getGridSizeY() +"\n" +
-				"RandomlyDistributedTransmissors= "+ randomlyDistributedTransmissors;
+				"Fitness óptimo= "+ maxFit +"\n" +
+				"Radio de cobertura de los sensores= "+ searchSpaceProblemData.getTransmissorRangeRatio() +"\n" +
+				"Tamaño del área de despliegue en X= "+ searchSpaceProblemData.getGridSizeX() +"\n" +
+				"Tamaño del área de despliegue en Y= "+ searchSpaceProblemData.getGridSizeY() +"\n" +
+				"Numero de sensores aleatoriamente distribuidos= "+ randomlyDistributedTransmissors;
 	}
 	
 	public StringTokenizer getInfoTokenizer(){
@@ -196,11 +195,11 @@ public class RunConfiguration {
 		this.randomlyDistributedTransmissors = randomlyDistributedTransmissors;
 	}
 
-	public SearchSpaceProblemData getSearchSpaceProblemData() {
+	public DeploymentAreaData getSearchSpaceProblemData() {
 		return searchSpaceProblemData;
 	}
 
-	public void setSearchSpaceProblemData(SearchSpaceProblemData searchSpaceProblemData) {
+	public void setSearchSpaceProblemData(DeploymentAreaData searchSpaceProblemData) {
 		this.searchSpaceProblemData = searchSpaceProblemData;
 	}
 

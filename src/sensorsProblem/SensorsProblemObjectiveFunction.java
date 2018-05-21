@@ -6,12 +6,12 @@ import generics.Individual;
 import generics.ObjectiveFunction;
 
 public abstract class SensorsProblemObjectiveFunction extends ObjectiveFunction{
-	private SearchSpaceProblemData conf;
+	private DeploymentAreaData conf;
 	private ArrayList<Location> transmissorsPositions;
 	private float alfa;
 	
 	
-	protected SensorsProblemObjectiveFunction(SearchSpaceProblemData conf, ArrayList<Location> transmissorsPositions, float alfa) {
+	protected SensorsProblemObjectiveFunction(DeploymentAreaData conf, ArrayList<Location> transmissorsPositions, float alfa) {
 		super();
 		this.setConf(conf);
 		this.setTransmissorsPositions(transmissorsPositions);
@@ -59,11 +59,11 @@ public abstract class SensorsProblemObjectiveFunction extends ObjectiveFunction{
 		this.transmissorsPositions = transmissorsPositions;
 	}
 
-	public SearchSpaceProblemData getConf() {
+	public DeploymentAreaData getConf() {
 		return conf;
 	}
 
-	public void setConf(SearchSpaceProblemData conf) {
+	public void setConf(DeploymentAreaData conf) {
 		this.conf = conf;
 	}
 	

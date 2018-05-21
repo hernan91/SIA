@@ -119,7 +119,7 @@ public class Population {
 		Iterator<Individual> it = individuals.iterator();
 		float sumatoriaCuad = 0;
 		while(it.hasNext()) sumatoriaCuad += Math.pow(it.next().getFitness()-mean, 2);
-		return sumatoriaCuad/getNumberOfIndividuals();
+		return Math.sqrt(sumatoriaCuad/getNumberOfIndividuals());
 	}
 	
 	public void printIndividualsAllels() {
