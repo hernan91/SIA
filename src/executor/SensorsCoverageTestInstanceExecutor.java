@@ -27,13 +27,13 @@ public class SensorsCoverageTestInstanceExecutor{
 	static int sensorRatio = 10;
 	static int gridSizeX = 60;
 	static int gridSizeY = 60;
-	static SearchSpaceProblemData searchSpaceProblemData = new SearchSpaceProblemData(sensorRatio, gridSizeX, gridSizeY);
 	static int randomlyDistributedTransmissors = 0;
-	static int[] arrayCoord = {10,10 , 10,30 , 10,50 , 30,10 , 30,30 , 30,50 , 50,10 , 50,30 , 50,50 , 23,38 , 1,11 , 5,26 , 38,56 , 34,50,
+	static int[] prefixedLocations = {10,10 , 10,30 , 10,50 , 30,10 , 30,30 , 30,50 , 50,10 , 50,30 , 50,50 , 23,38 , 1,11 , 5,26 , 38,56 , 34,50,
 			18,36, 48,14, 8,1, 57,27, 18,56, 49,44, 2,28, 49,51, 47,44, 21,4, 9,25, 6,42, 3,0, 50,31, 31,41, 11,47, 20,15, 30,22,
 			42,25, 48,36, 36,47, 18,45, 3,58, 29,59, 58,59, 42,4, 56,37, 57,52, 8,17, 19,23, 24,31, 38,12, 34,36, 41,37, 58,3,
 			53,19, 2,54, 12,60, 37,11, 54,14, 44,19, 31,3, 48,57, 8,36, 46,59, 25,37};
 	static String outputDir = "/home/hernan/git/SIA/instanciaPruebaRadioCuadrado1";
+	static SearchSpaceProblemData searchSpaceProblemData = new SearchSpaceProblemData(sensorRatio, gridSizeX, gridSizeY);
 	
 	private static int[] numExecutions = {30};
 	private static Operator[] crossoverOperators = {
@@ -44,7 +44,8 @@ public class SensorsCoverageTestInstanceExecutor{
 	private static float[] crossoverProbabilities = {0.8f, 0.9f, 1.0f};
 	private static float[] mutationProbability; //1/popSOoutionNumber
 	private static int alfa = 2; //siempre tiene que ser >1 para que funcione bien la func objetivo
-	private static SensorsProblemObjectiveFunction[] objectiveFunctions = {new SquareRatioObjectiveFunction(searchSpaceProblemData, getTransmissorsPositions(), alfa)};
+	private static SensorsProblemObjectiveFunction[] objectiveFunctions = {
+			new SquareRatioObjectiveFunction(searchSpaceProblemData, getTransmissorsPositions(), alfa)};
 	//new SensorsProblemCircularRatioObjectiveFunction(searchSpaceProblemData, getTransmissorsPositions(), alfa)
 	private static int[] popSolutionNumbers = {100}; //numero de soluciones de la poblacion
 	private static double[] maxFit = {99999f}; //maximo fitness a encontrar hasta parar
@@ -106,7 +107,7 @@ public class SensorsCoverageTestInstanceExecutor{
 								for(int o=0; o<maxFit.length; o++) {
 									runConfigurations.add(new RunConfiguration(numExecutions[i], crossoverOperators[j], maxGens[k], crossoverProbabilities[l],
 											objectiveFunctions[m], popSolutionNumbers[n], alfa, maxFit[o], tracing, searchSpaceProblemData, 
-											randomlyDistributedTransmissors, arrayCoord));
+											randomlyDistributedTransmissors, prefixedLocations));
 								}
 							}
 						}
@@ -119,7 +120,7 @@ public class SensorsCoverageTestInstanceExecutor{
 	
 	public static ArrayList<Location> getTransmissorsPositions(){
 		ArrayList<Location> transmissorsPositions = new ArrayList<Location>();
-		for(int i=0; i<arrayCoord.length; i=i+2) transmissorsPositions.add(new Location(arrayCoord[i], arrayCoord[i+1]));
+		for(int i=0; i<prefixedLocations.length; i=i+2) transmissorsPositions.add(new Location(prefixedLocations[i], prefixedLocations[i+1]));
 		return transmissorsPositions;
 	}
 	
