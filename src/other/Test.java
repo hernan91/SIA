@@ -1,20 +1,41 @@
 package other;
 
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
+import java.util.ArrayList;
+import java.util.Random;
+
+import generics.Individual;
+import generics.Location;
+import sensorsProblem.DeploymentAreaData;
+import sensorsProblem.SensorsProblemIndividual;
+import sensorsProblem.SquareRatioObjectiveFunction;
 
 public class Test {
 	public static void main(String args[]) {
-		double asd = 1.111323122f;
-		System.out.println(round(asd));
+		int range = 5;
+		ArrayList<Location> transmissorPositions = new ArrayList<Location>();
+		addRandomDistributedSensors(60, 60, 60, transmissorPositions);
+		int[] allele = new int[60];
+		Random rand = new Random();
+		for(int i=0; i<60; i++) {
+			allele[i] = rand.nextInt(2);
+		}
+		Individual individual = new Individual(allele);
+		DeploymentAreaData areaData = new DeploymentAreaData(range, 60, 60);
+		SquareRatioObjectiveFunction objFunc = new SquareRatioObjectiveFunction(areaData, transmissorPositions, 2);
+		System.out.println(objFunc.obtainFitness(individual));
+		
+		String dir = "/home/darkside/git/SIA/pruebita";
+		CsvWriter.writeLocations(dir, transmissorPositions);
+		CsvWriter.writeSolution(dir, "solution", individual);
 	}
 	
-	public static String round(double value) {
-		DecimalFormatSymbols symbol = new DecimalFormatSymbols();
-		symbol.setDecimalSeparator(',');
-		DecimalFormat df = new DecimalFormat("#.####", symbol);
-		df.setRoundingMode(RoundingMode.CEILING);
-		return df.format(value);
+	public static ArrayList<Location> addRandomDistributedSensors(int numSensors, int xLim, int yLim, ArrayList<Location> locationArray) {
+		int arraySize = locationArray.size();
+		for(int i=arraySize; i<numSensors+arraySize; i++) {
+			Random randX = new Random();
+			Random randY = new Random();
+			locationArray.add(new Location(randX.nextInt(xLim), randY.nextInt(yLim)));
+		}
+		return locationArray;
 	}
 }

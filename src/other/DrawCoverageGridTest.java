@@ -3,7 +3,7 @@ package other;
 import java.util.ArrayList;
 
 import generics.Individual;
-import sensorsProblem.Location;
+import generics.Location;
 import sensorsProblem.DeploymentAreaData;
 import sensorsProblem.CircularRatioObjectiveFunction;
 import sensorsProblem.SensorsProblemObjectiveFunction;

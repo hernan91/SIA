@@ -1,5 +1,7 @@
 package sensorsProblem;
 
+import generics.Location;
+
 public abstract class CoverageLimits {
 	private int limInfX;
 	protected int limSupX;

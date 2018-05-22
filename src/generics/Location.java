@@ -1,4 +1,4 @@
-package sensorsProblem;
+package generics;
 //clase que representa una posicion en el plano coordenado x,y discretizado en forma de grilla
 public class Location {
 	private int posX;

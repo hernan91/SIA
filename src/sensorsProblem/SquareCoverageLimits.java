@@ -1,5 +1,7 @@
 package sensorsProblem;
 
+import generics.Location;
+
 //EL radio siempre va a ser de r+chirolas (chirolas=el punto del centro/2)
 public class SquareCoverageLimits extends CoverageLimits{
 	public SquareCoverageLimits(Location transmissorLocation, DeploymentAreaData conf) {

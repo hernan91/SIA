@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import executor.RunConfiguration;
 import generics.Individual;
-import sensorsProblem.Location;
+import generics.Location;
 
 public class CsvWriter {
 
@@ -42,10 +42,10 @@ public class CsvWriter {
 	
 	public static void writeSolution(String directory, String filename, Individual individual) {
 		FileWriter fileWriter = null;
-		File dir = new File(directory+"/solution");
+		File dir = new File(directory);
 		try {
 			dir.mkdirs();
-			fileWriter = new FileWriter(new File(dir.getAbsolutePath(), filename));
+			fileWriter = new FileWriter(new File(dir.getAbsolutePath(), filename+".csv"));
 			for(int num : individual.getAllele()) fileWriter.write(String.valueOf(num)+"\n");
 		} catch (Exception e) {
 			System.out.println("Error");

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import generics.Individual;
+import generics.Location;
 import geneticAlgorithms.CanonicalGA;
 import oneMaxProblem.OneMaxObjectiveFunction;
 import oneMaxProblem.OneMaxProblemData;
@@ -14,7 +15,6 @@ import operators.Operator;
 import operators.ReplacementOperator;
 import operators.TwoPointCrossoverOperator;
 import other.CsvWriter;
-import sensorsProblem.Location;
 import sensorsProblem.DeploymentAreaData;
 import sensorsProblem.SensorsCoverageOptimizationProblemData;
 import sensorsProblem.CircularRatioObjectiveFunction;

@@ -3,6 +3,7 @@ package sensorsProblem;
 import java.util.ArrayList;
 
 import generics.Individual;
+import generics.Location;
 import generics.ObjectiveFunction;
 
 public abstract class SensorsProblemObjectiveFunction extends ObjectiveFunction{

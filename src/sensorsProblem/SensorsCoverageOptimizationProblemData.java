@@ -2,6 +2,7 @@ package sensorsProblem;
 
 import java.util.ArrayList;
 
+import generics.Location;
 import geneticAlgorithms.ProblemData;
 
 public class SensorsCoverageOptimizationProblemData extends ProblemData{

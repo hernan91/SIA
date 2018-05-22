@@ -1,5 +1,7 @@
 package sensorsProblem;
 
+import generics.Location;
+
 public class CircleCoverageLimits extends CoverageLimits{
 	public CircleCoverageLimits(Location transmissorLocation, DeploymentAreaData conf) {
 		super(transmissorLocation, conf);

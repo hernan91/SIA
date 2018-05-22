@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import generics.Individual;
+import generics.Location;
 import generics.ObjectiveFunction;
 import generics.Population;
 import geneticAlgorithms.CanonicalGA;
@@ -16,7 +17,6 @@ import operators.ThreePointCrossoverOperator;
 import operators.TwoPointCrossoverOperator;
 import other.CsvWriter;
 import other.POIWriter;
-import sensorsProblem.Location;
 import sensorsProblem.DeploymentAreaData;
 import sensorsProblem.SensorsCoverageOptimizationProblemData;
 import sensorsProblem.CircularRatioObjectiveFunction;

@@ -1,7 +1,7 @@
 package other;
 
 import generics.Individual;
-import sensorsProblem.Location;
+import generics.Location;
 import sensorsProblem.SensorsProblemObjectiveFunction;
 import sensorsProblem.DeploymentAreaData;
 

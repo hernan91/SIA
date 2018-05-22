@@ -3,6 +3,7 @@ package sensorsProblem;
 import java.util.ArrayList;
 
 import generics.Individual;
+import generics.Location;
 
 public class CircularRatioObjectiveFunction extends SensorsProblemObjectiveFunction {
 	public CircularRatioObjectiveFunction(DeploymentAreaData conf, ArrayList<Location> transmissorsPositions, float alfa){
