@@ -6,7 +6,7 @@ import generics.Individual;
 import generics.Location;
 
 public class CircularRatioObjectiveFunction extends SensorsProblemObjectiveFunction {
-	public CircularRatioObjectiveFunction(DeploymentAreaData conf, ArrayList<Location> transmissorsPositions, float alfa){
+	public CircularRatioObjectiveFunction(SensorFieldData conf, ArrayList<Location> transmissorsPositions, float alfa){
 		super(conf, transmissorsPositions, alfa);
 	}
 	

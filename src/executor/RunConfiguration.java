@@ -8,7 +8,7 @@ import generics.Individual;
 import generics.ObjectiveFunction;
 import generics.Population;
 import operators.Operator;
-import sensorsProblem.DeploymentAreaData;
+import sensorsProblem.SensorFieldData;
 import sensorsProblem.SensorsProblemObjectiveFunction;
 
 public class RunConfiguration {
@@ -23,14 +23,14 @@ public class RunConfiguration {
 	private double maxFit; //maximo fitness a encontrar hasta parar
 	private boolean tracing;
 	private int randomlyDistributedTransmissors;
-	private DeploymentAreaData searchSpaceProblemData;
+	private SensorFieldData searchSpaceProblemData;
 	private int[] arrayCoord;
 	private Population bestIndividualsAfterRun;
 	private Individual bestFitIndividual;
 	
 	public RunConfiguration(int numExecutions, Operator crossoverOperator, int maxGen, float crossoverProbability,
 			SensorsProblemObjectiveFunction objectiveFunction, int popSolutionNumber, int alfa, double maxFit, boolean tracing, 
-			DeploymentAreaData searchSpaceProblemData, int randomlyDistributedTransmissors,	int[] arrayCoord) {
+			SensorFieldData searchSpaceProblemData, int randomlyDistributedTransmissors,	int[] arrayCoord) {
 		super();
 		this.numExecutions = numExecutions;
 		this.crossoverOperator = crossoverOperator;
@@ -229,11 +229,11 @@ public class RunConfiguration {
 		this.randomlyDistributedTransmissors = randomlyDistributedTransmissors;
 	}
 
-	public DeploymentAreaData getSearchSpaceProblemData() {
+	public SensorFieldData getSearchSpaceProblemData() {
 		return searchSpaceProblemData;
 	}
 
-	public void setSearchSpaceProblemData(DeploymentAreaData searchSpaceProblemData) {
+	public void setSearchSpaceProblemData(SensorFieldData searchSpaceProblemData) {
 		this.searchSpaceProblemData = searchSpaceProblemData;
 	}
 

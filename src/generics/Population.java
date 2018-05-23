@@ -14,8 +14,7 @@ public class Population {
 	public Population(int alleleLength, int numberOfIndividuals) { //L es la variable longitud del alelo
 		this.alleleLength = alleleLength;
 		for(int i=0; i<numberOfIndividuals; i++){
-			int[] genotype = getBinaryString(alleleLength);
-			individuals.add(new Individual(genotype));
+			individuals.add(new Individual(alleleLength));
 		}
 	}
 	
@@ -34,15 +33,6 @@ public class Population {
 
 	public int getNumberOfIndividuals() {
 		return individuals.size();
-	}
-	
-	public int[] getBinaryString(int l){
-		Random rand = new Random();
-		int[] num = new int[l];
-		for(int i=0; i<l; i++){
-			num[i] = rand.nextInt(2);
-		}
-		return num;
 	}
 
 	public void evaluatePopulation(ObjectiveFunction objFunc) {

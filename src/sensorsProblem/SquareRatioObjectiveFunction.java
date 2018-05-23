@@ -6,7 +6,7 @@ import generics.Individual;
 import generics.Location;
 
 public class SquareRatioObjectiveFunction extends SensorsProblemObjectiveFunction {
-	public SquareRatioObjectiveFunction(DeploymentAreaData conf, ArrayList<Location> transmissorsPositions, float alfa){
+	public SquareRatioObjectiveFunction(SensorFieldData conf, ArrayList<Location> transmissorsPositions, float alfa){
 		super(conf, transmissorsPositions, alfa);
 	}
 	

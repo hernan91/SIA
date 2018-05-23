@@ -17,7 +17,7 @@ import operators.ThreePointCrossoverOperator;
 import operators.TwoPointCrossoverOperator;
 import other.CsvWriter;
 import other.POIWriter;
-import sensorsProblem.DeploymentAreaData;
+import sensorsProblem.SensorFieldData;
 import sensorsProblem.SensorsCoverageOptimizationProblemData;
 import sensorsProblem.CircularRatioObjectiveFunction;
 import sensorsProblem.SensorsProblemObjectiveFunction;
@@ -33,7 +33,7 @@ public class SensorsCoverageTestInstanceExecutor{
 			42,25, 48,36, 36,47, 18,45, 3,58, 29,59, 58,59, 42,4, 56,37, 57,52, 8,17, 19,23, 24,31, 38,12, 34,36, 41,37, 58,3,
 			53,19, 2,54, 12,60, 37,11, 54,14, 44,19, 31,3, 48,57, 8,36, 46,59, 25,37};
 	static String outputDir = "/home/darkside/git/SIA/instanciaPruebaRadioCuadrado1";
-	static DeploymentAreaData searchSpaceProblemData = new DeploymentAreaData(sensorRatio, gridSizeX, gridSizeY);
+	static SensorFieldData searchSpaceProblemData = new SensorFieldData(sensorRatio, gridSizeX, gridSizeY);
 	
 	private static int[] numExecutions = {30};
 	private static Operator[] crossoverOperators = {

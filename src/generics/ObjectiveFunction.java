@@ -1,6 +1,8 @@
 package generics;
 
 public abstract class ObjectiveFunction {
-	public abstract double obtainFitness(Individual individual);
+	public static double obtainFitness(Individual individual) {
+		return 0;
+	}
 	
 }

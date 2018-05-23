@@ -1,11 +1,11 @@
 package sensorsProblem;
 
-public class DeploymentAreaData {
+public class SensorFieldData {
 	private int transmissorRangeRatio;
 	private int gridSizeX;
 	private int gridSizeY;
 	
-	public DeploymentAreaData(int sensorRatio, int gridSizeX, int gridSizeY) {
+	public SensorFieldData(int sensorRatio, int gridSizeX, int gridSizeY) {
 		super();
 		this.transmissorRangeRatio = sensorRatio;
 		this.gridSizeX = gridSizeX;

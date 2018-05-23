@@ -6,17 +6,17 @@ import generics.Location;
 import geneticAlgorithms.ProblemData;
 
 public class SensorsCoverageOptimizationProblemData extends ProblemData{
-	private DeploymentAreaData squareGridProblemData;
+	private SensorFieldData squareGridProblemData;
 	private ArrayList<Location> transmissorsPositions;
 	
-	public SensorsCoverageOptimizationProblemData(double maxFit, int alfa, DeploymentAreaData squareGridProblemData, 
+	public SensorsCoverageOptimizationProblemData(double maxFit, int alfa, SensorFieldData squareGridProblemData, 
 			ArrayList<Location> transmissorsPositions, SensorsProblemObjectiveFunction sensorsProblemObjectiveFunction) {
 		super(sensorsProblemObjectiveFunction, maxFit, alfa);
 		this.squareGridProblemData = squareGridProblemData;
 		this.transmissorsPositions = transmissorsPositions;
 	}
 	
-	public DeploymentAreaData getSquareGridProblemData() {
+	public SensorFieldData getSquareGridProblemData() {
 		return squareGridProblemData;
 	}
 
@@ -24,7 +24,7 @@ public class SensorsCoverageOptimizationProblemData extends ProblemData{
 		return transmissorsPositions;
 	}
 
-	public void setSquareGridProblemData(DeploymentAreaData squareGridProblemData) {
+	public void setSquareGridProblemData(SensorFieldData squareGridProblemData) {
 		this.squareGridProblemData = squareGridProblemData;
 	}
 

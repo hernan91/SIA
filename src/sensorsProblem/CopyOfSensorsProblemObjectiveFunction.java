@@ -6,13 +6,13 @@ import generics.Individual;
 import generics.Location;
 import generics.ObjectiveFunction;
 
-public abstract class SensorsProblemObjectiveFunction extends ObjectiveFunction{
+public abstract class CopyOfSensorsProblemObjectiveFunction extends ObjectiveFunction{
 	private SensorFieldData conf;
 	private ArrayList<Location> transmissorsPositions;
 	private float alfa;
 	
 	
-	protected SensorsProblemObjectiveFunction(SensorFieldData conf, ArrayList<Location> transmissorsPositions, float alfa) {
+	protected CopyOfSensorsProblemObjectiveFunction(SensorFieldData conf, ArrayList<Location> transmissorsPositions, float alfa) {
 		super();
 		this.setConf(conf);
 		this.setTransmissorsPositions(transmissorsPositions);
@@ -74,6 +74,10 @@ public abstract class SensorsProblemObjectiveFunction extends ObjectiveFunction{
 		int usedTransmissors = 0;
 		for(int bit : possibleSolution.getAllele()) usedTransmissors += bit; 
 		return calcFitness(coverageGrid, usedTransmissors, alfa);
+	}
+	
+	public static double obtFitness(Individual solution) {
+		
 	}
 }
 

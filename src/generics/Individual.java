@@ -1,11 +1,12 @@
 package generics;
 
+import java.util.Random;
+
 public class Individual implements Cloneable, Comparable<Individual>{
 	private int genotype[]; //sensor status allele
 	private double fitness;
 	
 	public Individual(int[] allele) {
-		super();
 		this.genotype = allele;
 	}
 	
@@ -13,6 +14,19 @@ public class Individual implements Cloneable, Comparable<Individual>{
 		super();
 		this.genotype = allele;
 		this.fitness = fitness;
+	}
+	
+	public Individual(int alleleLength) {
+		this.genotype = getBinaryString(alleleLength);
+	}
+
+	public int[] getBinaryString(int l){
+		Random rand = new Random();
+		int[] num = new int[l];
+		for(int i=0; i<l; i++){
+			num[i] = rand.nextInt(2);
+		}
+		return num;
 	}
 
 	public int[] getAllele() {

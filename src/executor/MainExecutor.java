@@ -15,7 +15,7 @@ import operators.Operator;
 import operators.ReplacementOperator;
 import operators.TwoPointCrossoverOperator;
 import other.CsvWriter;
-import sensorsProblem.DeploymentAreaData;
+import sensorsProblem.SensorFieldData;
 import sensorsProblem.SensorsCoverageOptimizationProblemData;
 import sensorsProblem.CircularRatioObjectiveFunction;
 import sensorsProblem.SquareRatioObjectiveFunction;
@@ -27,7 +27,7 @@ public class MainExecutor{
 	private static double maxFit; //maximo fitness a encontrar hasta parar
 	private static float crossoverProbability = 0.9f;
 	private static float mutationProbability = 1/popSolutionNumber;
-	private static boolean tracing = false;
+	private static boolean tracing = true;
 	private static int alleleLength; //longitud del alelo
 
 	
@@ -42,7 +42,7 @@ public class MainExecutor{
 		int gridSizeY = 60;
 		int randomlyDistributedTransmissors = 0;
 		
-		DeploymentAreaData squareGridProblemData = new DeploymentAreaData(sensorRatio, gridSizeX, gridSizeY);
+		SensorFieldData squareGridProblemData = new SensorFieldData(sensorRatio, gridSizeX, gridSizeY);
 		int[] arrayCoord = {10,10 , 10,30 , 10,50 , 30,10 , 30,30 , 30,50 , 50,10 , 50,30 , 50,50 , 23,38 , 1,11 , 5,26 , 38,56 , 34,50,
 				18,36, 48,14, 8,1, 57,27, 18,56, 49,44, 2,28, 49,51, 47,44, 21,4, 9,25, 6,42, 3,0, 50,31, 31,41, 11,47, 20,15, 30,22,
 				42,25, 48,36, 36,47, 18,45, 3,58, 29,59, 58,59, 42,4, 56,37, 57,52, 8,17, 19,23, 24,31, 38,12, 34,36, 41,37, 58,3,
@@ -70,8 +70,8 @@ public class MainExecutor{
 		CanonicalGA ga = new CanonicalGA(transmissorsPositions.size(), popSolutionNumber, maxGen, crossoverProbability, mutationProbability, 
 				selectionOperator, crossoverOperator, mutationOperator, replacementOperator, sensorsCoverageOptimizationProblemData);
 		Individual bestIndividual = ga.execute(tracing);
-		CsvWriter.writeLocations("locations.csv", transmissorsPositions);
-		CsvWriter.writeSolution("solution.csv", bestIndividual);
+		//CsvWriter.writeLocations("locations.csv", transmissorsPositions);
+		//CsvWriter.writeSolution("solution.csv", bestIndividual);
 	}
 	
 	public static void oneMax() {

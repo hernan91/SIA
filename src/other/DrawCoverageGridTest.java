@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import generics.Individual;
 import generics.Location;
-import sensorsProblem.DeploymentAreaData;
+import sensorsProblem.SensorFieldData;
 import sensorsProblem.CircularRatioObjectiveFunction;
 import sensorsProblem.SensorsProblemObjectiveFunction;
 import sensorsProblem.SquareRatioObjectiveFunction;
@@ -22,14 +22,14 @@ public class DrawCoverageGridTest {
 		int[][] coverageGrid;
 		
 		if(draw=="circulo") {
-			obj = new CircularRatioObjectiveFunction(new DeploymentAreaData(20, 60, 60),transmissorsPositions,2f);
+			obj = new CircularRatioObjectiveFunction(new SensorFieldData(20, 60, 60),transmissorsPositions,2f);
 			coverageGrid = obj.getCoverageGrid(ind);
 			System.out.println(obj.obtainFitness(ind));
 			CsvWriter.writeGrid("circularGrid.csv", coverageGrid);
 			CsvWriter.writeSolution("", "circularGridSolution.csv", ind); //////SACARRRRRRRRR ""
 		}
 		else if(draw=="cuadrado") {
-			obj = new SquareRatioObjectiveFunction(new DeploymentAreaData(10, 60, 60),transmissorsPositions,2f);
+			obj = new SquareRatioObjectiveFunction(new SensorFieldData(10, 60, 60),transmissorsPositions,2f);
 			coverageGrid = obj.getCoverageGrid(ind);
 			System.out.println(obj.obtainFitness(ind));
 			CsvWriter.writeGrid("circularGrid.csv", coverageGrid);
