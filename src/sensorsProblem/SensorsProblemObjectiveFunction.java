@@ -1,5 +1,9 @@
 package sensorsProblem;
 
+import java.util.ArrayList;
+
+import generics.Individual;
+import generics.Location;
 import generics.ObjectiveFunction;
 
 public abstract class SensorsProblemObjectiveFunction extends ObjectiveFunction{
@@ -7,7 +11,7 @@ public abstract class SensorsProblemObjectiveFunction extends ObjectiveFunction{
 	private float alfa;
 	
 	
-	protected SensorsProblemObjectiveFunction(SensorFieldData conf, float alfa) {
+	public SensorsProblemObjectiveFunction(SensorFieldData conf, float alfa) {
 		super();
 		this.setConf(conf);
 		this.alfa = alfa;
@@ -55,14 +59,13 @@ public abstract class SensorsProblemObjectiveFunction extends ObjectiveFunction{
 	}
 	
 	@Override
-	public double getFitness(SensorsProblemIndividual individual) {
-		int[][] coverageGrid =  getCoverageGrid(individual);
+	public double getFitness(Individual individual) {
+		SensorsProblemIndividual spIndividual = (SensorsProblemIndividual) individual;
+		int[][] coverageGrid =  getCoverageGrid(spIndividual);
 		int usedTransmissors = 0;
 		for(int bit : individual.getAllele()) usedTransmissors += bit; 
 		return calcFitness(coverageGrid, usedTransmissors, alfa);
 	}
-	
-	
 }
 
 	

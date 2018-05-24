@@ -18,7 +18,7 @@ import operators.TwoPointCrossoverOperator;
 import other.CsvWriter;
 import other.POIWriter;
 import sensorsProblem.SensorFieldData;
-import sensorsProblem.SensorsCoverageOptimizationProblemData;
+import sensorsProblem.SensorsProblemData;
 import sensorsProblem.CircularRatioObjectiveFunction;
 import sensorsProblem.SensorsProblemObjectiveFunction;
 import sensorsProblem.SquareRatioObjectiveFunction;
@@ -45,7 +45,7 @@ public class SensorsCoverageTestInstanceExecutor{
 	private static float[] mutationProbability; //1/popSOoutionNumber
 	private static int alfa = 2; //siempre tiene que ser >1 para que funcione bien la func objetivo
 	private static SensorsProblemObjectiveFunction[] objectiveFunctions = {
-			new SquareRatioObjectiveFunction(searchSpaceProblemData, getTransmissorsPositions(), alfa)};
+			new SquareRatioObjectiveFunction(searchSpaceProblemData, alfa)};
 	//new SensorsProblemCircularRatioObjectiveFunction(searchSpaceProblemData, getTransmissorsPositions(), alfa)
 	private static int[] popSolutionNumbers = {100}; //numero de soluciones de la poblacion
 	private static double[] maxFit = {99999f}; //1111.11
@@ -83,7 +83,7 @@ public class SensorsCoverageTestInstanceExecutor{
 		
 		//int alleleLength = transmissorsPositions.size()+randomlyDistributedTransmissors;
 		SensorsProblemObjectiveFunction sensorsProblemObjectiveFunction = conf.getObjectiveFunction();
-		SensorsCoverageOptimizationProblemData sensorsCoverageOptimizationProblemData = new SensorsCoverageOptimizationProblemData(
+		SensorsProblemData sensorsCoverageOptimizationProblemData = new SensorsProblemData(
 				conf.getMaxFit(), conf.getAlfa(), conf.getSearchSpaceProblemData(), transmissorsPositions, sensorsProblemObjectiveFunction);
 		
 		Operator selectionOperator = new BinaryTournamentSelectionOperator(sensorsCoverageOptimizationProblemData.getObjFunc());

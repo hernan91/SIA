@@ -4,25 +4,30 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import generics.Individual;
+import generics.Location;
+import sensorsProblem.SensorsProblemIndividual;
 
-public class OnePointCrossoverOperator extends Operator{
+public class SensorsProblemOnePointCrossoverOperator extends Operator{
 
 	@Override
 	public ArrayList<Individual> operate(ArrayList<Individual> individuals) {
 		Random rand = new Random();
 		ArrayList<Individual> offspringIndividuals = new ArrayList<Individual>();
-		Individual ind1 = individuals.get(0);
-		Individual ind2 = individuals.get(1);
+		SensorsProblemIndividual ind1 = (SensorsProblemIndividual) individuals.get(0);
+		SensorsProblemIndividual ind2 = (SensorsProblemIndividual) individuals.get(1);
 		int alleleLength = ind1.getAllele().length;
 		int cutPoint = rand.nextInt(alleleLength-1)+1;
 		for(int i=0; i<cutPoint; i++) {
 			int k = ind1.getAllele()[i];
+			Location l = ind1.getTransmissorsPositions()[i]; 	
 			ind1.getAllele()[i] = ind2.getAllele()[i];
 			ind2.getAllele()[i] = k;
+			ind1.getTransmissorsPositions()[i] = ind1.getTransmissorsPositions()[i];
+			ind2.getTransmissorsPositions()[i] = l;
 		}
 		offspringIndividuals.add(ind1);
 		offspringIndividuals.add(ind2);
 		return offspringIndividuals;
 	}
-
+	
 }

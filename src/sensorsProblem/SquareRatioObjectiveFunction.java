@@ -14,7 +14,7 @@ public class SquareRatioObjectiveFunction extends SensorsProblemObjectiveFunctio
 		for(int t=0; t<availableTransmissorsNumber; t++) { //t = transmissor
 			int[] transmissorStatusAllele = individual.getAllele(); //describe el estado de los transmisores //apagados, desactivados
 			if(transmissorStatusAllele[t]==1) {
-				Location transmissorLocation = individual.getTransmissorsPositions().get(t);
+				Location transmissorLocation = individual.getTransmissorsPositions()[t];
 				CoverageLimits limits = new SquareCoverageLimits(transmissorLocation, getConf());
 				for(int i=limits.getLimInfX(); i<limits.getLimSupX(); i++){
 					for(int j=limits.getLimInfY(); j<limits.getLimSupY(); j++) {

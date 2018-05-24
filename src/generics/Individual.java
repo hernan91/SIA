@@ -55,9 +55,9 @@ public class Individual implements Cloneable, Comparable<Individual>{
 	}
 
 	public int compareTo(Individual ind, ObjectiveFunction objFunction) {
-		if(objFunction.obtainFitness(this) < objFunction.obtainFitness(ind)) return 1;
-		else if (objFunction.obtainFitness(this) == objFunction.obtainFitness(ind)) return 0;
-		else if (objFunction.obtainFitness(this) > objFunction.obtainFitness(ind)) return -1; //lo agregue porque si no salta un error que dice que la funcion no es transitiva
+		if(objFunction.getFitness(this) < objFunction.getFitness(ind)) return 1;
+		else if (objFunction.getFitness(this) == objFunction.getFitness(ind)) return 0;
+		else if (objFunction.getFitness(this) > objFunction.getFitness(ind)) return -1; //lo agregue porque si no salta un error que dice que la funcion no es transitiva
 		else return 0;
 	}
 	

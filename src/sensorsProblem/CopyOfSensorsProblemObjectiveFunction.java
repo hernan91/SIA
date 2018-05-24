@@ -69,7 +69,7 @@ public abstract class CopyOfSensorsProblemObjectiveFunction extends ObjectiveFun
 	}
 	
 	@Override
-	public double obtainFitness(Individual possibleSolution) {
+	public double getFitness(Individual possibleSolution) {
 		int[][] coverageGrid =  getCoverageGrid(possibleSolution);
 		int usedTransmissors = 0;
 		for(int bit : possibleSolution.getAllele()) usedTransmissors += bit; 

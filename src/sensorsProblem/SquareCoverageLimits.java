@@ -6,7 +6,7 @@ import generics.Location;
 public class SquareCoverageLimits extends CoverageLimits{
 	public SquareCoverageLimits(Location transmissorLocation, SensorFieldData conf) {
 		super(transmissorLocation, conf);
-		limSupX = Math.min( transmissorLocation.getPosX()+conf.getTransmissorRangeRatio(), conf.getGridSizeX() );
-		limSupY = Math.min( transmissorLocation.getPosY()+conf.getTransmissorRangeRatio(), conf.getGridSizeY() );
+		this.setLimSupX(Math.min( transmissorLocation.getPosX()+conf.getTransmissorRangeRatio(), conf.getGridSizeX() ));
+		this.setLimSupY(Math.min( transmissorLocation.getPosY()+conf.getTransmissorRangeRatio(), conf.getGridSizeY() ));
 	}
 }

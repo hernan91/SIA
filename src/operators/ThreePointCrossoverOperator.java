@@ -7,10 +7,10 @@ import generics.Individual;
 
 public class ThreePointCrossoverOperator extends Operator{
 	@Override
-	public ArrayList<Individual> operate(ArrayList<Individual> population) {
+	public ArrayList<Individual> operate(ArrayList<Individual> individuals) {
 		Random rand = new Random();
-		Individual individual1 = population.get(0);
-		Individual individual2 = population.get(1);
+		Individual individual1 = individuals.get(0);
+		Individual individual2 = individuals.get(1);
 		int[] allele1 = individual1.getAllele();
 		int[] allele2 = individual2.getAllele();
 		ArrayList<Individual> offspringIndividuals = new ArrayList<Individual>();
