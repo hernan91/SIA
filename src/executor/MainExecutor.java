@@ -16,7 +16,7 @@ import operators.ReplacementOperator;
 import operators.TwoPointCrossoverOperator;
 import other.CsvWriter;
 import sensorsProblem.SensorFieldData;
-import sensorsProblem.SensorsCoverageOptimizationProblemData;
+import sensorsProblem.SensorsProblemData;
 import sensorsProblem.CircularRatioObjectiveFunction;
 import sensorsProblem.SquareRatioObjectiveFunction;
 
@@ -57,7 +57,7 @@ public class MainExecutor{
 		//SensorsProblemCircularRatioObjectiveFunction sensorsProblemObjectiveFunction = new SensorsProblemCircularRatioObjectiveFunction(squareGridProblemData, transmissorsPositions, alfa);
 		SquareRatioObjectiveFunction sensorsProblemObjectiveFunction = new SquareRatioObjectiveFunction(squareGridProblemData, transmissorsPositions, alfa);
 		
-		SensorsCoverageOptimizationProblemData sensorsCoverageOptimizationProblemData = new SensorsCoverageOptimizationProblemData(
+		SensorsProblemData sensorsCoverageOptimizationProblemData = new SensorsProblemData(
 				maxFit, alfa, squareGridProblemData, transmissorsPositions, sensorsProblemObjectiveFunction);
 		
 		Operator selectionOperator = new BinaryTournamentSelectionOperator(sensorsCoverageOptimizationProblemData.getObjFunc());

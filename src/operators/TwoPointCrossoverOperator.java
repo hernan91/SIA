@@ -8,11 +8,11 @@ import generics.Individual;
 public class TwoPointCrossoverOperator extends Operator{
 	
 	@Override
-	public ArrayList<Individual> operate(ArrayList<Individual> population) {
+	public ArrayList<Individual> operate(ArrayList<Individual> individuals) {
 		Random rand = new Random();
 		ArrayList<Individual> offspringIndividuals = new ArrayList<Individual>();
-		Individual ind1 = population.get(0);
-		Individual ind2 = population.get(1);
+		Individual ind1 = individuals.get(0);
+		Individual ind2 = individuals.get(1);
 		int alleleLength = ind1.getAllele().length;
 		int cutPoint1 = rand.nextInt(alleleLength-2)+1;
 		int cutPoint2 = new Random().nextInt(alleleLength-cutPoint1-1)+cutPoint1;

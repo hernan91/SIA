@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import generics.Location;
 import geneticAlgorithms.ProblemData;
 
-public class SensorsCoverageOptimizationProblemData extends ProblemData{
+public class SensorsProblemData extends ProblemData{
 	private SensorFieldData squareGridProblemData;
 	private ArrayList<Location> transmissorsPositions;
 	
-	public SensorsCoverageOptimizationProblemData(double maxFit, int alfa, SensorFieldData squareGridProblemData, 
+	public SensorsProblemData(double maxFit, int alfa, SensorFieldData squareGridProblemData, 
 			ArrayList<Location> transmissorsPositions, SensorsProblemObjectiveFunction sensorsProblemObjectiveFunction) {
 		super(sensorsProblemObjectiveFunction, maxFit, alfa);
 		this.squareGridProblemData = squareGridProblemData;

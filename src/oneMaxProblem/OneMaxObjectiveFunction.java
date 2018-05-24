@@ -6,7 +6,7 @@ import generics.ObjectiveFunction;
 public class OneMaxObjectiveFunction extends ObjectiveFunction {
 
 	@Override
-	public double obtainFitness(Individual individual) {
+	public double getFitness(Individual individual) {
 		int[] allele = individual.getAllele();
 		int sum = 0;
 		for(int i=0; i<allele.length; i++) {

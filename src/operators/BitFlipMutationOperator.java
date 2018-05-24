@@ -14,7 +14,7 @@ public class BitFlipMutationOperator extends Operator{
 	 * @return 
 	 */
 	public ArrayList<Individual> operate(ArrayList<Individual> ind) {
-		Individual individual = ind.get(0).copy();
+		Individual individual = ind.get(0); //copy?
 		int[] allele = individual.getAllele();
 		Random rand = new Random();
 		int limitPosition = allele.length;

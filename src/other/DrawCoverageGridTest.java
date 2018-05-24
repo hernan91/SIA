@@ -24,14 +24,14 @@ public class DrawCoverageGridTest {
 		if(draw=="circulo") {
 			obj = new CircularRatioObjectiveFunction(new SensorFieldData(20, 60, 60),transmissorsPositions,2f);
 			coverageGrid = obj.getCoverageGrid(ind);
-			System.out.println(obj.obtainFitness(ind));
+			System.out.println(obj.getFitness(ind));
 			CsvWriter.writeGrid("circularGrid.csv", coverageGrid);
 			CsvWriter.writeSolution("", "circularGridSolution.csv", ind); //////SACARRRRRRRRR ""
 		}
 		else if(draw=="cuadrado") {
 			obj = new SquareRatioObjectiveFunction(new SensorFieldData(10, 60, 60),transmissorsPositions,2f);
 			coverageGrid = obj.getCoverageGrid(ind);
-			System.out.println(obj.obtainFitness(ind));
+			System.out.println(obj.getFitness(ind));
 			CsvWriter.writeGrid("circularGrid.csv", coverageGrid);
 			CsvWriter.writeSolution("", "squareGridSolution.csv", ind);
 		}
