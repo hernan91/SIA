@@ -1,23 +1,20 @@
 package sensorsProblem;
 
-import java.util.ArrayList;
-
-import generics.Individual;
 import generics.Location;
 
 public class SquareRatioObjectiveFunction extends SensorsProblemObjectiveFunction {
-	public SquareRatioObjectiveFunction(SensorFieldData conf, ArrayList<Location> transmissorsPositions, float alfa){
-		super(conf, transmissorsPositions, alfa);
+	public SquareRatioObjectiveFunction(SensorFieldData conf, float alfa){
+		super(conf, alfa);
 	}
 	
-	public int[][] getCoverageGrid(Individual possibleSolution) {
+	public int[][] getCoverageGrid(SensorsProblemIndividual individual) {
 		int coverageGrid[][] = initializeGrid();
-		int availableTransmissorsNumber = possibleSolution.getAllele().length; //transmisores disponibles para ser usados
+		int availableTransmissorsNumber = individual.getAllele().length; //transmisores disponibles para ser usados
 		
 		for(int t=0; t<availableTransmissorsNumber; t++) { //t = transmissor
-			int[] transmissorStatusAllele = possibleSolution.getAllele(); //describe el estado de los transmisores //apagados, desactivados
+			int[] transmissorStatusAllele = individual.getAllele(); //describe el estado de los transmisores //apagados, desactivados
 			if(transmissorStatusAllele[t]==1) {
-				Location transmissorLocation = getTransmissorsPositions().get(t);
+				Location transmissorLocation = individual.getTransmissorsPositions().get(t);
 				CoverageLimits limits = new SquareCoverageLimits(transmissorLocation, getConf());
 				for(int i=limits.getLimInfX(); i<limits.getLimSupX(); i++){
 					for(int j=limits.getLimInfY(); j<limits.getLimSupY(); j++) {

@@ -1,8 +1,8 @@
 package generics;
 
+import sensorsProblem.SensorsProblemIndividual;
+
 public abstract class ObjectiveFunction {
-	public static double obtainFitness(Individual individual) {
-		return 0;
-	}
-	
+	//ver como hacer mas generico
+	public abstract double getFitness(SensorsProblemIndividual individual);
 }

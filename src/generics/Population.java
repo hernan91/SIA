@@ -39,7 +39,7 @@ public class Population {
 		Iterator<Individual> it = this.individuals.iterator();
 		while(it.hasNext()) {
 			Individual ind = it.next();
-			ind.setFitness(objFunc.obtainFitness(ind));
+			ind.setFitness(objFunc.getFitness(ind));
 		}
 	}	
 	
