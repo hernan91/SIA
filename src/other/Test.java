@@ -1,6 +1,7 @@
 package other;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import generics.BinaryRepresentationIndividual;
 import generics.Population;
@@ -8,8 +9,10 @@ import operators.SensorsProblemMutationOperator;
 import operators.SensorsProblemOnePointCrossoverOperator;
 import sensorsProblem.SensorsFieldData;
 import sensorsProblem.SensorsProblemIndividual;
+import sensorsProblem.SensorsProblemPopulation;
 import sensorsProblem.SquareRatioObjectiveFunction;
-import utils.PopulationCreator;
+import utils.IndividualsListCreator;
+import utils.Utils;
 
 public class Test {
 	public static void main(String args[]) {
@@ -20,18 +23,19 @@ public class Test {
 		SquareRatioObjectiveFunction objFunc = new SquareRatioObjectiveFunction(areaData, 2);
 		String dir = "/home/hernan/git/SIA/pruebona";
 		
-		Population<SensorsProblemIndividual> pop1 = PopulationCreator.createSensorsProblemPopulation(alleleLength, numberOfIndividuals, areaData);
-		objFunc.sortPopulationByFitness(pop1);
+		Population<SensorsProblemIndividual> pop1 = 
+				new Population<>(IndividualsListCreator.createSensorsProblemIndividualList(alleleLength, numberOfIndividuals, areaData));
+		//objFunc.sortPopulationByFitness(Utils.fromSensorsProblemPopToPop(pop1));
 		objFunc.evaluatePopulation(pop1);
 		pop1.printPop();
-		CsvWriter.writeIndividuals(dir+"/pop1", pop1);
+		//CsvWriter.writeIndividuals(dir+"/pop1", pop1);
 		
-		Population<SensorsProblemIndividual> pop2 = pop1.copy();
-		SensorsProblemOnePointCrossoverOperator crossOp = new SensorsProblemOnePointCrossoverOperator();
-		crossOp.operate(pop2.getIndividuals());
-		objFunc.evaluatePopulation(pop2);
-		pop2.printPop();
-		CsvWriter.writeIndividuals(dir+"/pop2", pop2);
+//		Population<BinaryRepresentationIndividual> pop2 = Utils.fromSensorsProblemPopToPop(pop1.copy());
+//		SensorsProblemOnePointCrossoverOperator crossOp = new SensorsProblemOnePointCrossoverOperator();
+//		crossOp.operate(pop2.getIndividuals());
+//		objFunc.evaluatePopulation(pop2);
+//		pop2.printPop();
+		//CsvWriter.writeIndividuals(dir+"/pop2", pop2);
 		
 		Population<SensorsProblemIndividual> pop3 = pop1.copy();
 		SensorsProblemMutationOperator mutOp = new SensorsProblemMutationOperator();
@@ -40,7 +44,7 @@ public class Test {
 			individual.add(ind);
 			mutOp.operate(individual);
 		}
-		objFunc.evaluatePopulation(pop3);
+		objFunc.evaluatePopulation(Utils.fromSensorsProblemPopToPop(pop3));
 		pop3.printPop();
 		CsvWriter.writeIndividuals(dir+"/pop3", pop3);
 		

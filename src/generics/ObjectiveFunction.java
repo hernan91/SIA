@@ -1,18 +1,18 @@
 package generics;
 
-public abstract class ObjectiveFunction {
+public abstract class ObjectiveFunction <T extends BinaryRepresentationIndividual>{
 	
-	public abstract double getFitness(BinaryRepresentationIndividual individual);
+	public abstract double getFitness(T individual);
 	
-	public abstract double getPopulationFitnessMean(Population<BinaryRepresentationIndividual> population);
+	public abstract double getPopulationFitnessMean(Population<T> population);
 	
-	public abstract double getPopulationFitnessStandardDeviation(Population<BinaryRepresentationIndividual> population);
+	public abstract double getPopulationFitnessStandardDeviation(Population<T> population);
 
-	public abstract BinaryRepresentationIndividual getPopulationBestFitIndividual(Population<BinaryRepresentationIndividual> population);
+	public abstract T getPopulationBestFitIndividual(Population<T> population);
 	
-	public abstract BinaryRepresentationIndividual getPopulationWorstFitIndividual(Population<BinaryRepresentationIndividual> population);
+	public abstract T getPopulationWorstFitIndividual(Population<T> population);
 
-	public abstract void printPopulationStatisticInfo(Population<BinaryRepresentationIndividual> population, double optimalScore);
+	public abstract void printPopulationStatisticInfo(Population<T> population, double optimalScore);
 
-	public abstract void sortPopulationByFitness(Population<BinaryRepresentationIndividual> population);
+	public abstract void sortPopulationByFitness(Population<T> population);
 }

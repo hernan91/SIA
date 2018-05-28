@@ -6,11 +6,11 @@ import java.util.Iterator;
 import generics.BinaryRepresentationIndividual;
 import generics.Population;
 
-public class SensorsProblemPopulation2 extends Population{
+public class SensorsProblemPopulation2 extends Population<SensorsProblemIndividual>{
 	private SensorsFieldData data;
 	
 	public SensorsProblemPopulation(int alleleLength, int numberOfIndividuals, SensorsFieldData data) {
-		ArrayList<BinaryRepresentationIndividual> individuals = new ArrayList<BinaryRepresentationIndividual>();
+		ArrayList<SensorsProblemIndividual> individuals = new ArrayList<>();
 		for(int i=0; i<numberOfIndividuals; i++){
 			individuals.add(new SensorsProblemIndividual(alleleLength, data));
 		}
@@ -21,7 +21,7 @@ public class SensorsProblemPopulation2 extends Population{
 
 
 	public SensorsProblemPopulation(ArrayList<SensorsProblemIndividual> inds, SensorsFieldData data) {
-		ArrayList<BinaryRepresentationIndividual> individuals = new ArrayList<BinaryRepresentationIndividual>();
+		ArrayList<SensorsProblemIndividual> individuals = new ArrayList<>();
 		for(int i=0; i<inds.size(); i++){
 			individuals.add(new SensorsProblemIndividual(this.getAlleleLength(), this.getData()));
 		}
@@ -32,11 +32,11 @@ public class SensorsProblemPopulation2 extends Population{
 	
 	public SensorsProblemPopulation copy() {
 		Iterator<SensorsProblemIndividual> it = this.getIndividuals().iterator();
-		ArrayList<SensorsProblemIndividual> clone = new ArrayList<BinaryRepresentationIndividual>();
+		ArrayList<SensorsProblemIndividual> clone = new ArrayList<>();
 		while(it.hasNext()) {
 			clone.add(it.next().copy());
 		}
-		return new Population(clone);
+		return new SensorsProblemPopulation(clone, data);
 	}
 
 	public SensorsFieldData getData() {

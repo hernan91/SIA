@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Population<T extends BinaryRepresentationIndividual>{
-	private ArrayList<BinaryRepresentationIndividual> individuals = new ArrayList<BinaryRepresentationIndividual>();
+	private ArrayList<T> individuals = new ArrayList<>();
 	private int alleleLength;
 	
 	public Population() {}
 	public Population(int alleleLength, int numberOfIndividuals) {
 		this.alleleLength = alleleLength;
 		for(int i=0; i<numberOfIndividuals; i++){
-			individuals.add(new BinaryRepresentationIndividual(alleleLength));
+			individuals.add((T)new BinaryRepresentationIndividual(alleleLength));
 		}
 	}
 	
-	public Population(ArrayList<BinaryRepresentationIndividual> individuals) {
+	public Population(ArrayList<T> individuals) {
 		this.individuals = individuals;
 		this.alleleLength = individuals.get(0).getAllele().length;
 	}
@@ -32,18 +32,19 @@ public class Population<T extends BinaryRepresentationIndividual>{
 		return individuals.size();
 	}
 	
-	public void setIndividuals(ArrayList<BinaryRepresentationIndividual> individuals) {
+	public void setIndividuals(ArrayList<T> individuals) {
 		this.individuals = individuals;
 	}
-	public ArrayList<BinaryRepresentationIndividual> getIndividuals() {
+	public ArrayList<T> getIndividuals() {
 		return individuals;
 	}
 	
 	public Population <T> copy() {
-		Iterator<BinaryRepresentationIndividual> it = this.getIndividuals().iterator();
-		ArrayList<BinaryRepresentationIndividual> clone = new ArrayList<BinaryRepresentationIndividual>();
+		Iterator<T> it = this.getIndividuals().iterator();
+		ArrayList<T> clone = new ArrayList<T>();
 		while(it.hasNext()) {
-			clone.add(it.next().copy());
+			T ind = it.next();
+			clone.add((T)ind.copy());
 		}
 		return new Population<T>(clone);
 	}
@@ -58,7 +59,7 @@ public class Population<T extends BinaryRepresentationIndividual>{
 		}
 	}
 	
-	public void removeLastNIndividualsFromPopulation(Population<BinaryRepresentationIndividual> population, int n) {
+	public void removeLastNIndividualsFromPopulation(Population<T> population, int n) {
 		for(int i=1; i<population.getNumberOfIndividuals(); i++) {
 			population.getIndividuals().remove(population.getNumberOfIndividuals()-1);
 		}

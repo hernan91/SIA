@@ -12,6 +12,7 @@ public class SensorsProblemIndividual extends BinaryRepresentationIndividual {
 	public SensorsProblemIndividual(int[] allele, Location[] transmissorsPositions, double fitness, SensorsFieldData sensorsFieldData) {
 		super(allele);
 		this.transmissorsPositions = transmissorsPositions;
+		this.sensorsFieldData = sensorsFieldData;
 		this.setFitness(fitness);
 	}
 	
@@ -41,9 +42,7 @@ public class SensorsProblemIndividual extends BinaryRepresentationIndividual {
 			newAllele[i] = oldAllele[i];
 			newLocations[i] = new Location(oldLocations[i].getPosX(), oldLocations[i].getPosY()); 
 		}
-		SensorsFieldData data = new SensorsFieldData(sensorsFieldData.getTransmissorRangeRatio(), 
-				sensorsFieldData.getGridSizeX(), sensorsFieldData.getGridSizeY());
-		return new SensorsProblemIndividual(newAllele, newLocations, this.getFitness(), data);
+		return new SensorsProblemIndividual(newAllele, newLocations, this.getFitness(), sensorsFieldData);
 	}
 
 	public Location[] getTransmissorsPositions() {
