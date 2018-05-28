@@ -6,8 +6,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import executor.RunConfiguration;
-import generics.Individual;
+import generics.BinaryRepresentationIndividual;
 import generics.Location;
+import generics.Population;
+import sensorsProblem.SensorsProblemIndividual;
 
 public class CsvWriter {
 
@@ -40,7 +42,7 @@ public class CsvWriter {
 		}
 	}
 	
-	public static void writeSolution(String directory, String filename, Individual individual) {
+	public static void writeSolution(String directory, String filename, BinaryRepresentationIndividual individual) {
 		FileWriter fileWriter = null;
 		File dir = new File(directory);
 		try {
@@ -93,11 +95,44 @@ public class CsvWriter {
 			dir.mkdirs();
 			fileWriter = new FileWriter(new File(dir.getAbsolutePath(), filename));
 			fileWriter.write("Fitness del mejor individuo de cada generacion\n");
-			for(Individual ind : runConf.getBestIndividualsAfterRun().getIndividuals()) {
+			for(BinaryRepresentationIndividual ind : runConf.getBestIndividualsAfterRun().getIndividuals()) {
 				fileWriter.append(ind.getFitness()+"\n");
 			}
 			fileWriter.append("\n\n");
 			fileWriter.append(runConf.getInfo());
+		} catch (Exception e) {
+			System.out.println("Error");
+			e.printStackTrace();
+		} finally {
+			try {
+				fileWriter.flush();
+				fileWriter.close();
+			} catch (IOException e) {
+				System.out.println("Error while flushing/closing fileWriter !!!");
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public static void writeIndividuals(String directory, Population<SensorsProblemIndividual> pop) {
+		FileWriter fileWriter = null;
+		File dir = new File(directory);
+		try {
+			dir.mkdirs();
+			int num = 0;
+			for(BinaryRepresentationIndividual individual : pop.getIndividuals()) {
+				SensorsProblemIndividual ind = (SensorsProblemIndividual) individual;
+				String filename = String.valueOf(num);
+				fileWriter = new FileWriter(new File(dir.getAbsolutePath(), filename));
+				fileWriter.append("x,y\n");
+				for (Location location : ind.getTransmissorsPositions()) {
+					if(location == null) continue; 
+					fileWriter.append(String.valueOf(location.getPosX()));
+					fileWriter.append(",");
+					fileWriter.append(String.valueOf(location.getPosY()));
+					fileWriter.append("\n");
+				}
+			}
 		} catch (Exception e) {
 			System.out.println("Error");
 			e.printStackTrace();

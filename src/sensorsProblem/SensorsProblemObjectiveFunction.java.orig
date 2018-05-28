@@ -1,25 +1,23 @@
 package sensorsProblem;
 
-import java.util.ArrayList;
-
-import generics.Individual;
-import generics.Location;
 import generics.ObjectiveFunction;
 
-public abstract class CopyOfSensorsProblemObjectiveFunction extends ObjectiveFunction{
+public abstract class SensorsProblemObjectiveFunction extends ObjectiveFunction{
 	private SensorFieldData conf;
-	private ArrayList<Location> transmissorsPositions;
 	private float alfa;
 	
 	
-	protected CopyOfSensorsProblemObjectiveFunction(SensorFieldData conf, ArrayList<Location> transmissorsPositions, float alfa) {
+<<<<<<< HEAD
+	protected SensorsProblemObjectiveFunction(SensorFieldData conf, float alfa) {
+=======
+	public SensorsProblemObjectiveFunction(SensorFieldData conf, float alfa) {
+>>>>>>> c4f9ead7b2e5f955f2d7bb53edea51163709ac2c
 		super();
 		this.setConf(conf);
-		this.setTransmissorsPositions(transmissorsPositions);
 		this.alfa = alfa;
 	}
 	
-	public abstract int[][] getCoverageGrid(Individual possibleSolution);
+	public abstract int[][] getCoverageGrid(SensorsProblemIndividual possibleSolution);
 	
 	protected int[][] initializeGrid(){
 		int grid[][] = new int[getConf().getGridSizeX()][getConf().getGridSizeY()];
@@ -52,14 +50,6 @@ public abstract class CopyOfSensorsProblemObjectiveFunction extends ObjectiveFun
 		return coveredPoints;
 	}
 	
-	public ArrayList<Location> getTransmissorsPositions() {
-		return transmissorsPositions;
-	}
-
-	public void setTransmissorsPositions(ArrayList<Location> transmissorsPositions) {
-		this.transmissorsPositions = transmissorsPositions;
-	}
-
 	public SensorFieldData getConf() {
 		return conf;
 	}
@@ -69,16 +59,20 @@ public abstract class CopyOfSensorsProblemObjectiveFunction extends ObjectiveFun
 	}
 	
 	@Override
-	public double getFitness(Individual possibleSolution) {
-		int[][] coverageGrid =  getCoverageGrid(possibleSolution);
+<<<<<<< HEAD
+	public double getFitness(SensorsProblemIndividual individual) {
+		int[][] coverageGrid =  getCoverageGrid(individual);
+=======
+	public double getFitness(Individual individual) {
+		SensorsProblemIndividual spIndividual = (SensorsProblemIndividual) individual;
+		int[][] coverageGrid =  getCoverageGrid(spIndividual);
+>>>>>>> c4f9ead7b2e5f955f2d7bb53edea51163709ac2c
 		int usedTransmissors = 0;
-		for(int bit : possibleSolution.getAllele()) usedTransmissors += bit; 
+		for(int bit : individual.getAllele()) usedTransmissors += bit; 
 		return calcFitness(coverageGrid, usedTransmissors, alfa);
 	}
 	
-	public static double obtFitness(Individual solution) {
-		
-	}
+	
 }
 
 	

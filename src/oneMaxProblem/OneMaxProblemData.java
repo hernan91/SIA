@@ -1,7 +1,7 @@
 package oneMaxProblem;
 
 import generics.ObjectiveFunction;
-import geneticAlgorithms.ProblemData;
+import generics.ProblemData;
 
 public class OneMaxProblemData extends ProblemData{
 

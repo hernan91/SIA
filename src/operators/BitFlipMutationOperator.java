@@ -3,7 +3,7 @@ package operators;
 import java.util.ArrayList;
 import java.util.Random;
 
-import generics.Individual;
+import generics.BinaryRepresentationIndividual;
 
 public class BitFlipMutationOperator extends Operator{
 	
@@ -13,14 +13,14 @@ public class BitFlipMutationOperator extends Operator{
 	 * @param individual
 	 * @return 
 	 */
-	public ArrayList<Individual> operate(ArrayList<Individual> ind) {
-		Individual individual = ind.get(0); //copy?
+	public ArrayList<BinaryRepresentationIndividual> operate(ArrayList<BinaryRepresentationIndividual> ind) {
+		BinaryRepresentationIndividual individual = ind.get(0); //copy?
 		int[] allele = individual.getAllele();
 		Random rand = new Random();
 		int limitPosition = allele.length;
 		int choosenPos = rand.nextInt(limitPosition);
 		allele[choosenPos] = allele[choosenPos]==0 ? 1:0;
-		ArrayList<Individual> out = new ArrayList<Individual>();
+		ArrayList<BinaryRepresentationIndividual> out = new ArrayList<BinaryRepresentationIndividual>();
 		out.add(individual);
 		return out;
 	}

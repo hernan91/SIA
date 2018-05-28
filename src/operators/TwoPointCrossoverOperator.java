@@ -3,16 +3,16 @@ package operators;
 import java.util.ArrayList;
 import java.util.Random;
 
-import generics.Individual;
+import generics.BinaryRepresentationIndividual;
 
 public class TwoPointCrossoverOperator extends Operator{
 	
 	@Override
-	public ArrayList<Individual> operate(ArrayList<Individual> individuals) {
+	public ArrayList<BinaryRepresentationIndividual> operate(ArrayList<BinaryRepresentationIndividual> individuals) {
 		Random rand = new Random();
-		ArrayList<Individual> offspringIndividuals = new ArrayList<Individual>();
-		Individual ind1 = individuals.get(0);
-		Individual ind2 = individuals.get(1);
+		ArrayList<BinaryRepresentationIndividual> offspringIndividuals = new ArrayList<BinaryRepresentationIndividual>();
+		BinaryRepresentationIndividual ind1 = individuals.get(0);
+		BinaryRepresentationIndividual ind2 = individuals.get(1);
 		int alleleLength = ind1.getAllele().length;
 		int cutPoint1 = rand.nextInt(alleleLength-2)+1;
 		int cutPoint2 = new Random().nextInt(alleleLength-cutPoint1-1)+cutPoint1;

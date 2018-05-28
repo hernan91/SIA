@@ -1,9 +1,9 @@
 package other;
 
-import generics.Individual;
+import generics.BinaryRepresentationIndividual;
 import generics.Location;
 import sensorsProblem.SensorsProblemObjectiveFunction;
-import sensorsProblem.SensorFieldData;
+import sensorsProblem.SensorsFieldData;
 
 /**
  * n=60
@@ -21,7 +21,7 @@ public class PruebaCuadrada {
 	static int gridSizeY = 60;
 	static int alfa = 2;
 	static int[] optimalSolution = {1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-	static Individual transmissorsPopulation = new Individual( optimalSolution );
+	static BinaryRepresentationIndividual transmissorsPopulation = new BinaryRepresentationIndividual( optimalSolution );
 	static Location[] transmissorsPositions = {
 		new Location(10,10), new Location(10,30), new Location(10,50),
 		new Location(30,10), new Location(30,30), new Location(30,50),
@@ -45,7 +45,7 @@ public class PruebaCuadrada {
 
 	
 	public static void main(String[] args) {
-		SensorFieldData conf = new SensorFieldData(sensorRatio, gridSizeX, gridSizeY);
+		SensorsFieldData conf = new SensorsFieldData(sensorRatio, gridSizeX, gridSizeY);
 		SensorsProblemObjectiveFunction fitnessFunc = new SensorsProblemObjectiveFunction(conf);
 		
 		double fitness = fitnessFunc.fitnessMaximizeRange(transmissorsPopulation, transmissorsPositions, alfa);

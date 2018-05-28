@@ -1,24 +1,21 @@
 package generics;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
-import java.util.Random;
 
-public class Population {
-	private ArrayList<Individual> individuals = new ArrayList<Individual>();
+public class Population<T extends BinaryRepresentationIndividual>{
+	private ArrayList<BinaryRepresentationIndividual> individuals = new ArrayList<BinaryRepresentationIndividual>();
 	private int alleleLength;
 	
-	public Population(int alleleLength, int numberOfIndividuals) { //L es la variable longitud del alelo
+	public Population() {}
+	public Population(int alleleLength, int numberOfIndividuals) {
 		this.alleleLength = alleleLength;
 		for(int i=0; i<numberOfIndividuals; i++){
-			individuals.add(new Individual(alleleLength));
+			individuals.add(new BinaryRepresentationIndividual(alleleLength));
 		}
 	}
 	
-	public Population(ArrayList<Individual> individuals) {
+	public Population(ArrayList<BinaryRepresentationIndividual> individuals) {
 		this.individuals = individuals;
 		this.alleleLength = individuals.get(0).getAllele().length;
 	}
@@ -34,95 +31,38 @@ public class Population {
 	public int getNumberOfIndividuals() {
 		return individuals.size();
 	}
-
-	public void evaluatePopulation(ObjectiveFunction objFunc) {
-		Iterator<Individual> it = this.individuals.iterator();
-		while(it.hasNext()) {
-			Individual ind = it.next();
-			ind.setFitness(objFunc.getFitness(ind));
-		}
-	}	
 	
-	public ArrayList<Individual> getIndividuals() {
+	public void setIndividuals(ArrayList<BinaryRepresentationIndividual> individuals) {
+		this.individuals = individuals;
+	}
+	public ArrayList<BinaryRepresentationIndividual> getIndividuals() {
 		return individuals;
 	}
 	
-	public Population copy() {
-		Iterator<Individual> it = this.getIndividuals().iterator();
-		ArrayList<Individual> clone = new ArrayList<Individual>();
+	public Population <T> copy() {
+		Iterator<BinaryRepresentationIndividual> it = this.getIndividuals().iterator();
+		ArrayList<BinaryRepresentationIndividual> clone = new ArrayList<BinaryRepresentationIndividual>();
 		while(it.hasNext()) {
 			clone.add(it.next().copy());
 		}
-		return new Population(clone);
+		return new Population<T>(clone);
 	}
 	
-	public void sortByFitness(ObjectiveFunction objFunc) {
-		evaluatePopulation(objFunc);
-		Collections.sort(individuals, new Comparator<Individual>(){
-			@Override
-			public int compare(Individual ind1, Individual ind2) {
-				return ind1.compareTo(ind2);
-			}	
-		});
-		//
-		Collections.reverse(individuals);
-	}
-	
-	public Individual getBestFitIndividual(ObjectiveFunction objFunc) {
-		sortByFitness(objFunc);
-		return this.getIndividuals().get(0);
-	}
-	
-	public Individual getWorstFitIndividual(ObjectiveFunction objFunc) {
-		sortByFitness(objFunc);
-		return this.getIndividuals().get(this.getIndividuals().size()-1);
-	}
-	
-	public double getPopulationFitnessMean(ObjectiveFunction objFunc) {
-		evaluatePopulation(objFunc);
-		Iterator<Individual> it = individuals.iterator();
-		double summatory = 0; 
-		while(it.hasNext()) summatory += it.next().getFitness();
-		return summatory/getNumberOfIndividuals();
-	}
-	
-	public void removeLastNIndividuals(int n) {
-		for(int i=1; i<getNumberOfIndividuals(); i++) {
-			individuals.remove(individuals.size()-1);
-		}
-	}
-	
-	public void printStatisticInfo(double optimalScore, ObjectiveFunction objFunc) {
-		Individual best = getBestFitIndividual(objFunc);
-		double bestFitnessScore = best.getFitness();
-		double mean = getPopulationFitnessMean(objFunc);
-		Iterator<Individual> it = individuals.iterator();
-		float sumatoriaCuad = 0;
-		while(it.hasNext()) sumatoriaCuad += Math.pow(it.next().getFitness()-mean, 2);
-		DecimalFormat format = new DecimalFormat("#.###");
-//		String str = "Mejor solucion:\n"
-//				+ "Fitness= "+format.format(bestFitnessScore)+"\n"
-//				+ "Error porcentual Ebest= "+format.format(((bestFitnessScore-optimalScore)/optimalScore)*100)+"%\n"
-//				+ "Media poblacional Epop= "+format.format(mean)+"\n"
-//				+ "Desviacion estandar= "+format.format(Math.sqrt(sumatoriaCuad/getNumberOfIndividuals()))+"\n"
-//				+ ""+"\n";
-		String str = format.format(bestFitnessScore);
-		System.out.println(str);
-	}
-	
-	public double getPopulationFitnessStandardDeviation(double mean) {
-		Iterator<Individual> it = individuals.iterator();
-		float sumatoriaCuad = 0;
-		while(it.hasNext()) sumatoriaCuad += Math.pow(it.next().getFitness()-mean, 2);
-		return Math.sqrt(sumatoriaCuad/getNumberOfIndividuals());
-	}
-	
-	public void printIndividualsAllels() {
-		for( Individual ind : getIndividuals()) {
+	public void printPop() {
+		for( BinaryRepresentationIndividual ind : getIndividuals()) {
 			for( int allele : ind.getAllele()) {
 				System.out.print(allele);
 			}
 			System.out.println();
+			System.out.println(ind.getFitness());
 		}
 	}
+	
+	public void removeLastNIndividualsFromPopulation(Population<BinaryRepresentationIndividual> population, int n) {
+		for(int i=1; i<population.getNumberOfIndividuals(); i++) {
+			population.getIndividuals().remove(population.getNumberOfIndividuals()-1);
+		}
+	}
+	
+	
 }

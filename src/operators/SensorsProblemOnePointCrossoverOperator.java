@@ -3,16 +3,16 @@ package operators;
 import java.util.ArrayList;
 import java.util.Random;
 
-import generics.Individual;
+import generics.BinaryRepresentationIndividual;
 import generics.Location;
 import sensorsProblem.SensorsProblemIndividual;
 
 public class SensorsProblemOnePointCrossoverOperator extends Operator{
 
 	@Override
-	public ArrayList<Individual> operate(ArrayList<Individual> individuals) {
+	public ArrayList<BinaryRepresentationIndividual> operate(ArrayList<BinaryRepresentationIndividual> individuals) {
 		Random rand = new Random();
-		ArrayList<Individual> offspringIndividuals = new ArrayList<Individual>();
+		ArrayList<BinaryRepresentationIndividual> offspringIndividuals = new ArrayList<BinaryRepresentationIndividual>();
 		SensorsProblemIndividual ind1 = (SensorsProblemIndividual) individuals.get(0);
 		SensorsProblemIndividual ind2 = (SensorsProblemIndividual) individuals.get(1);
 		int alleleLength = ind1.getAllele().length;
@@ -22,7 +22,7 @@ public class SensorsProblemOnePointCrossoverOperator extends Operator{
 			Location l = ind1.getTransmissorsPositions()[i]; 	
 			ind1.getAllele()[i] = ind2.getAllele()[i];
 			ind2.getAllele()[i] = k;
-			ind1.getTransmissorsPositions()[i] = ind1.getTransmissorsPositions()[i];
+			ind1.getTransmissorsPositions()[i] = ind2.getTransmissorsPositions()[i];
 			ind2.getTransmissorsPositions()[i] = l;
 		}
 		offspringIndividuals.add(ind1);

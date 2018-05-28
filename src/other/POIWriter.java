@@ -15,7 +15,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import executor.RunConfiguration;
-import generics.Individual;
+import generics.BinaryRepresentationIndividual;
 
 public class POIWriter {
 	public static void writeData(String dir, String filename, ArrayList<RunConfiguration> runConfigs) {
@@ -31,7 +31,7 @@ public class POIWriter {
 			Cell cell = row.createCell(column);
 			cell.setCellValue("Fitness");
 			r++;
-			for (Individual individual : runConf.getBestIndividualsAfterRun().getIndividuals()) {
+			for (BinaryRepresentationIndividual individual : runConf.getBestIndividualsAfterRun().getIndividuals()) {
 				row = sheet.createRow(r);
 				cell = row.createCell(column);
 				DecimalFormatSymbols symbol = new DecimalFormatSymbols();

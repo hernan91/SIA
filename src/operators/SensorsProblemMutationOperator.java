@@ -3,12 +3,12 @@ package operators;
 import java.util.ArrayList;
 import java.util.Random;
 
-import generics.Individual;
+import generics.BinaryRepresentationIndividual;
 import generics.Location;
 import sensorsProblem.SensorsProblemIndividual;
 
 public class SensorsProblemMutationOperator {
-	public ArrayList<Individual> operate(ArrayList<Individual> individuals) {
+	public ArrayList<BinaryRepresentationIndividual> operate(ArrayList<BinaryRepresentationIndividual> individuals) {
 		SensorsProblemIndividual individual = (SensorsProblemIndividual) individuals.get(0);
 		int[] allele = individual.getAllele();
 		Location[] transmissorsPositions = individual.getTransmissorsPositions();
@@ -27,7 +27,7 @@ public class SensorsProblemMutationOperator {
 				transmissorsPositions[choosenPos] = null;
 			}
 		}
-		ArrayList<Individual> out = new ArrayList<Individual>();
+		ArrayList<BinaryRepresentationIndividual> out = new ArrayList<BinaryRepresentationIndividual>();
 		out.add(individual);
 		return out;
 	}

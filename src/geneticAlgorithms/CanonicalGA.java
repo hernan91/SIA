@@ -3,8 +3,11 @@ package geneticAlgorithms;
 
 import java.util.ArrayList;
 import java.util.Random;
-import generics.Individual;
+
+import generics.BinaryRepresentationIndividual;
+import generics.ObjectiveFunction;
 import generics.Population;
+import generics.ProblemData;
 import operators.Operator;
 
 public class CanonicalGA {
@@ -36,39 +39,34 @@ public class CanonicalGA {
 		this.data = data;
 	}
 
-	public Individual execute(Boolean tracing) {
+	public BinaryRepresentationIndividual execute(Boolean tracing) {
 		int genNumber = 0;
 		double bestFitness = 0;
+		ObjectiveFunction objFunc = data.getObjFunc();
 		Population replacedPopulation = new Population(getAlleleLength(), getPopSolutionNumber());
 		do{
 			Population selectedParentsPopulation = applySelectionStrategy(replacedPopulation);
 			Population offspringPopulation = applyReproductionStrategy(selectedParentsPopulation);
 			replacedPopulation = applyReplacementStrategy(replacedPopulation, offspringPopulation);
-			bestFitness = replacedPopulation.getBestFitIndividual(data.getObjFunc()).getFitness();
-			if(tracing) replacedPopulation.printStatisticInfo(data.getMaxFit(), data.getObjFunc());
+			bestFitness = objFunc.getPopulationBestFitIndividual(replacedPopulation).getFitness();
+			if(tracing) objFunc.printPopulationStatisticInfo(replacedPopulation, data.getMaxFit());
 			genNumber++;
 		}
 		while( genNumber<getMaxGen() && bestFitness<data.getMaxFit() );
-		String cross = crossoverOperator.getClass().getName();
-		if(crossoverProbability==0.8f && maxGen==500 && cross.substring(cross.indexOf(".")+1)=="TwoPointCrossoverOperator") {
-			int a = 3;
-			int b = a+a;
-		}
-		Individual bestIndividual = replacedPopulation.getBestFitIndividual(data.getObjFunc());
+		BinaryRepresentationIndividual bestIndividual = objFunc.getPopulationBestFitIndividual(replacedPopulation);
 		if(tracing) {
 			System.out.println("Numero de iteraciones necesarias= "+genNumber);
 			bestIndividual.printAllele();
-			System.out.println("Fitness = " + replacedPopulation.getBestFitIndividual(data.getObjFunc()).getFitness());
+			System.out.println("Fitness = " + objFunc.getPopulationBestFitIndividual(replacedPopulation).getFitness());
 		}
 		return bestIndividual;
-		
 	}
 	
 	private Population applySelectionStrategy(Population population) {
 		population = population.copy();
-		ArrayList<Individual> selectedIndividuals = new ArrayList<Individual>();
+		ArrayList<BinaryRepresentationIndividual> selectedIndividuals = new ArrayList<BinaryRepresentationIndividual>();
 		for(int i=0; i<population.getNumberOfIndividuals(); i++) {
-			ArrayList<Individual> selectedInd = selectionOperator.operate(population.getIndividuals());
+			ArrayList<BinaryRepresentationIndividual> selectedInd = selectionOperator.operate(population.getIndividuals());
 			selectedIndividuals.add(selectedInd.get(0));
 		}
 		return new Population(selectedIndividuals);
@@ -77,10 +75,10 @@ public class CanonicalGA {
 	
 	private Population applyReproductionStrategy(Population population) {
 		population = population.copy();
-		ArrayList<Individual> offSprings = new ArrayList<Individual>();
+		ArrayList<BinaryRepresentationIndividual> offSprings = new ArrayList<BinaryRepresentationIndividual>();
 		Random rand = new Random();
 		while(population.getNumberOfIndividuals()>0) {
-			ArrayList<Individual> individuals = new ArrayList<Individual>();//Individuals son padres, terminan siendo hijos
+			ArrayList<BinaryRepresentationIndividual> individuals = new ArrayList<BinaryRepresentationIndividual>();//Individuals son padres, terminan siendo hijos
 			for(int i=0; i<2; i++)
 				individuals.add(population.getIndividuals().remove(0));
 			float p = rand.nextFloat();
@@ -179,7 +177,5 @@ public class CanonicalGA {
 
 	public void setData(ProblemData data) {
 		this.data = data;
-	}
-	
-	
+	}	
 }

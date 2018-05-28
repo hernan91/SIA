@@ -1,6 +1,4 @@
-package geneticAlgorithms;
-
-import generics.ObjectiveFunction;
+package generics;
 
 public abstract class ProblemData{
 	private ObjectiveFunction objFunc;

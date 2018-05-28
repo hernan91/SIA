@@ -3,17 +3,17 @@ package operators;
 import java.util.ArrayList;
 import java.util.Random;
 
-import generics.Individual;
+import generics.BinaryRepresentationIndividual;
 
 public class ThreePointCrossoverOperator extends Operator{
 	@Override
-	public ArrayList<Individual> operate(ArrayList<Individual> individuals) {
+	public ArrayList<BinaryRepresentationIndividual> operate(ArrayList<BinaryRepresentationIndividual> individuals) {
 		Random rand = new Random();
-		Individual individual1 = individuals.get(0);
-		Individual individual2 = individuals.get(1);
+		BinaryRepresentationIndividual individual1 = individuals.get(0);
+		BinaryRepresentationIndividual individual2 = individuals.get(1);
 		int[] allele1 = individual1.getAllele();
 		int[] allele2 = individual2.getAllele();
-		ArrayList<Individual> offspringIndividuals = new ArrayList<Individual>();
+		ArrayList<BinaryRepresentationIndividual> offspringIndividuals = new ArrayList<BinaryRepresentationIndividual>();
 		int alleleLength = allele1.length;
 		int cutPoint1 = rand.nextInt(alleleLength-3)+1;
 		int cutPoint2 = new Random().nextInt(alleleLength-cutPoint1-2)+cutPoint1;

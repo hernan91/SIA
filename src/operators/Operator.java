@@ -2,8 +2,8 @@ package operators;
 
 import java.util.ArrayList;
 
-import generics.Individual;
+import generics.BinaryRepresentationIndividual;
 
 public abstract class Operator {
-	public abstract ArrayList<Individual> operate(ArrayList<Individual> individuals);
+	public abstract ArrayList<BinaryRepresentationIndividual> operate(ArrayList<BinaryRepresentationIndividual> individuals);
 }

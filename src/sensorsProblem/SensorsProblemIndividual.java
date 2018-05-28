@@ -2,23 +2,23 @@ package sensorsProblem;
 
 import java.util.Random;
 
-import generics.Individual;
+import generics.BinaryRepresentationIndividual;
 import generics.Location;
 
-public class SensorsProblemIndividual extends Individual {
+public class SensorsProblemIndividual extends BinaryRepresentationIndividual {
 	private Location[] transmissorsPositions;
-	private SensorFieldData sensorFieldData;
+	private SensorsFieldData sensorsFieldData;
 	
-	public SensorsProblemIndividual(int[] allele, Location[] transmissorsPositions, double fitness) {
+	public SensorsProblemIndividual(int[] allele, Location[] transmissorsPositions, double fitness, SensorsFieldData sensorsFieldData) {
 		super(allele);
 		this.transmissorsPositions = transmissorsPositions;
 		this.setFitness(fitness);
 	}
 	
-	public SensorsProblemIndividual(int alleleLength, SensorFieldData sensorFieldData) {
+	public SensorsProblemIndividual(int alleleLength, SensorsFieldData sensorFieldData) {
 		super(alleleLength);
 		this.setAllele(getBinaryString(alleleLength)); 
-		this.sensorFieldData = sensorFieldData;
+		this.sensorsFieldData = sensorFieldData;
 		this.transmissorsPositions = generateRandomLocations();
 	}
 	
@@ -31,6 +31,7 @@ public class SensorsProblemIndividual extends Individual {
 		return locationArray;
 	}
 	
+	@Override
 	public SensorsProblemIndividual copy() {
 		int[] oldAllele = this.getAllele();
 		int[] newAllele = new int[oldAllele.length];
@@ -40,7 +41,9 @@ public class SensorsProblemIndividual extends Individual {
 			newAllele[i] = oldAllele[i];
 			newLocations[i] = new Location(oldLocations[i].getPosX(), oldLocations[i].getPosY()); 
 		}
-		return new SensorsProblemIndividual(newAllele, newLocations, this.getFitness());
+		SensorsFieldData data = new SensorsFieldData(sensorsFieldData.getTransmissorRangeRatio(), 
+				sensorsFieldData.getGridSizeX(), sensorsFieldData.getGridSizeY());
+		return new SensorsProblemIndividual(newAllele, newLocations, this.getFitness(), data);
 	}
 
 	public Location[] getTransmissorsPositions() {
@@ -51,18 +54,18 @@ public class SensorsProblemIndividual extends Individual {
 		this.transmissorsPositions = transmissorsPositions;
 	}
 
-	public SensorFieldData getSensorFieldData() {
-		return sensorFieldData;
+	public SensorsFieldData getSensorFieldData() {
+		return sensorsFieldData;
 	}
 
-	public void setSensorFieldData(SensorFieldData sensorFieldData) {
-		this.sensorFieldData = sensorFieldData;
+	public void setSensorFieldData(SensorsFieldData sensorFieldData) {
+		this.sensorsFieldData = sensorFieldData;
 	}
 	
 	private Location getRandomLocation() {
 		Random randX = new Random();
 		Random randY = new Random();
-		return new Location(randX.nextInt(sensorFieldData.getGridSizeX()), randY.nextInt(sensorFieldData.getGridSizeY()));
+		return new Location(randX.nextInt(sensorsFieldData.getGridSizeX()), randY.nextInt(sensorsFieldData.getGridSizeY()));
 	}
 	
 	public void moveSensorToRandomLocation(int allelePos) {

@@ -1,12 +1,12 @@
 package oneMaxProblem;
 
-import generics.Individual;
+import generics.BinaryRepresentationIndividual;
 import generics.ObjectiveFunction;
 
 public class OneMaxObjectiveFunction extends ObjectiveFunction {
 
 	@Override
-	public double getFitness(Individual individual) {
+	public double getFitness(BinaryRepresentationIndividual individual) {
 		int[] allele = individual.getAllele();
 		int sum = 0;
 		for(int i=0; i<allele.length; i++) {

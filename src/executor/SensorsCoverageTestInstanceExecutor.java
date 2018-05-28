@@ -3,7 +3,7 @@ package executor;
 import java.util.ArrayList;
 import java.util.Random;
 
-import generics.Individual;
+import generics.BinaryRepresentationIndividual;
 import generics.Location;
 import generics.ObjectiveFunction;
 import generics.Population;
@@ -17,7 +17,7 @@ import operators.ThreePointCrossoverOperator;
 import operators.TwoPointCrossoverOperator;
 import other.CsvWriter;
 import other.POIWriter;
-import sensorsProblem.SensorFieldData;
+import sensorsProblem.SensorsFieldData;
 import sensorsProblem.SensorsProblemData;
 import sensorsProblem.CircularRatioObjectiveFunction;
 import sensorsProblem.SensorsProblemObjectiveFunction;
@@ -33,7 +33,7 @@ public class SensorsCoverageTestInstanceExecutor{
 			42,25, 48,36, 36,47, 18,45, 3,58, 29,59, 58,59, 42,4, 56,37, 57,52, 8,17, 19,23, 24,31, 38,12, 34,36, 41,37, 58,3,
 			53,19, 2,54, 12,60, 37,11, 54,14, 44,19, 31,3, 48,57, 8,36, 46,59, 25,37};
 	static String outputDir = "/home/darkside/git/SIA/instanciaPruebaRadioCuadrado1";
-	static SensorFieldData searchSpaceProblemData = new SensorFieldData(sensorRatio, gridSizeX, gridSizeY);
+	static SensorsFieldData searchSpaceProblemData = new SensorsFieldData(sensorRatio, gridSizeX, gridSizeY);
 	
 	private static int[] numExecutions = {30};
 	private static Operator[] crossoverOperators = {
@@ -59,14 +59,14 @@ public class SensorsCoverageTestInstanceExecutor{
 		ArrayList<RunConfiguration> runConfigurations = getRunConfigurations();
 		int r = 0;
 		for(RunConfiguration runConf : runConfigurations) {
-			ArrayList<Individual> bestIndividuals = new ArrayList<Individual>();
+			ArrayList<BinaryRepresentationIndividual> bestIndividuals = new ArrayList<BinaryRepresentationIndividual>();
 			System.out.println("RunConf= "+r);
 			for(int i=0; i<runConf.getNumExecutions(); i++) {
 				bestIndividuals.add(sensorsCoverage(runConf));
 			}
 			r++;
 			runConf.setBestIndividualsAfterRun(new Population(bestIndividuals));
-			Individual bestFitIndividual = runConf.getBestFitIndividual(runConf.getObjectiveFunction());
+			BinaryRepresentationIndividual bestFitIndividual = runConf.getBestFitIndividual(runConf.getObjectiveFunction());
 			runConf.setBestFitIndividual(bestFitIndividual);
 			String filename = String.valueOf(runConf.getCrossoverProbability())+"-"+runConf.getCrossoverOperatorName()+"-"+runConf.getMaxGen()+".csv";
 			//CsvWriter.writeRunConfigurationInfo(outputDir, filename, runConf);
@@ -77,7 +77,7 @@ public class SensorsCoverageTestInstanceExecutor{
 		POIWriter.writeRelevantData(outputDir, "ResumenDatos", runConfigurations);
 	}
 	
-	public static Individual sensorsCoverage(RunConfiguration conf){
+	public static BinaryRepresentationIndividual sensorsCoverage(RunConfiguration conf){
 		ArrayList<Location> transmissorsPositions = getTransmissorsPositions();
 		addRandomDistributedSensors(conf.getRandomlyDistributedTransmissors(), conf.getGridSizeX(), conf.getGridSizeY(), transmissorsPositions);
 		
@@ -89,11 +89,11 @@ public class SensorsCoverageTestInstanceExecutor{
 		Operator selectionOperator = new BinaryTournamentSelectionOperator(sensorsCoverageOptimizationProblemData.getObjFunc());
 		Operator crossoverOperator = conf.getCrossoverOperator();
 		Operator mutationOperator = new BitFlipMutationOperator();
-		Operator replacementOperator = new ReplacementOperator(sensorsCoverageOptimizationProblemData.getObjFunc(), conf.getPopSolutionNumber());
+		Operator replacementOperator = new ReplacementOperator(sensorsCoverageOptimizationProblemData.getObjFunc());
 		
 		CanonicalGA ga = new CanonicalGA(transmissorsPositions.size(), conf.getPopSolutionNumber(), conf.getMaxGen(), conf.getCrossoverProbability(), conf.getMutationProbability(), 
 				selectionOperator, crossoverOperator, mutationOperator, replacementOperator, sensorsCoverageOptimizationProblemData);
-		Individual bestIndividual = ga.execute(conf.getTracing());
+		BinaryRepresentationIndividual bestIndividual = ga.execute(conf.getTracing());
 		return bestIndividual;
 	}
 	

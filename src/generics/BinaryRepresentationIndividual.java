@@ -2,21 +2,21 @@ package generics;
 
 import java.util.Random;
 
-public class Individual implements Cloneable, Comparable<Individual>{
+public class BinaryRepresentationIndividual implements Cloneable, Comparable<BinaryRepresentationIndividual>{
 	private int genotype[]; //sensor status allele
 	private double fitness;
 	
-	public Individual(int[] allele) {
+	public BinaryRepresentationIndividual(int[] allele) {
 		this.genotype = allele;
 	}
 	
-	public Individual(int[] allele, double fitness) {
+	public BinaryRepresentationIndividual(int[] allele, double fitness) {
 		super();
 		this.genotype = allele;
 		this.fitness = fitness;
 	}
 	
-	public Individual(int alleleLength) {
+	public BinaryRepresentationIndividual(int alleleLength) {
 		this.genotype = getBinaryString(alleleLength);
 	}
 
@@ -45,16 +45,16 @@ public class Individual implements Cloneable, Comparable<Individual>{
 		this.fitness = fitness;
 	}
 	
-	public Individual copy() {
+	public BinaryRepresentationIndividual copy() {
 		int[] oldAllele = this.getAllele();
 		int[] newAllele = new int[oldAllele.length];
 		for(int i=0; i<newAllele.length; i++) {
 			newAllele[i] = oldAllele[i];
 		}
-		return new Individual(newAllele, this.fitness);
+		return new BinaryRepresentationIndividual(newAllele, this.fitness);
 	}
 
-	public int compareTo(Individual ind, ObjectiveFunction objFunction) {
+	public int compareTo(BinaryRepresentationIndividual ind, ObjectiveFunction objFunction) {
 		if(objFunction.getFitness(this) < objFunction.getFitness(ind)) return 1;
 		else if (objFunction.getFitness(this) == objFunction.getFitness(ind)) return 0;
 		else if (objFunction.getFitness(this) > objFunction.getFitness(ind)) return -1; //lo agregue porque si no salta un error que dice que la funcion no es transitiva
@@ -74,7 +74,7 @@ public class Individual implements Cloneable, Comparable<Individual>{
 	}
 
 	@Override
-	public int compareTo(Individual ind2) {
+	public int compareTo(BinaryRepresentationIndividual ind2) {
 		if(fitness < ind2.getFitness()) return -1;
 		else if(fitness == ind2.getFitness()) return 0;
 		else return 1;

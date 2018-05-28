@@ -2,9 +2,9 @@ package other;
 
 import java.util.ArrayList;
 
-import generics.Individual;
+import generics.BinaryRepresentationIndividual;
 import generics.Location;
-import sensorsProblem.SensorFieldData;
+import sensorsProblem.SensorsFieldData;
 import sensorsProblem.CircularRatioObjectiveFunction;
 import sensorsProblem.SensorsProblemObjectiveFunction;
 import sensorsProblem.SquareRatioObjectiveFunction;
@@ -15,21 +15,21 @@ public class DrawCoverageGridTest {
 		String draw = "cuadrado";
 		int[] allele = {1};
 		//int[] allele = {1,1,1,1,1,1,1,1,1};
-		Individual ind = new Individual(allele);
+		BinaryRepresentationIndividual ind = new BinaryRepresentationIndividual(allele);
 		ArrayList<Location> transmissorsPositions = new ArrayList<Location>();
 		transmissorsPositions.add(new Location(30,30));
 		SensorsProblemObjectiveFunction obj;
 		int[][] coverageGrid;
 		
 		if(draw=="circulo") {
-			obj = new CircularRatioObjectiveFunction(new SensorFieldData(20, 60, 60),transmissorsPositions,2f);
+			obj = new CircularRatioObjectiveFunction(new SensorsFieldData(20, 60, 60),transmissorsPositions,2f);
 			coverageGrid = obj.getCoverageGrid(ind);
 			System.out.println(obj.getFitness(ind));
 			CsvWriter.writeGrid("circularGrid.csv", coverageGrid);
 			CsvWriter.writeSolution("", "circularGridSolution.csv", ind); //////SACARRRRRRRRR ""
 		}
 		else if(draw=="cuadrado") {
-			obj = new SquareRatioObjectiveFunction(new SensorFieldData(10, 60, 60),transmissorsPositions,2f);
+			obj = new SquareRatioObjectiveFunction(new SensorsFieldData(10, 60, 60),transmissorsPositions,2f);
 			coverageGrid = obj.getCoverageGrid(ind);
 			System.out.println(obj.getFitness(ind));
 			CsvWriter.writeGrid("circularGrid.csv", coverageGrid);

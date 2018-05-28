@@ -1,22 +1,24 @@
 package sensorsProblem;
 
-import generics.BinaryRepresentationIndividual;
 import generics.Location;
 
 public class SquareRatioObjectiveFunction extends SensorsProblemObjectiveFunction {
-	public SquareRatioObjectiveFunction(SensorsFieldData conf, float alfa){
+	public SquareRatioObjectiveFunction(SensorFieldData conf, float alfa){
 		super(conf, alfa);
 	}
 	
-	public int[][] getCoverageGrid(BinaryRepresentationIndividual ind) {
+	public int[][] getCoverageGrid(SensorsProblemIndividual individual) {
 		int coverageGrid[][] = initializeGrid();
-		int availableTransmissorsNumber = ind.getAllele().length; //transmisores disponibles para ser usados
+		int availableTransmissorsNumber = individual.getAllele().length; //transmisores disponibles para ser usados
 		
 		for(int t=0; t<availableTransmissorsNumber; t++) { //t = transmissor
-			int[] transmissorStatusAllele = ind.getAllele(); //describe el estado de los transmisores //apagados, desactivados
+			int[] transmissorStatusAllele = individual.getAllele(); //describe el estado de los transmisores //apagados, desactivados
 			if(transmissorStatusAllele[t]==1) {
-				SensorsProblemIndividual individual = (SensorsProblemIndividual) ind;
+<<<<<<< HEAD
+				Location transmissorLocation = individual.getTransmissorsPositions().get(t);
+=======
 				Location transmissorLocation = individual.getTransmissorsPositions()[t];
+>>>>>>> c4f9ead7b2e5f955f2d7bb53edea51163709ac2c
 				CoverageLimits limits = new SquareCoverageLimits(transmissorLocation, getConf());
 				for(int i=limits.getLimInfX(); i<limits.getLimSupX(); i++){
 					for(int j=limits.getLimInfY(); j<limits.getLimSupY(); j++) {

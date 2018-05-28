@@ -4,11 +4,11 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.StringTokenizer;
 
-import generics.Individual;
+import generics.BinaryRepresentationIndividual;
 import generics.ObjectiveFunction;
 import generics.Population;
 import operators.Operator;
-import sensorsProblem.SensorFieldData;
+import sensorsProblem.SensorsFieldData;
 import sensorsProblem.SensorsProblemObjectiveFunction;
 
 public class RunConfiguration {
@@ -23,14 +23,14 @@ public class RunConfiguration {
 	private double maxFit; //maximo fitness a encontrar hasta parar
 	private boolean tracing;
 	private int randomlyDistributedTransmissors;
-	private SensorFieldData searchSpaceProblemData;
+	private SensorsFieldData searchSpaceProblemData;
 	private int[] arrayCoord;
-	private Population bestIndividualsAfterRun;
-	private Individual bestFitIndividual;
+	private Population<BinaryRepresentationIndividual> bestIndividualsAfterRun;
+	private BinaryRepresentationIndividual bestFitIndividual;
 	
 	public RunConfiguration(int numExecutions, Operator crossoverOperator, int maxGen, float crossoverProbability,
 			SensorsProblemObjectiveFunction objectiveFunction, int popSolutionNumber, int alfa, double maxFit, boolean tracing, 
-			SensorFieldData searchSpaceProblemData, int randomlyDistributedTransmissors,	int[] arrayCoord) {
+			SensorsFieldData searchSpaceProblemData, int randomlyDistributedTransmissors,	int[] arrayCoord) {
 		super();
 		this.numExecutions = numExecutions;
 		this.crossoverOperator = crossoverOperator;
@@ -49,13 +49,13 @@ public class RunConfiguration {
 	}
 	
 	public String getInfo() {
-		double mean = bestIndividualsAfterRun.getPopulationFitnessMean(objectiveFunction);
+		double mean = objectiveFunction.getPopulationFitnessMean(bestIndividualsAfterRun);
 		DecimalFormatSymbols symbol = new DecimalFormatSymbols();
 		symbol.setDecimalSeparator(',');
 		DecimalFormat formatter = new DecimalFormat("#.###", symbol);
 		return  "DATOS DE CORRIDA Y POBLACION\n"+
 				"Media= "+ formatter.format(mean) +"\n" +
-				"Desvío estándar= "+ formatter.format(bestIndividualsAfterRun.getPopulationFitnessStandardDeviation(mean)) +"\n" +
+				"Desvío estándar= "+ formatter.format(objectiveFunction.getPopulationFitnessStandardDeviation(bestIndividualsAfterRun)) +"\n" +
 				"Fitness del mejor individuo= "+ formatter.format(bestFitIndividual.getFitness()) +"\n" +
 				"Cromosoma del mejor individuo= "+ bestFitIndividual.getAlleleString() +"\n" +
 				"Numero de sensores utilizado= " + bestFitIndividual.getAllele().length +"\n" +
@@ -79,12 +79,12 @@ public class RunConfiguration {
 		DecimalFormatSymbols symbol = new DecimalFormatSymbols();
 		symbol.setDecimalSeparator(',');
 		DecimalFormat formatter = new DecimalFormat("#.###", symbol);
-		double mean = bestIndividualsAfterRun.getPopulationFitnessMean(objectiveFunction);
+		double mean = objectiveFunction.getPopulationFitnessMean(bestIndividualsAfterRun);
 		array[0] = getName();
 		array[1] = formatter.format(getBestFitIndividual(objectiveFunction).getFitness());
 		array[2] = formatter.format(getWorstFitIndividual(objectiveFunction).getFitness());
 		array[3] = formatter.format(mean);
-		array[4] = formatter.format(bestIndividualsAfterRun.getPopulationFitnessStandardDeviation(mean));
+		array[4] = formatter.format(objectiveFunction.getPopulationFitnessMean(bestIndividualsAfterRun));
 		return array;
 	}
 	
@@ -229,11 +229,11 @@ public class RunConfiguration {
 		this.randomlyDistributedTransmissors = randomlyDistributedTransmissors;
 	}
 
-	public SensorFieldData getSearchSpaceProblemData() {
+	public SensorsFieldData getSearchSpaceProblemData() {
 		return searchSpaceProblemData;
 	}
 
-	public void setSearchSpaceProblemData(SensorFieldData searchSpaceProblemData) {
+	public void setSearchSpaceProblemData(SensorsFieldData searchSpaceProblemData) {
 		this.searchSpaceProblemData = searchSpaceProblemData;
 	}
 
@@ -245,23 +245,23 @@ public class RunConfiguration {
 		this.arrayCoord = arrayCoord;
 	}
 
-	public Individual getBestFitIndividual(ObjectiveFunction objFunc) {
-		return bestIndividualsAfterRun.getBestFitIndividual(objFunc);
+	public BinaryRepresentationIndividual getBestFitIndividual(ObjectiveFunction objFunc) {
+		return objFunc.getPopulationBestFitIndividual(bestIndividualsAfterRun);
 	}
 	
-	public Individual getWorstFitIndividual(ObjectiveFunction objFunc) {
-		return bestIndividualsAfterRun.getWorstFitIndividual(objFunc);
+	public BinaryRepresentationIndividual getWorstFitIndividual(ObjectiveFunction objFunc) {
+		return objFunc.getPopulationWorstFitIndividual(bestIndividualsAfterRun);
 	}
 	
-	public void setBestFitIndividual(Individual bestIndividual) {
+	public void setBestFitIndividual(BinaryRepresentationIndividual bestIndividual) {
 		this.bestFitIndividual = bestIndividual;
 	}
 
-	public Population getBestIndividualsAfterRun() {
+	public Population<BinaryRepresentationIndividual> getBestIndividualsAfterRun() {
 		return bestIndividualsAfterRun;
 	}
 
-	public void setBestIndividualsAfterRun(Population bestIndividualsAfterRun) {
+	public void setBestIndividualsAfterRun(Population<BinaryRepresentationIndividual> bestIndividualsAfterRun) {
 		this.bestIndividualsAfterRun = bestIndividualsAfterRun;
 	}
 }

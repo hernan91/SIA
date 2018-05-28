@@ -1,23 +1,26 @@
 package sensorsProblem;
 
-import java.util.ArrayList;
+import java.text.DecimalFormat;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
 
-import generics.Individual;
-import generics.Location;
+import generics.BinaryRepresentationIndividual;
 import generics.ObjectiveFunction;
+import generics.Population;
 
 public abstract class SensorsProblemObjectiveFunction extends ObjectiveFunction{
-	private SensorFieldData conf;
+	private SensorsFieldData conf;
 	private float alfa;
 	
 	
-	public SensorsProblemObjectiveFunction(SensorFieldData conf, float alfa) {
+	public SensorsProblemObjectiveFunction(SensorsFieldData conf, float alfa) {
 		super();
 		this.setConf(conf);
 		this.alfa = alfa;
 	}
 	
-	public abstract int[][] getCoverageGrid(SensorsProblemIndividual possibleSolution);
+	public abstract int[][] getCoverageGrid(BinaryRepresentationIndividual individual);
 	
 	protected int[][] initializeGrid(){
 		int grid[][] = new int[getConf().getGridSizeX()][getConf().getGridSizeY()];
@@ -40,7 +43,7 @@ public abstract class SensorsProblemObjectiveFunction extends ObjectiveFunction{
 		 */
 	}
 	
-	public int getCoveredPoints(int coverageGrid[][]) {
+	private int getCoveredPoints(int coverageGrid[][]) {
 		int coveredPoints = 0;
 		for(int i=0; i<getConf().getGridSizeX(); i++) {
 			for(int j=0; j<getConf().getGridSizeY(); j++) {
@@ -50,21 +53,87 @@ public abstract class SensorsProblemObjectiveFunction extends ObjectiveFunction{
 		return coveredPoints;
 	}
 	
-	public SensorFieldData getConf() {
+	public SensorsFieldData getConf() {
 		return conf;
 	}
 
-	public void setConf(SensorFieldData conf) {
+	public void setConf(SensorsFieldData conf) {
 		this.conf = conf;
 	}
 	
 	@Override
-	public double getFitness(Individual individual) {
-		SensorsProblemIndividual spIndividual = (SensorsProblemIndividual) individual;
-		int[][] coverageGrid =  getCoverageGrid(spIndividual);
+	public double getFitness(BinaryRepresentationIndividual individual) {;
+		int[][] coverageGrid =  getCoverageGrid(individual);
 		int usedTransmissors = 0;
 		for(int bit : individual.getAllele()) usedTransmissors += bit; 
 		return calcFitness(coverageGrid, usedTransmissors, alfa);
+	}
+
+	public void evaluatePopulation(Population<BinaryRepresentationIndividual> population) {
+		Iterator<BinaryRepresentationIndividual> it = population.getIndividuals().iterator();
+		while(it.hasNext()) {
+			BinaryRepresentationIndividual ind = it.next();
+			ind.setFitness(getFitness(ind));
+		}
+	}
+
+	@Override
+	public void sortPopulationByFitness(Population<BinaryRepresentationIndividual> population) {
+		evaluatePopulation(population);
+		Collections.sort(population.getIndividuals(), new Comparator<BinaryRepresentationIndividual>(){
+			@Override
+			public int compare(BinaryRepresentationIndividual ind1, BinaryRepresentationIndividual ind2) {
+				return ind1.compareTo(ind2);
+			}	
+		});
+		Collections.reverse(population.getIndividuals());
+	}
+	
+	@Override
+	public BinaryRepresentationIndividual getPopulationBestFitIndividual(Population<BinaryRepresentationIndividual> population) {
+		sortPopulationByFitness(population);
+		return population.getIndividuals().get(0);
+	}
+	
+	@Override
+	public BinaryRepresentationIndividual getPopulationWorstFitIndividual(Population<BinaryRepresentationIndividual> population) {
+		sortPopulationByFitness(population);
+		return population.getIndividuals().get(0);
+	}
+	
+	@Override
+	public double getPopulationFitnessMean(Population<BinaryRepresentationIndividual> population) {
+		evaluatePopulation(population);
+		Iterator<BinaryRepresentationIndividual> it = population.getIndividuals().iterator();
+		double summatory = 0; 
+		while(it.hasNext()) summatory += it.next().getFitness();
+		return summatory/population.getNumberOfIndividuals();
+	}
+	
+	@Override
+	public double getPopulationFitnessStandardDeviation(Population<BinaryRepresentationIndividual> population) {
+		Iterator<BinaryRepresentationIndividual> it = population.getIndividuals().iterator();
+		float sumatoriaCuad = 0;
+		while(it.hasNext()) sumatoriaCuad += Math.pow(it.next().getFitness()-getPopulationFitnessMean(population), 2);
+		return Math.sqrt(sumatoriaCuad/population.getNumberOfIndividuals());
+	}
+	
+	@Override
+	public void printPopulationStatisticInfo(Population<BinaryRepresentationIndividual> population, double optimalScore) {
+		BinaryRepresentationIndividual best = getPopulationBestFitIndividual(population);
+		double bestFitnessScore = best.getFitness();
+		double mean = getPopulationFitnessMean(population);
+		Iterator<BinaryRepresentationIndividual> it = population.getIndividuals().iterator();
+		float sumatoriaCuad = 0;
+		while(it.hasNext()) sumatoriaCuad += Math.pow(it.next().getFitness()-mean, 2);
+		DecimalFormat format = new DecimalFormat("#.###");
+		String str = "Mejor solucion:\n"
+				+ "Fitness= "+format.format(bestFitnessScore)+"\n"
+				+ "Error porcentual Ebest= "+format.format(((bestFitnessScore-optimalScore)/optimalScore)*100)+"%\n"
+				+ "Media poblacional Epop= "+format.format(mean)+"\n"
+				+ "Desviacion estandar= "+format.format(Math.sqrt(sumatoriaCuad/population.getNumberOfIndividuals()))+"\n"
+				+ ""+"\n";
+		System.out.println(str);
 	}
 }
 
