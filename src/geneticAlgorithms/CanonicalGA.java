@@ -4,13 +4,15 @@ package geneticAlgorithms;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.apache.poi.ss.formula.functions.T;
+
 import generics.BinaryRepresentationIndividual;
 import generics.ObjectiveFunction;
 import generics.Population;
 import generics.ProblemData;
 import operators.Operator;
 
-public class CanonicalGA {
+public class CanonicalGA <T extends BinaryRepresentationIndividual>{
 	private int alleleLength; //longitud del alelo
 	private int popSolutionNumber; //numero de soluciones de la poblacion
 	private int maxGen; //2000 numero màximo de generaciones
@@ -39,7 +41,7 @@ public class CanonicalGA {
 		this.data = data;
 	}
 
-	public BinaryRepresentationIndividual execute(Boolean tracing) {
+	public T execute(Boolean tracing) {
 		int genNumber = 0;
 		double bestFitness = 0;
 		ObjectiveFunction objFunc = data.getObjFunc();
@@ -53,7 +55,7 @@ public class CanonicalGA {
 			genNumber++;
 		}
 		while( genNumber<getMaxGen() && bestFitness<data.getMaxFit() );
-		BinaryRepresentationIndividual bestIndividual = objFunc.getPopulationBestFitIndividual(replacedPopulation);
+		T bestIndividual = (T) objFunc.getPopulationBestFitIndividual(replacedPopulation);
 		if(tracing) {
 			System.out.println("Numero de iteraciones necesarias= "+genNumber);
 			bestIndividual.printAllele();

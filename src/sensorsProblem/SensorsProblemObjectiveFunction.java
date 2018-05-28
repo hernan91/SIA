@@ -9,7 +9,7 @@ import generics.BinaryRepresentationIndividual;
 import generics.ObjectiveFunction;
 import generics.Population;
 
-public abstract class SensorsProblemObjectiveFunction extends ObjectiveFunction {
+public abstract class SensorsProblemObjectiveFunction<T extends SensorsProblemIndividual> extends ObjectiveFunction<T> {
 	private SensorsFieldData conf;
 	private float alfa;
 	
@@ -62,23 +62,23 @@ public abstract class SensorsProblemObjectiveFunction extends ObjectiveFunction 
 	}
 	
 
-	public double getFitness(BinaryRepresentationIndividual individual) {;
+	public double getFitness(T individual) {;
 		int[][] coverageGrid =  getCoverageGrid(individual);
 		int usedTransmissors = 0;
 		for(int bit : individual.getAllele()) usedTransmissors += bit; 
 		return calcFitness(coverageGrid, usedTransmissors, alfa);
 	}
 
-	public void evaluatePopulation(Population<BinaryRepresentationIndividual> population) {
-		Iterator<BinaryRepresentationIndividual> it = population.getIndividuals().iterator();
+	public void evaluatePopulation(Population<T> population) {
+		Iterator<T> it = population.getIndividuals().iterator();
 		while(it.hasNext()) {
-			BinaryRepresentationIndividual ind = it.next();
+			T ind = it.next();
 			ind.setFitness(getFitness(ind));
 		}
 	}
 
 	@Override
-	public void sortPopulationByFitness(Population<BinaryRepresentationIndividual> population) {
+	public void sortPopulationByFitness(Population<T> population) {
 		evaluatePopulation(population);
 		Collections.sort(population.getIndividuals(), new Comparator<BinaryRepresentationIndividual>(){
 			@Override
@@ -90,40 +90,40 @@ public abstract class SensorsProblemObjectiveFunction extends ObjectiveFunction 
 	}
 	
 	@Override
-	public BinaryRepresentationIndividual getPopulationBestFitIndividual(Population<BinaryRepresentationIndividual> population) {
+	public T getPopulationBestFitIndividual(Population<T> population) {
 		sortPopulationByFitness(population);
 		return population.getIndividuals().get(0);
 	}
 	
 	@Override
-	public BinaryRepresentationIndividual getPopulationWorstFitIndividual(Population<BinaryRepresentationIndividual> population) {
+	public T getPopulationWorstFitIndividual(Population<T> population) {
 		sortPopulationByFitness(population);
 		return population.getIndividuals().get(0);
 	}
 	
 	@Override
-	public double getPopulationFitnessMean(Population<BinaryRepresentationIndividual> population) {
+	public double getPopulationFitnessMean(Population<T> population) {
 		evaluatePopulation(population);
-		Iterator<BinaryRepresentationIndividual> it = population.getIndividuals().iterator();
+		Iterator<T> it = population.getIndividuals().iterator();
 		double summatory = 0; 
 		while(it.hasNext()) summatory += it.next().getFitness();
 		return summatory/population.getNumberOfIndividuals();
 	}
 	
 	@Override
-	public double getPopulationFitnessStandardDeviation(Population<BinaryRepresentationIndividual> population) {
-		Iterator<BinaryRepresentationIndividual> it = population.getIndividuals().iterator();
+	public double getPopulationFitnessStandardDeviation(Population<T> population) {
+		Iterator<T> it = population.getIndividuals().iterator();
 		float sumatoriaCuad = 0;
 		while(it.hasNext()) sumatoriaCuad += Math.pow(it.next().getFitness()-getPopulationFitnessMean(population), 2);
 		return Math.sqrt(sumatoriaCuad/population.getNumberOfIndividuals());
 	}
 	
 	@Override
-	public void printPopulationStatisticInfo(Population<BinaryRepresentationIndividual> population, double optimalScore) {
+	public void printPopulationStatisticInfo(Population<T> population, double optimalScore) {
 		BinaryRepresentationIndividual best = getPopulationBestFitIndividual(population);
 		double bestFitnessScore = best.getFitness();
 		double mean = getPopulationFitnessMean(population);
-		Iterator<BinaryRepresentationIndividual> it = population.getIndividuals().iterator();
+		Iterator<T> it = population.getIndividuals().iterator();
 		float sumatoriaCuad = 0;
 		while(it.hasNext()) sumatoriaCuad += Math.pow(it.next().getFitness()-mean, 2);
 		DecimalFormat format = new DecimalFormat("#.###");
