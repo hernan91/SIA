@@ -5,6 +5,7 @@ import java.text.DecimalFormatSymbols;
 import java.util.StringTokenizer;
 
 import generics.BinaryRepresentationIndividual;
+import generics.Location;
 import generics.ObjectiveFunction;
 import generics.Population;
 import operators.Operator;
@@ -18,20 +19,21 @@ public class RunConfiguration <T extends BinaryRepresentationIndividual>{
 	private int maxGen;
 	private float crossoverProbability;
 	private float mutationProbability; //1/popSOoutionNumber
-	private SensorsProblemObjectiveFunction objectiveFunction;
+	private ObjectiveFunction<T> objectiveFunction;
 	private int popSolutionNumber; //numero de soluciones de la poblacion
 	private int alfa; //siempre tiene que ser >1 para que funcione bien la func objetivo
 	private double maxFit; //maximo fitness a encontrar hasta parar
 	private boolean tracing;
 	private int randomlyDistributedTransmissors;
 	private SensorsFieldData searchSpaceProblemData;
-	private int[] arrayCoord;
+	private Location[] prefixedPositions;
+	private int alleleLength;
 	private Population<T> bestIndividualsAfterRun;
 	private T bestFitIndividual;
 	
 	public RunConfiguration(int numExecutions, Operator crossoverOperator, Operator mutationOperator, int maxGen, float crossoverProbability,
-			SensorsProblemObjectiveFunction objectiveFunction, int popSolutionNumber, int alfa, double maxFit, boolean tracing, 
-			SensorsFieldData searchSpaceProblemData, int randomlyDistributedTransmissors,	int[] arrayCoord) {
+			ObjectiveFunction<T> objectiveFunction, int popSolutionNumber, int alfa, double maxFit, boolean tracing, 
+			SensorsFieldData searchSpaceProblemData, Location[] prefixedPositions, int alleleLength) {
 		super();
 		this.numExecutions = numExecutions;
 		this.crossoverOperator = crossoverOperator;
@@ -46,18 +48,19 @@ public class RunConfiguration <T extends BinaryRepresentationIndividual>{
 		this.maxFit = maxFit;
 		this.tracing = tracing;
 		this.searchSpaceProblemData = searchSpaceProblemData;
-		this.randomlyDistributedTransmissors = randomlyDistributedTransmissors;
-		this.arrayCoord = arrayCoord;
+		this.alleleLength = alleleLength;
+		this.randomlyDistributedTransmissors = alleleLength-prefixedPositions.length;
+		this.prefixedPositions = prefixedPositions;
 	}
 	
 	public String getInfo() {
-		double mean = objectiveFunction.getPopulationFitnessMean((Population<BinaryRepresentationIndividual>) bestIndividualsAfterRun);
+		double mean = objectiveFunction.getPopulationFitnessMean( bestIndividualsAfterRun);
 		DecimalFormatSymbols symbol = new DecimalFormatSymbols();
 		symbol.setDecimalSeparator(',');
 		DecimalFormat formatter = new DecimalFormat("#.###", symbol);
 		return  "DATOS DE CORRIDA Y POBLACION\n"+
 				"Media= "+ formatter.format(mean) +"\n" +
-				"Desvío estándar= "+ formatter.format(objectiveFunction.getPopulationFitnessStandardDeviation((Population<BinaryRepresentationIndividual>)bestIndividualsAfterRun)) +"\n" +
+				"Desvío estándar= "+ formatter.format(objectiveFunction.getPopulationFitnessStandardDeviation((Population<T>)bestIndividualsAfterRun)) +"\n" +
 				"Fitness del mejor individuo= "+ formatter.format(bestFitIndividual.getFitness()) +"\n" +
 				"Cromosoma del mejor individuo= "+ bestFitIndividual.getAlleleString() +"\n" +
 				"Numero de sensores utilizado= " + bestFitIndividual.getAllele().length +"\n" +
@@ -82,12 +85,12 @@ public class RunConfiguration <T extends BinaryRepresentationIndividual>{
 		DecimalFormatSymbols symbol = new DecimalFormatSymbols();
 		symbol.setDecimalSeparator(',');
 		DecimalFormat formatter = new DecimalFormat("#.###", symbol);
-		double mean = objectiveFunction.getPopulationFitnessMean((Population<BinaryRepresentationIndividual>)bestIndividualsAfterRun);
+		double mean = objectiveFunction.getPopulationFitnessMean((Population<T>)bestIndividualsAfterRun);
 		array[0] = getName();
 		array[1] = formatter.format(getBestFitIndividual(objectiveFunction).getFitness());
 		array[2] = formatter.format(getWorstFitIndividual(objectiveFunction).getFitness());
 		array[3] = formatter.format(mean);
-		array[4] = formatter.format(objectiveFunction.getPopulationFitnessMean((Population<BinaryRepresentationIndividual>)bestIndividualsAfterRun));
+		array[4] = formatter.format(objectiveFunction.getPopulationFitnessMean((Population<T>)bestIndividualsAfterRun));
 		return array;
 	}
 	
@@ -157,7 +160,7 @@ public class RunConfiguration <T extends BinaryRepresentationIndividual>{
 		this.mutationProbability = mutationProbability;
 	}
 
-	public SensorsProblemObjectiveFunction getObjectiveFunction() {
+	public ObjectiveFunction<T> getObjectiveFunction() {
 		return objectiveFunction;
 	}
 	
@@ -175,7 +178,7 @@ public class RunConfiguration <T extends BinaryRepresentationIndividual>{
 		return getObjectiveFunctionName()+"-"+getCrossoverProbability()+"-"+getCrossoverOperatorName()+"-"+getMaxGen();
 	}
 
-	public void setObjectiveFunction(SensorsProblemObjectiveFunction objectiveFunction) {
+	public void setObjectiveFunction(ObjectiveFunction<T> objectiveFunction) {
 		this.objectiveFunction = objectiveFunction;
 	}
 
@@ -251,20 +254,20 @@ public class RunConfiguration <T extends BinaryRepresentationIndividual>{
 		this.searchSpaceProblemData = searchSpaceProblemData;
 	}
 
-	public int[] getArrayCoord() {
-		return arrayCoord;
+	public Location[] getPrefixedPositions() {
+		return prefixedPositions;
 	}
 
-	public void setArrayCoord(int[] arrayCoord) {
-		this.arrayCoord = arrayCoord;
+	public void setPrefixedPositions(Location[] arrayCoord) {
+		this.prefixedPositions = arrayCoord;
 	}
 
-	public T getBestFitIndividual(ObjectiveFunction objFunc) {
-		return (T) objFunc.getPopulationBestFitIndividual( (Population<BinaryRepresentationIndividual>) bestIndividualsAfterRun);
+	public T getBestFitIndividual(ObjectiveFunction<T> objFunc) {
+		return objFunc.getPopulationBestFitIndividual( bestIndividualsAfterRun);
 	}
 	
-	public T getWorstFitIndividual(ObjectiveFunction objFunc) {
-		return (T) objFunc.getPopulationWorstFitIndividual((Population<BinaryRepresentationIndividual>) bestIndividualsAfterRun);
+	public T getWorstFitIndividual(ObjectiveFunction<T> objFunc) {
+		return objFunc.getPopulationWorstFitIndividual( bestIndividualsAfterRun);
 	}
 	
 	public void setBestFitIndividual(T bestIndividual) {
@@ -289,5 +292,13 @@ public class RunConfiguration <T extends BinaryRepresentationIndividual>{
 
 	public BinaryRepresentationIndividual getBestFitIndividual() {
 		return bestFitIndividual;
+	}
+
+	public int getAlleleLength() {
+		return alleleLength;
+	}
+
+	public void setAlleleLength(int alleleLength) {
+		this.alleleLength = alleleLength;
 	}
 }

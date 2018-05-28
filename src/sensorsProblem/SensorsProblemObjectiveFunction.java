@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 
-import generics.BinaryRepresentationIndividual;
 import generics.ObjectiveFunction;
 import generics.Population;
 
@@ -20,7 +19,7 @@ public abstract class SensorsProblemObjectiveFunction<T extends SensorsProblemIn
 		this.alfa = alfa;
 	}
 	
-	public abstract int[][] getCoverageGrid(BinaryRepresentationIndividual individual);
+	public abstract int[][] getCoverageGrid(T individual);
 	
 	protected int[][] initializeGrid(){
 		int grid[][] = new int[getConf().getGridSizeX()][getConf().getGridSizeY()];
@@ -80,9 +79,9 @@ public abstract class SensorsProblemObjectiveFunction<T extends SensorsProblemIn
 	@Override
 	public void sortPopulationByFitness(Population<T> population) {
 		evaluatePopulation(population);
-		Collections.sort(population.getIndividuals(), new Comparator<BinaryRepresentationIndividual>(){
+		Collections.sort(population.getIndividuals(), new Comparator<T>(){
 			@Override
-			public int compare(BinaryRepresentationIndividual ind1, BinaryRepresentationIndividual ind2) {
+			public int compare(T ind1, T ind2) {
 				return ind1.compareTo(ind2);
 			}	
 		});
@@ -120,7 +119,7 @@ public abstract class SensorsProblemObjectiveFunction<T extends SensorsProblemIn
 	
 	@Override
 	public void printPopulationStatisticInfo(Population<T> population, double optimalScore) {
-		BinaryRepresentationIndividual best = getPopulationBestFitIndividual(population);
+		T best = getPopulationBestFitIndividual(population);
 		double bestFitnessScore = best.getFitness();
 		double mean = getPopulationFitnessMean(population);
 		Iterator<T> it = population.getIndividuals().iterator();

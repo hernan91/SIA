@@ -1,6 +1,6 @@
 package generics;
 
-public abstract class ObjectiveFunction <T extends BinaryRepresentationIndividual>{
+public abstract class ObjectiveFunction<T extends BinaryRepresentationIndividual>{
 	
 	public abstract double getFitness(T individual);
 	

@@ -54,7 +54,7 @@ public class BinaryRepresentationIndividual implements Cloneable, Comparable<Bin
 		return new BinaryRepresentationIndividual(newAllele, this.fitness);
 	}
 
-	public int compareTo(BinaryRepresentationIndividual ind, ObjectiveFunction objFunction) {
+	public int compareTo(BinaryRepresentationIndividual ind, ObjectiveFunction<BinaryRepresentationIndividual> objFunction) {
 		if(objFunction.getFitness(this) < objFunction.getFitness(ind)) return 1;
 		else if (objFunction.getFitness(this) == objFunction.getFitness(ind)) return 0;
 		else if (objFunction.getFitness(this) > objFunction.getFitness(ind)) return -1; //lo agregue porque si no salta un error que dice que la funcion no es transitiva
