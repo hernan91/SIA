@@ -7,7 +7,7 @@ import generics.BinaryRepresentationIndividual;
 import generics.Location;
 import sensorsProblem.SensorsProblemIndividual;
 
-public class SensorsProblemMutationOperator {
+public class SensorsProblemMutationOperator extends Operator{
 	public ArrayList<BinaryRepresentationIndividual> operate(ArrayList<BinaryRepresentationIndividual> individuals) {
 		SensorsProblemIndividual individual = (SensorsProblemIndividual) individuals.get(0);
 		int[] allele = individual.getAllele();
@@ -24,11 +24,12 @@ public class SensorsProblemMutationOperator {
 			if(moveOrRemoveProbability>0.5) 
 				individual.moveSensorToRandomLocation(choosenPos);
 			else {
+				allele[choosenPos] = 0;
 				transmissorsPositions[choosenPos] = null;
 			}
 		}
-		ArrayList<BinaryRepresentationIndividual> out = new ArrayList<BinaryRepresentationIndividual>();
-		out.add(individual);
-		return out;
+		//ArrayList<BinaryRepresentationIndividual> out = new ArrayList<BinaryRepresentationIndividual>();
+		//out.add(individual);
+		return individuals;
 	}
 }

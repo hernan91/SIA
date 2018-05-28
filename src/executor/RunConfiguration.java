@@ -11,9 +11,10 @@ import operators.Operator;
 import sensorsProblem.SensorsFieldData;
 import sensorsProblem.SensorsProblemObjectiveFunction;
 
-public class RunConfiguration {
+public class RunConfiguration <T extends BinaryRepresentationIndividual>{
 	private int numExecutions;
 	private Operator crossoverOperator;
+	private Operator mutationOperator;
 	private int maxGen;
 	private float crossoverProbability;
 	private float mutationProbability; //1/popSOoutionNumber
@@ -25,15 +26,16 @@ public class RunConfiguration {
 	private int randomlyDistributedTransmissors;
 	private SensorsFieldData searchSpaceProblemData;
 	private int[] arrayCoord;
-	private Population<BinaryRepresentationIndividual> bestIndividualsAfterRun;
-	private BinaryRepresentationIndividual bestFitIndividual;
+	private Population<T> bestIndividualsAfterRun;
+	private T bestFitIndividual;
 	
-	public RunConfiguration(int numExecutions, Operator crossoverOperator, int maxGen, float crossoverProbability,
+	public RunConfiguration(int numExecutions, Operator crossoverOperator, Operator mutationOperator, int maxGen, float crossoverProbability,
 			SensorsProblemObjectiveFunction objectiveFunction, int popSolutionNumber, int alfa, double maxFit, boolean tracing, 
 			SensorsFieldData searchSpaceProblemData, int randomlyDistributedTransmissors,	int[] arrayCoord) {
 		super();
 		this.numExecutions = numExecutions;
 		this.crossoverOperator = crossoverOperator;
+		this.mutationOperator = mutationOperator;
 		this.maxGen = maxGen;
 		this.crossoverProbability = crossoverProbability;
 		//this.mutationProbability = mutationProbability;
@@ -49,19 +51,20 @@ public class RunConfiguration {
 	}
 	
 	public String getInfo() {
-		double mean = objectiveFunction.getPopulationFitnessMean(bestIndividualsAfterRun);
+		double mean = objectiveFunction.getPopulationFitnessMean((Population<BinaryRepresentationIndividual>) bestIndividualsAfterRun);
 		DecimalFormatSymbols symbol = new DecimalFormatSymbols();
 		symbol.setDecimalSeparator(',');
 		DecimalFormat formatter = new DecimalFormat("#.###", symbol);
 		return  "DATOS DE CORRIDA Y POBLACION\n"+
 				"Media= "+ formatter.format(mean) +"\n" +
-				"Desvío estándar= "+ formatter.format(objectiveFunction.getPopulationFitnessStandardDeviation(bestIndividualsAfterRun)) +"\n" +
+				"Desvío estándar= "+ formatter.format(objectiveFunction.getPopulationFitnessStandardDeviation((Population<BinaryRepresentationIndividual>)bestIndividualsAfterRun)) +"\n" +
 				"Fitness del mejor individuo= "+ formatter.format(bestFitIndividual.getFitness()) +"\n" +
 				"Cromosoma del mejor individuo= "+ bestFitIndividual.getAlleleString() +"\n" +
 				"Numero de sensores utilizado= " + bestFitIndividual.getAllele().length +"\n" +
 				"Numero de sensores aleatoriamente distribuidos= " + randomlyDistributedTransmissors +"\n"+
 				"Numero de ejecuciones= "+ numExecutions +"\n" +
 				"Operador de cruza= "+ getCrossoverOperatorName() +"\n" +
+				"Operador de mutacion= "+ getMutationOperatorName() +"\n" +
 				"Numero de generaciones= "+ maxGen +"\n" +
 				"Probabilidad de cruza= "+ crossoverProbability +"\n" +
 				"Probabilidad de mutación= "+ mutationProbability +"\n" +
@@ -79,12 +82,12 @@ public class RunConfiguration {
 		DecimalFormatSymbols symbol = new DecimalFormatSymbols();
 		symbol.setDecimalSeparator(',');
 		DecimalFormat formatter = new DecimalFormat("#.###", symbol);
-		double mean = objectiveFunction.getPopulationFitnessMean(bestIndividualsAfterRun);
+		double mean = objectiveFunction.getPopulationFitnessMean((Population<BinaryRepresentationIndividual>)bestIndividualsAfterRun);
 		array[0] = getName();
 		array[1] = formatter.format(getBestFitIndividual(objectiveFunction).getFitness());
 		array[2] = formatter.format(getWorstFitIndividual(objectiveFunction).getFitness());
 		array[3] = formatter.format(mean);
-		array[4] = formatter.format(objectiveFunction.getPopulationFitnessMean(bestIndividualsAfterRun));
+		array[4] = formatter.format(objectiveFunction.getPopulationFitnessMean((Population<BinaryRepresentationIndividual>)bestIndividualsAfterRun));
 		return array;
 	}
 	
@@ -113,6 +116,17 @@ public class RunConfiguration {
 			case "ThreePointCrossoverOperator": return "Cruza3Puntos";
 		}
 		return "None";
+	}
+	
+	public String getMutationOperatorName() {
+		String s = mutationOperator.getClass().getName();
+		s = s.substring(s.indexOf(".")+1);
+//		switch(s) {
+//			case "OnePointCrossoverOperator": return "Cruza1Punto";
+//			case "TwoPointCrossoverOperator": return "Cruza2Puntos";
+//			case "ThreePointCrossoverOperator": return "Cruza3Puntos";
+//		}
+		return s;
 	}
 	
 	public void setCrossoverOperator(Operator crossoverOperator) {
@@ -245,23 +259,35 @@ public class RunConfiguration {
 		this.arrayCoord = arrayCoord;
 	}
 
-	public BinaryRepresentationIndividual getBestFitIndividual(ObjectiveFunction objFunc) {
-		return objFunc.getPopulationBestFitIndividual(bestIndividualsAfterRun);
+	public T getBestFitIndividual(ObjectiveFunction objFunc) {
+		return (T) objFunc.getPopulationBestFitIndividual( (Population<BinaryRepresentationIndividual>) bestIndividualsAfterRun);
 	}
 	
-	public BinaryRepresentationIndividual getWorstFitIndividual(ObjectiveFunction objFunc) {
-		return objFunc.getPopulationWorstFitIndividual(bestIndividualsAfterRun);
+	public T getWorstFitIndividual(ObjectiveFunction objFunc) {
+		return (T) objFunc.getPopulationWorstFitIndividual((Population<BinaryRepresentationIndividual>) bestIndividualsAfterRun);
 	}
 	
-	public void setBestFitIndividual(BinaryRepresentationIndividual bestIndividual) {
+	public void setBestFitIndividual(T bestIndividual) {
 		this.bestFitIndividual = bestIndividual;
 	}
 
-	public Population<BinaryRepresentationIndividual> getBestIndividualsAfterRun() {
+	public Population<T> getBestIndividualsAfterRun() {
 		return bestIndividualsAfterRun;
 	}
 
-	public void setBestIndividualsAfterRun(Population<BinaryRepresentationIndividual> bestIndividualsAfterRun) {
+	public void setBestIndividualsAfterRun(Population<T> bestIndividualsAfterRun) {
 		this.bestIndividualsAfterRun = bestIndividualsAfterRun;
+	}
+
+	public Operator getMutationOperator() {
+		return mutationOperator;
+	}
+
+	public void setMutationOperator(Operator mutationOperator) {
+		this.mutationOperator = mutationOperator;
+	}
+
+	public BinaryRepresentationIndividual getBestFitIndividual() {
+		return bestFitIndividual;
 	}
 }

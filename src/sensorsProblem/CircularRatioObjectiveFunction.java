@@ -1,5 +1,6 @@
 package sensorsProblem;
 
+import generics.BinaryRepresentationIndividual;
 import generics.Location;
 
 public class CircularRatioObjectiveFunction extends SensorsProblemObjectiveFunction {
@@ -8,13 +9,14 @@ public class CircularRatioObjectiveFunction extends SensorsProblemObjectiveFunct
 	}
 	
 	//cambiar a protected luego de la prueba
-	public int[][] getCoverageGrid(SensorsProblemIndividual individual) {
+	public int[][] getCoverageGrid(BinaryRepresentationIndividual ind) {
 		int coverageGrid[][] = initializeGrid();
-		int availableTransmissorsNumber = individual.getAllele().length; //transmisores disponibles para ser usados
+		int availableTransmissorsNumber = ind.getAllele().length; //transmisores disponibles para ser usados
 		
 		for(int t=0; t<availableTransmissorsNumber; t++) { //t = transmissor
-			int[] transmissorStatusAllele = individual.getAllele(); //describe el estado de los transmisores //apagados, desactivados
+			int[] transmissorStatusAllele = ind.getAllele(); //describe el estado de los transmisores //apagados, desactivados
 			if(transmissorStatusAllele[t]==1) {
+				SensorsProblemIndividual individual = (SensorsProblemIndividual) ind;
 				Location transmissorLocation = individual.getTransmissorsPositions()[t];
 				int centerX = transmissorLocation.getPosX();
 				int centerY = transmissorLocation.getPosY();

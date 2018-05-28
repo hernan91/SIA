@@ -27,7 +27,7 @@ public class SensorsProblemIndividual extends BinaryRepresentationIndividual {
 		int alleleLength = this.getAllele().length;
 		Location[] locationArray = new Location[alleleLength];
 		for(int i=0; i<alleleLength; i++) {
-			locationArray[i] = getRandomLocation();
+			locationArray[i] = this.getAllele()[i]==1? getRandomLocation():null;
 		}
 		return locationArray;
 	}
@@ -39,8 +39,9 @@ public class SensorsProblemIndividual extends BinaryRepresentationIndividual {
 		Location[] oldLocations = this.getTransmissorsPositions();
 		Location[] newLocations = new Location[oldLocations.length];
 		for(int i=0; i<newAllele.length; i++) {
+			if(oldAllele[i]==1) newLocations[i] = new Location(oldLocations[i].getPosX(), oldLocations[i].getPosY());
+			else newLocations[i] = null;
 			newAllele[i] = oldAllele[i];
-			newLocations[i] = new Location(oldLocations[i].getPosX(), oldLocations[i].getPosY()); 
 		}
 		return new SensorsProblemIndividual(newAllele, newLocations, this.getFitness(), sensorsFieldData);
 	}

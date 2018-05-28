@@ -1,18 +1,15 @@
 package other;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 import generics.BinaryRepresentationIndividual;
 import generics.Population;
 import operators.SensorsProblemMutationOperator;
 import operators.SensorsProblemOnePointCrossoverOperator;
+import sensorsProblem.CircularRatioObjectiveFunction;
 import sensorsProblem.SensorsFieldData;
 import sensorsProblem.SensorsProblemIndividual;
-import sensorsProblem.SensorsProblemPopulation;
-import sensorsProblem.SquareRatioObjectiveFunction;
 import utils.IndividualsListCreator;
-import utils.Utils;
 
 public class Test {
 	public static void main(String args[]) {
@@ -20,21 +17,20 @@ public class Test {
 		int alleleLength = 4;
 		int numberOfIndividuals = 2;
 		SensorsFieldData areaData = new SensorsFieldData(range, 20, 20);
-		SquareRatioObjectiveFunction objFunc = new SquareRatioObjectiveFunction(areaData, 2);
+		CircularRatioObjectiveFunction objFunc = new CircularRatioObjectiveFunction(areaData, 2);
 		String dir = "/home/hernan/git/SIA/pruebona";
 		
 		Population<SensorsProblemIndividual> pop1 = 
 				new Population<>(IndividualsListCreator.createSensorsProblemIndividualList(alleleLength, numberOfIndividuals, areaData));
-		//objFunc.sortPopulationByFitness(Utils.fromSensorsProblemPopToPop(pop1));
-		objFunc.evaluatePopulation(pop1);
+		objFunc.evaluatePopulation((Population<BinaryRepresentationIndividual>)(Population)(pop1));
 		pop1.printPop();
-		//CsvWriter.writeIndividuals(dir+"/pop1", pop1);
+		CsvWriter.writeIndividuals(dir+"/pop1", pop1);
 		
-//		Population<BinaryRepresentationIndividual> pop2 = Utils.fromSensorsProblemPopToPop(pop1.copy());
-//		SensorsProblemOnePointCrossoverOperator crossOp = new SensorsProblemOnePointCrossoverOperator();
-//		crossOp.operate(pop2.getIndividuals());
-//		objFunc.evaluatePopulation(pop2);
-//		pop2.printPop();
+		Population<SensorsProblemIndividual> pop2 = pop1.copy();
+		SensorsProblemOnePointCrossoverOperator crossOp = new SensorsProblemOnePointCrossoverOperator();
+		crossOp.operate((ArrayList<BinaryRepresentationIndividual>)(ArrayList)pop2.getIndividuals());
+		objFunc.evaluatePopulation((Population<BinaryRepresentationIndividual>)(Population)pop2);
+		pop2.printPop();
 		//CsvWriter.writeIndividuals(dir+"/pop2", pop2);
 		
 		Population<SensorsProblemIndividual> pop3 = pop1.copy();
@@ -44,7 +40,7 @@ public class Test {
 			individual.add(ind);
 			mutOp.operate(individual);
 		}
-		objFunc.evaluatePopulation(Utils.fromSensorsProblemPopToPop(pop3));
+		objFunc.evaluatePopulation((Population<BinaryRepresentationIndividual>)(Population)(pop3));
 		pop3.printPop();
 		CsvWriter.writeIndividuals(dir+"/pop3", pop3);
 		

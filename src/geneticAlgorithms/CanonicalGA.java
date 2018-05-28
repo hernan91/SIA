@@ -43,10 +43,10 @@ public class CanonicalGA {
 		int genNumber = 0;
 		double bestFitness = 0;
 		ObjectiveFunction objFunc = data.getObjFunc();
-		Population replacedPopulation = new Population(getAlleleLength(), getPopSolutionNumber());
+		Population<BinaryRepresentationIndividual> replacedPopulation = new Population<BinaryRepresentationIndividual>(getAlleleLength(), getPopSolutionNumber());
 		do{
-			Population selectedParentsPopulation = applySelectionStrategy(replacedPopulation);
-			Population offspringPopulation = applyReproductionStrategy(selectedParentsPopulation);
+			Population<BinaryRepresentationIndividual> selectedParentsPopulation = applySelectionStrategy(replacedPopulation);
+			Population<BinaryRepresentationIndividual> offspringPopulation = applyReproductionStrategy(selectedParentsPopulation);
 			replacedPopulation = applyReplacementStrategy(replacedPopulation, offspringPopulation);
 			bestFitness = objFunc.getPopulationBestFitIndividual(replacedPopulation).getFitness();
 			if(tracing) objFunc.printPopulationStatisticInfo(replacedPopulation, data.getMaxFit());
@@ -62,18 +62,18 @@ public class CanonicalGA {
 		return bestIndividual;
 	}
 	
-	private Population applySelectionStrategy(Population population) {
+	private Population<BinaryRepresentationIndividual> applySelectionStrategy(Population<BinaryRepresentationIndividual> population) {
 		population = population.copy();
 		ArrayList<BinaryRepresentationIndividual> selectedIndividuals = new ArrayList<BinaryRepresentationIndividual>();
 		for(int i=0; i<population.getNumberOfIndividuals(); i++) {
 			ArrayList<BinaryRepresentationIndividual> selectedInd = selectionOperator.operate(population.getIndividuals());
 			selectedIndividuals.add(selectedInd.get(0));
 		}
-		return new Population(selectedIndividuals);
+		return new Population<BinaryRepresentationIndividual>(selectedIndividuals);
 	}
 	
 	
-	private Population applyReproductionStrategy(Population population) {
+	private Population<BinaryRepresentationIndividual> applyReproductionStrategy(Population<BinaryRepresentationIndividual> population) {
 		population = population.copy();
 		ArrayList<BinaryRepresentationIndividual> offSprings = new ArrayList<BinaryRepresentationIndividual>();
 		Random rand = new Random();
@@ -90,13 +90,14 @@ public class CanonicalGA {
 			}
 			offSprings.addAll(individuals);
 		}
-		return new Population(offSprings);
+		return new Population<BinaryRepresentationIndividual>(offSprings);
 	}
 	
-	private Population applyReplacementStrategy(Population population1, Population population2) {
-		Population nextPop = population1.copy();
+	private Population<BinaryRepresentationIndividual> applyReplacementStrategy(
+			Population<BinaryRepresentationIndividual> population1, Population<BinaryRepresentationIndividual> population2) {
+		Population<BinaryRepresentationIndividual> nextPop = population1.copy();
 		nextPop.getIndividuals().addAll(population2.copy().getIndividuals());
-		return new Population(replacementOperator.operate(nextPop.getIndividuals()));
+		return new Population<BinaryRepresentationIndividual>(replacementOperator.operate(nextPop.getIndividuals()));
 	}
 
 	public int getAlleleLength() {
