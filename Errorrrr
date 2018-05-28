@@ -1,0 +1,27 @@
+El error comenzo por algo 
+
+String individualClassname = individual.getClass().getName();
+		String problemDataClassname = data.getClass().getName();
+		try {
+			Class<?> SensorsProblemIndividual = Class.forName(individual.getClass().getName());
+			Class<?> SensorsProblemData = Class.forName(data.getClass().getName());
+			Constructor<?> constructor = SensorsProblemIndividual.getConstructor(int.class, ProblemData.class);
+			Method method = ProblemData.class.getMethod("getSensorsFieldProblemData");
+			ProblemData data = method.invoke(SensorsProblemIndividual);
+			for(int i=0; i<numberOfIndividuals; i++){
+				Object ind = constructor.newInstance(alleleLength, data);
+			}
+//Sin terminar y con algun error quizas
+		}
+		catch(ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | 
+				IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			System.out.println("Error al castear la clase de individuo recibida en el constructor de la clase Population");
+		}
+
+
+
+
+//Usar reflection termina siendo basicamente lo mismo, dado que, usandolo:
+SI bien no voy a tener que crear una clase PoblacionEspecifica nueva por cada clase distinta que herede de individuo, probablemente tenga que agregar varias lineas al constructor de Population. Esto se debe, a que, por ejemplo, en este caso la clase individuo tiene un constructor distinto al de la clase individuoProblemaSensores (necesito los limites de cobertura si o si como parametro de entrada). Por lo tanto, si uso reflection, si bien le puedo pasar una clase generica Problema (y no problema de sensores) voy a tener que especificar el nombre del método para obtener dichos limites, lo cual, significa que para cada caso distinto (EJ obtener volumen) y según la cantidad de datos que necesite para cada caso, voy a tener un método distinto. Esto significa que por cada clase individo específica que tenga estas características me veré obligado a escribir una nueva linea en el constructor Poblacion, cosa que no es muy reusable ni bonita. Prefiero crear nuevas clases Poblacion, es mas prolijo, respeta el concepto de OOP, es una practica recomendable por los chequeos en tiempo de compilación y, ademas, toma menos tiempo de hacer.
+
+Lo mismo que usar datos genericos o usar casteos dobles tipo (List<Customer>)(Object)list; 
