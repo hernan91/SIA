@@ -53,7 +53,7 @@ public class SensorsCoverageTestInstanceExecutor{
 	private static float[] crossoverProbabilities = {0.8f, 0.9f, 1.0f};
 	private static float[] mutationProbability; //1/popSOoutionNumber
 	private static int alfa = 2; //siempre tiene que ser >1 para que funcione bien la func objetivo
-	private static SensorsProblemObjectiveFunction<SensorsProblemIndividual>[] objectiveFunctions = {
+	private static SensorsProbl[] objectiveFunctions = {
 			new CircularRatioObjectiveFunction(searchSpaceProblemData, alfa)};
 	//new SensorsProblemSquareRatioObjectiveFunction(searchSpaceProblemData, getTransmissorsPositions(), alfa)
 	private static int[] popSolutionNumbers = {100}; //numero de soluciones de la poblacion
