@@ -28,6 +28,4 @@ public abstract class ObjectiveFunction{
 	public void setProblemData(ProblemData problemData) {
 		this.problemData = problemData;
 	}
-	
-	
 }
