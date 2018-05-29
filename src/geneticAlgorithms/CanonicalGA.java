@@ -13,7 +13,7 @@ import generics.Population;
 import generics.ProblemData;
 import operators.Operator;
 
-public class CanonicalGA <T extends BinaryRepresentationIndividual>{
+public class CanonicalGA <T extends Individual>{
 	private int alleleLength; //longitud del alelo
 	private int popSolutionNumber; //numero de soluciones de la poblacion
 	private int maxGen; //2000 numero màximo de generaciones

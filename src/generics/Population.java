@@ -3,16 +3,31 @@ package generics;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Population<T extends BinaryRepresentationIndividual>{
+import sensorsProblem.SensorsProblemIndividual;
+
+public class Population<T extends Individual>{
 	private ArrayList<T> individuals = new ArrayList<>();
 	private int alleleLength;
 	
 	public Population() {}
-	public Population(int alleleLength, int numberOfIndividuals) {
+	public Population(int alleleLength) {
 		this.alleleLength = alleleLength;
+	}
+	
+	public static Population<BinaryRepresentationIndividual> initBinaryPop(int alleleLength, int numberOfIndividuals) {
+		Population<BinaryRepresentationIndividual> pop = new Population<>(alleleLength);
 		for(int i=0; i<numberOfIndividuals; i++){
-			individuals.add((T)new BinaryRepresentationIndividual(alleleLength));
+			pop.getIndividuals().add(new BinaryRepresentationIndividual(alleleLength));
 		}
+		return pop;
+	}
+	
+	public static Population<SensorsProblemIndividual> initBinaryPop(int alleleLength, int numberOfIndividuals, SensorsFieldData sensorsFieldData) {
+		Population<SensorsProblemIndividual> pop = new Population<>(alleleLength);
+		for(int i=0; i<numberOfIndividuals; i++){
+			pop.getIndividuals().add(new SensorsProblemIndividual(alleleLength, sensorsFieldData));
+		}
+		return pop;
 	}
 	
 	public Population(ArrayList<T> individuals) {
