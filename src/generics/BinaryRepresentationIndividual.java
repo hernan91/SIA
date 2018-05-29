@@ -2,18 +2,17 @@ package generics;
 
 import java.util.Random;
 
-public class BinaryRepresentationIndividual implements Cloneable, Comparable<BinaryRepresentationIndividual>{
+public class BinaryRepresentationIndividual extends Individual implements Cloneable, Comparable<BinaryRepresentationIndividual>{
 	private int genotype[]; //sensor status allele
-	private double fitness;
 	
 	public BinaryRepresentationIndividual(int[] allele) {
+		super();
 		this.genotype = allele;
 	}
 	
 	public BinaryRepresentationIndividual(int[] allele, double fitness) {
-		super();
+		super(fitness);
 		this.genotype = allele;
-		this.fitness = fitness;
 	}
 	
 	public BinaryRepresentationIndividual(int alleleLength) {
@@ -36,14 +35,6 @@ public class BinaryRepresentationIndividual implements Cloneable, Comparable<Bin
 	public void setAllele(int[] allele) {
 		this.genotype = allele;
 	}
-
-	public double getFitness() {
-		return fitness;
-	}
-
-	public void setFitness(double fitness) {
-		this.fitness = fitness;
-	}
 	
 	public BinaryRepresentationIndividual copy() {
 		int[] oldAllele = this.getAllele();
@@ -51,10 +42,11 @@ public class BinaryRepresentationIndividual implements Cloneable, Comparable<Bin
 		for(int i=0; i<newAllele.length; i++) {
 			newAllele[i] = oldAllele[i];
 		}
-		return new BinaryRepresentationIndividual(newAllele, this.fitness);
+		return new BinaryRepresentationIndividual(newAllele, this.getFitness());
 	}
 
-	public int compareTo(BinaryRepresentationIndividual ind, ObjectiveFunction<BinaryRepresentationIndividual> objFunction) {
+	@Override
+	public int compareTo(Individual ind, ObjectiveFunction objFunction) {
 		if(objFunction.getFitness(this) < objFunction.getFitness(ind)) return 1;
 		else if (objFunction.getFitness(this) == objFunction.getFitness(ind)) return 0;
 		else if (objFunction.getFitness(this) > objFunction.getFitness(ind)) return -1; //lo agregue porque si no salta un error que dice que la funcion no es transitiva
