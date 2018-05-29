@@ -1,6 +1,6 @@
 package sensorsProblem;
 
-import generics.BinaryRepresentationIndividual;
+import generics.Individual;
 import generics.Location;
 
 public class SquareRatioObjectiveFunction extends SensorsProblemObjectiveFunction {
@@ -8,14 +8,14 @@ public class SquareRatioObjectiveFunction extends SensorsProblemObjectiveFunctio
 		super(conf, alfa);
 	}
 	
-	public int[][] getCoverageGrid(BinaryRepresentationIndividual ind) {
+	public int[][] getCoverageGrid(Individual ind) {
+		SensorsProblemIndividual individual = (SensorsProblemIndividual) ind;
 		int coverageGrid[][] = initializeGrid();
-		int availableTransmissorsNumber = ind.getAllele().length; //transmisores disponibles para ser usados
+		int availableTransmissorsNumber = individual.getAllele().length; //transmisores disponibles para ser usados
 		
 		for(int t=0; t<availableTransmissorsNumber; t++) { //t = transmissor
-			int[] transmissorStatusAllele = ind.getAllele(); //describe el estado de los transmisores //apagados, desactivados
+			int[] transmissorStatusAllele = individual.getAllele(); //describe el estado de los transmisores //apagados, desactivados
 			if(transmissorStatusAllele[t]==1) {
-				SensorsProblemIndividual individual = (SensorsProblemIndividual) ind;
 				Location transmissorLocation = individual.getTransmissorsPositions()[t];
 				CoverageLimits limits = new SquareCoverageLimits(transmissorLocation, getConf());
 				for(int i=limits.getLimInfX(); i<limits.getLimSupX(); i++){

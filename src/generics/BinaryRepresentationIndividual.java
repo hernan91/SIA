@@ -2,7 +2,7 @@ package generics;
 
 import java.util.Random;
 
-public class BinaryRepresentationIndividual extends Individual implements Cloneable, Comparable<BinaryRepresentationIndividual>{
+public abstract class BinaryRepresentationIndividual extends Individual implements Cloneable, Comparable<BinaryRepresentationIndividual>{
 	private int genotype[]; //sensor status allele
 	
 	public BinaryRepresentationIndividual(int[] allele) {
@@ -35,15 +35,6 @@ public class BinaryRepresentationIndividual extends Individual implements Clonea
 	public void setAllele(int[] allele) {
 		this.genotype = allele;
 	}
-	
-	public BinaryRepresentationIndividual copy() {
-		int[] oldAllele = this.getAllele();
-		int[] newAllele = new int[oldAllele.length];
-		for(int i=0; i<newAllele.length; i++) {
-			newAllele[i] = oldAllele[i];
-		}
-		return new BinaryRepresentationIndividual(newAllele, this.getFitness());
-	}
 
 	@Override
 	public int compareTo(Individual ind, ObjectiveFunction objFunction) {
@@ -67,8 +58,15 @@ public class BinaryRepresentationIndividual extends Individual implements Clonea
 
 	@Override
 	public int compareTo(BinaryRepresentationIndividual ind2) {
-		if(fitness < ind2.getFitness()) return -1;
-		else if(fitness == ind2.getFitness()) return 0;
+		if(getFitness() < ind2.getFitness()) return -1;
+		else if(getFitness() == ind2.getFitness()) return 0;
 		else return 1;
+	}
+
+	@Override
+	public void printData() {
+		System.out.print("Alelo: ");
+		for(int x : genotype) System.out.print(x);
+		System.out.println("/nFitness: "+getFitness());
 	}
 }

@@ -9,11 +9,10 @@ public class SensorsProblemIndividual extends BinaryRepresentationIndividual {
 	private Location[] transmissorsPositions;
 	private SensorsFieldData sensorsFieldData;
 	
-	public SensorsProblemIndividual(int[] allele, Location[] transmissorsPositions, double fitness, SensorsFieldData sensorsFieldData) {
-		super(allele);
+	public SensorsProblemIndividual(int[] allele, double fitness, Location[] transmissorsPositions, SensorsFieldData sensorsFieldData) {
+		super(allele, fitness);
 		this.transmissorsPositions = transmissorsPositions;
 		this.sensorsFieldData = sensorsFieldData;
-		this.setFitness(fitness);
 	}
 	
 	public SensorsProblemIndividual(int alleleLength, SensorsFieldData sensorFieldData) {
@@ -43,7 +42,7 @@ public class SensorsProblemIndividual extends BinaryRepresentationIndividual {
 			else newLocations[i] = null;
 			newAllele[i] = oldAllele[i];
 		}
-		return new SensorsProblemIndividual(newAllele, newLocations, this.getFitness(), sensorsFieldData);
+		return new SensorsProblemIndividual(newAllele, this.getFitness(), newLocations, sensorsFieldData);
 	}
 
 	public Location[] getTransmissorsPositions() {
@@ -72,4 +71,10 @@ public class SensorsProblemIndividual extends BinaryRepresentationIndividual {
 		transmissorsPositions[allelePos] = getRandomLocation();
 	}
 	
+	@Override
+	public void printData() {
+		super.printData();
+		System.out.println("Locations: ");
+		for(Location l : transmissorsPositions) System.out.println("x= "+l.getPosX()+"y= "+l.getPosY());
+	}
 }

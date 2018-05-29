@@ -3,36 +3,28 @@ package generics;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import sensorsProblem.SensorsProblemIndividual;
-
 public class Population<T extends Individual>{
 	private ArrayList<T> individuals = new ArrayList<>();
 	private int alleleLength;
+	private ProblemData data;
 	
-	public Population() {}
-	public Population(int alleleLength) {
+	public Population(int alleleLength, ArrayList<T> individuals, ProblemData data ) {
 		this.alleleLength = alleleLength;
-	}
-	
-	public static Population<BinaryRepresentationIndividual> initBinaryPop(int alleleLength, int numberOfIndividuals) {
-		Population<BinaryRepresentationIndividual> pop = new Population<>(alleleLength);
-		for(int i=0; i<numberOfIndividuals; i++){
-			pop.getIndividuals().add(new BinaryRepresentationIndividual(alleleLength));
-		}
-		return pop;
-	}
-	
-	public static Population<SensorsProblemIndividual> initBinaryPop(int alleleLength, int numberOfIndividuals, SensorsFieldData sensorsFieldData) {
-		Population<SensorsProblemIndividual> pop = new Population<>(alleleLength);
-		for(int i=0; i<numberOfIndividuals; i++){
-			pop.getIndividuals().add(new SensorsProblemIndividual(alleleLength, sensorsFieldData));
-		}
-		return pop;
-	}
-	
-	public Population(ArrayList<T> individuals) {
+		this.data = data;
 		this.individuals = individuals;
-		this.alleleLength = individuals.get(0).getAllele().length;
+	}
+	
+	public Population(int alleleLength, int numberOfIndividuals, ProblemData data ) {
+		this.alleleLength = alleleLength;
+		this.data = data;
+		for(int i=0; i<numberOfIndividuals; i++){
+			try {
+				individuals.add((T)data.getIndividualInstance(alleleLength));
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+				System.err.println("La clase seleccionada no existe");
+			}
+		}
 	}
 
 	public int getAlleleLength() {
@@ -61,16 +53,12 @@ public class Population<T extends Individual>{
 			T ind = it.next();
 			clone.add((T)ind.copy());
 		}
-		return new Population<T>(clone);
+		return new Population<T>(alleleLength, clone, data);
 	}
 	
 	public void printPop() {
-		for( BinaryRepresentationIndividual ind : getIndividuals()) {
-			for( int allele : ind.getAllele()) {
-				System.out.print(allele);
-			}
-			System.out.println();
-			System.out.println(ind.getFitness());
+		for( T ind : getIndividuals()) {
+			ind.printData();
 		}
 	}
 	
@@ -79,6 +67,4 @@ public class Population<T extends Individual>{
 			population.getIndividuals().remove(population.getNumberOfIndividuals()-1);
 		}
 	}
-	
-	
 }

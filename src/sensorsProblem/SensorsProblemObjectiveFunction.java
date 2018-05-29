@@ -5,21 +5,18 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 
+import generics.Individual;
 import generics.ObjectiveFunction;
 import generics.Population;
+import generics.ProblemData;
 
-public abstract class SensorsProblemObjectiveFunction<T extends SensorsProblemIndividual> extends ObjectiveFunction<T> {
-	private SensorsFieldData conf;
-	private float alfa;
+public abstract class SensorsProblemObjectiveFunction extends ObjectiveFunction {
 	
-	
-	public SensorsProblemObjectiveFunction(SensorsFieldData conf, float alfa) {
-		super();
-		this.setConf(conf);
-		this.alfa = alfa;
+	public SensorsProblemObjectiveFunction(ProblemData problemData) {
+		super(problemData);
 	}
 	
-	public abstract int[][] getCoverageGrid(T individual);
+	public abstract int[][] getCoverageGrid(Individual individual);
 	
 	protected int[][] initializeGrid(){
 		int grid[][] = new int[getConf().getGridSizeX()][getConf().getGridSizeY()];
@@ -44,7 +41,7 @@ public abstract class SensorsProblemObjectiveFunction<T extends SensorsProblemIn
 	
 	private int getCoveredPoints(int coverageGrid[][]) {
 		int coveredPoints = 0;
-		for(int i=0; i<getConf().getGridSizeX(); i++) {
+		for(int i=0; i<getProblemData().getGridSizeX(); i++) {
 			for(int j=0; j<getConf().getGridSizeY(); j++) {
 				coveredPoints += coverageGrid[i][j];
 			}
@@ -52,77 +49,70 @@ public abstract class SensorsProblemObjectiveFunction<T extends SensorsProblemIn
 		return coveredPoints;
 	}
 	
-	public SensorsFieldData getConf() {
-		return conf;
-	}
-
-	public void setConf(SensorsFieldData conf) {
-		this.conf = conf;
-	}
-	
-
-	public double getFitness(T individual) {;
+	@Override
+	public double getFitness(Individual ind) {
+		SensorsProblemIndividual individual = (SensorsProblemIndividual) ind;
 		int[][] coverageGrid =  getCoverageGrid(individual);
 		int usedTransmissors = 0;
 		for(int bit : individual.getAllele()) usedTransmissors += bit; 
-		return calcFitness(coverageGrid, usedTransmissors, alfa);
+		return calcFitness(coverageGrid, usedTransmissors, getProblemData().getAlfa());
 	}
 
-	public void evaluatePopulation(Population<T> population) {
-		Iterator<T> it = population.getIndividuals().iterator();
+	public void evaluatePopulation(Population<Individual> population) {
+		Iterator<Individual> it = population.getIndividuals().iterator();
 		while(it.hasNext()) {
-			T ind = it.next();
+			Individual ind = it.next();
 			ind.setFitness(getFitness(ind));
 		}
 	}
 
 	@Override
-	public void sortPopulationByFitness(Population<T> population) {
+	public void sortPopulationByFitness(Population<Individual> population) {
 		evaluatePopulation(population);
-		Collections.sort(population.getIndividuals(), new Comparator<T>(){
+		Collections.sort(population.getIndividuals(), new Comparator<Individual>(){
 			@Override
-			public int compare(T ind1, T ind2) {
-				return ind1.compareTo(ind2);
+			public int compare(Individual ind1, Individual ind2) {
+				return ind1.compareTo(ind2, getProblemData().getObjFunc());
 			}	
 		});
 		Collections.reverse(population.getIndividuals());
 	}
 	
 	@Override
-	public T getPopulationBestFitIndividual(Population<T> population) {
+	public SensorsProblemIndividual getPopulationBestFitIndividual(Population<Individual> population) {
 		sortPopulationByFitness(population);
-		return population.getIndividuals().get(0);
+		return (SensorsProblemIndividual) population.getIndividuals().get(0);
 	}
 	
 	@Override
-	public T getPopulationWorstFitIndividual(Population<T> population) {
+	public SensorsProblemIndividual getPopulationWorstFitIndividual(Population<Individual> population) {
 		sortPopulationByFitness(population);
-		return population.getIndividuals().get(0);
+		return (SensorsProblemIndividual) population.getIndividuals().get(0);
 	}
 	
 	@Override
-	public double getPopulationFitnessMean(Population<T> population) {
+	public double getPopulationFitnessMean(Population<Individual> population) {
 		evaluatePopulation(population);
-		Iterator<T> it = population.getIndividuals().iterator();
+		Iterator<Individual> it = population.getIndividuals().iterator();
 		double summatory = 0; 
 		while(it.hasNext()) summatory += it.next().getFitness();
 		return summatory/population.getNumberOfIndividuals();
 	}
 	
 	@Override
-	public double getPopulationFitnessStandardDeviation(Population<T> population) {
-		Iterator<T> it = population.getIndividuals().iterator();
+	public double getPopulationFitnessStandardDeviation(Population<Individual> population) {
+		Iterator<Individual> it = population.getIndividuals().iterator();
 		float sumatoriaCuad = 0;
 		while(it.hasNext()) sumatoriaCuad += Math.pow(it.next().getFitness()-getPopulationFitnessMean(population), 2);
 		return Math.sqrt(sumatoriaCuad/population.getNumberOfIndividuals());
 	}
 	
 	@Override
-	public void printPopulationStatisticInfo(Population<T> population, double optimalScore) {
-		T best = getPopulationBestFitIndividual(population);
+	public void printPopulationStatisticInfo(Population<Individual> population, double optimalScore) {
+		Individual best = getPopulationBestFitIndividual(population);
 		double bestFitnessScore = best.getFitness();
 		double mean = getPopulationFitnessMean(population);
-		Iterator<T> it = population.getIndividuals().iterator();
+		Iterator<Individual> it = population.getIndividuals().iterator();
 		float sumatoriaCuad = 0;
 		while(it.hasNext()) sumatoriaCuad += Math.pow(it.next().getFitness()-mean, 2);
 		DecimalFormat format = new DecimalFormat("#.###");

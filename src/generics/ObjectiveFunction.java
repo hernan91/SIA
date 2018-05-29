@@ -1,18 +1,33 @@
 package generics;
 
-public abstract class ObjectiveFunction<T extends BinaryRepresentationIndividual>{
+public abstract class ObjectiveFunction{
+	private ProblemData problemData;
 	
-	public abstract double getFitness(T individual);
+	public ObjectiveFunction(ProblemData problemData) {
+		this.problemData = problemData; 
+	}
 	
-	public abstract double getPopulationFitnessMean(Population<T> population);
+	public abstract double getFitness(Individual individual);
 	
-	public abstract double getPopulationFitnessStandardDeviation(Population<T> population);
+	public abstract double getPopulationFitnessMean(Population<Individual> population);
+	
+	public abstract double getPopulationFitnessStandardDeviation(Population<Individual> population);
 
-	public abstract T getPopulationBestFitIndividual(Population<T> population);
+	public abstract Individual getPopulationBestFitIndividual(Population<Individual> population);
 	
-	public abstract T getPopulationWorstFitIndividual(Population<T> population);
+	public abstract Individual getPopulationWorstFitIndividual(Population<Individual> population);
 
-	public abstract void printPopulationStatisticInfo(Population<T> population, double optimalScore);
+	public abstract void printPopulationStatisticInfo(Population<Individual> population, double optimalScore);
 
-	public abstract void sortPopulationByFitness(Population<T> population);
+	public abstract void sortPopulationByFitness(Population<Individual> population);
+
+	public ProblemData getProblemData() {
+		return problemData;
+	}
+
+	public void setProblemData(ProblemData problemData) {
+		this.problemData = problemData;
+	}
+	
+	
 }

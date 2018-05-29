@@ -18,5 +18,9 @@ public abstract class Individual {
 		this.fitness = fitness;
 	}
 	
-	public abstract int compareTo(Individual ind, ObjectiveFunction objFunction);
+	public abstract Individual copy();
+	
+	public abstract int compareTo(Individual ind, ObjectiveFunction objFunc);
+	
+	public abstract void printData();
 }

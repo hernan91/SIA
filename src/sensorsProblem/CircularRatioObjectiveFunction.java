@@ -1,21 +1,21 @@
 package sensorsProblem;
 
+import generics.Individual;
 import generics.Location;
 
-public class CircularRatioObjectiveFunction<T extends SensorsProblemIndividual> extends SensorsProblemObjectiveFunction<T> {
+public class CircularRatioObjectiveFunction extends SensorsProblemObjectiveFunction {
 	public CircularRatioObjectiveFunction(SensorsFieldData conf, float alfa){
 		super(conf, alfa);
 	}
 	
-	//cambiar a protected luego de la prueba
-	public int[][] getCoverageGrid(T ind) {
+	public int[][] getCoverageGrid(Individual ind) {
+		SensorsProblemIndividual individual = (SensorsProblemIndividual) ind;
 		int coverageGrid[][] = initializeGrid();
-		int availableTransmissorsNumber = ind.getAllele().length; //transmisores disponibles para ser usados
+		int availableTransmissorsNumber = individual.getAllele().length; //transmisores disponibles para ser usados
 		
 		for(int t=0; t<availableTransmissorsNumber; t++) { //t = transmissor
-			int[] transmissorStatusAllele = ind.getAllele(); //describe el estado de los transmisores //apagados, desactivados
+			int[] transmissorStatusAllele = individual.getAllele(); //describe el estado de los transmisores //apagados, desactivados
 			if(transmissorStatusAllele[t]==1) {
-				SensorsProblemIndividual individual = (SensorsProblemIndividual) ind;
 				Location transmissorLocation = individual.getTransmissorsPositions()[t];
 				int centerX = transmissorLocation.getPosX();
 				int centerY = transmissorLocation.getPosY();
@@ -40,4 +40,6 @@ public class CircularRatioObjectiveFunction<T extends SensorsProblemIndividual> 
 		}
 		return coverageGrid;
 	}
+
+
 }

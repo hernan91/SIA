@@ -4,12 +4,14 @@ public abstract class ProblemData{
 	private ObjectiveFunction objFunc;
 	private double maxFit; //maximo fitness a encontrar hasta parar
 	private int alfa;
+	private Individual individual;
 	
-	public ProblemData(ObjectiveFunction objFunc, double maxFit, int alfa) {
+	public ProblemData(ObjectiveFunction objFunc, double maxFit, int alfa, Individual individual) {
 		super();
 		this.maxFit = maxFit;
 		this.alfa = alfa;
 		this.objFunc = objFunc;
+		this.individual = individual;
 	}
 	
 	public ObjectiveFunction getObjFunc() {
@@ -35,4 +37,14 @@ public abstract class ProblemData{
 	public void setAlfa(int alfa) {
 		this.alfa = alfa;
 	}
+	
+	public Individual getIndividual() {
+		return individual;
+	}
+
+	public void setIndividual(Individual individual) {
+		this.individual = individual;
+	}
+
+	public abstract Individual getIndividualInstance(int alleleLength) throws ClassNotFoundException;
 }

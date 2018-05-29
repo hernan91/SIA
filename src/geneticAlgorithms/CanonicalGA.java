@@ -5,9 +5,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 
-import org.apache.poi.ss.formula.functions.T;
-
 import generics.BinaryRepresentationIndividual;
+import generics.Individual;
 import generics.ObjectiveFunction;
 import generics.Population;
 import generics.ProblemData;
@@ -45,8 +44,8 @@ public class CanonicalGA <T extends Individual>{
 	public T execute(Boolean tracing) {
 		int genNumber = 0;
 		double bestFitness = 0;
-		ObjectiveFunction<T> objFunc = data.getObjFunc();
-		Population<T> replacedPopulation = new Population<T>(getAlleleLength(), getPopSolutionNumber());
+		ObjectiveFunction objFunc = data.getObjFunc();
+		Population<T> replacedPopulation = new Population<T>(getAlleleLength(), getPopSolutionNumber(), data);
 		do{
 			Population<T> selectedParentsPopulation = applySelectionStrategy(replacedPopulation);
 			Population<T> offspringPopulation = applyReproductionStrategy(selectedParentsPopulation);
@@ -96,8 +95,7 @@ public class CanonicalGA <T extends Individual>{
 		return new Population<T>(offSprings);
 	}
 	
-	private Population<T> applyReplacementStrategy(
-			Population<T> population1, Population<T> population2) {
+	private Population<T> applyReplacementStrategy(Population<T> population1, Population<T> population2) {
 		Population<T> nextPop = population1.copy();
 		nextPop.getIndividuals().addAll(population2.copy().getIndividuals());
 		return new Population<T>( (ArrayList<T>) replacementOperator.operate((ArrayList<BinaryRepresentationIndividual>) nextPop.getIndividuals()));
