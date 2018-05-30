@@ -46,5 +46,5 @@ public abstract class ProblemData{
 		this.individual = individual;
 	}
 
-	public abstract Individual getIndividualInstance(int alleleLength) throws ClassNotFoundException;
+	public abstract Individual getIndividualInstance() throws ClassNotFoundException;
 }

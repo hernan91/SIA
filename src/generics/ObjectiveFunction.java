@@ -1,5 +1,7 @@
 package generics;
 
+import java.util.ArrayList;
+
 public abstract class ObjectiveFunction{
 	private ProblemData problemData;
 	
@@ -9,17 +11,17 @@ public abstract class ObjectiveFunction{
 	
 	public abstract double getFitness(Individual individual);
 	
-	public abstract double getPopulationFitnessMean(Population<Individual> population);
+	public abstract double getPopulationFitnessMean(Population population);
 	
-	public abstract double getPopulationFitnessStandardDeviation(Population<Individual> population);
+	public abstract double getPopulationFitnessStandardDeviation(Population population);
 
-	public abstract Individual getPopulationBestFitIndividual(Population<Individual> population);
+	public abstract Individual getPopulationBestFitIndividual(Population population);
 	
-	public abstract Individual getPopulationWorstFitIndividual(Population<Individual> population);
+	public abstract Individual getPopulationWorstFitIndividual(Population population);
 
-	public abstract void printPopulationStatisticInfo(Population<Individual> population, double optimalScore);
+	public abstract void printPopulationStatisticInfo(Population population, double optimalScore);
 
-	public abstract void sortPopulationByFitness(Population<Individual> population);
+	public abstract void sortPopulationByFitness(ArrayList<Individual> population);
 
 	public ProblemData getProblemData() {
 		return problemData;

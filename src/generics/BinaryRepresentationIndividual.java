@@ -69,4 +69,8 @@ public abstract class BinaryRepresentationIndividual extends Individual implemen
 		for(int x : genotype) System.out.print(x);
 		System.out.println("/nFitness: "+getFitness());
 	}
+	
+	public int getAlleleLength() {
+		return getAllele().length;
+	}
 }

@@ -53,7 +53,7 @@ public class SensorsProblemIndividual extends BinaryRepresentationIndividual {
 		this.transmissorsPositions = transmissorsPositions;
 	}
 
-	public SensorsFieldData getSensorFieldData() {
+	public SensorsFieldData getSensorsFieldData() {
 		return sensorsFieldData;
 	}
 

@@ -2,17 +2,20 @@ package operators;
 
 import java.util.ArrayList;
 import java.util.Random;
-
-import generics.BinaryRepresentationIndividual;
+import generics.Individual;
 import generics.Location;
+import generics.ProblemData;
 import sensorsProblem.SensorsProblemIndividual;
 
 public class SensorsProblemOnePointCrossoverOperator extends Operator{
 
+	public SensorsProblemOnePointCrossoverOperator(ProblemData problemData) {
+		super(problemData);
+	}
+
 	@Override
-	public ArrayList<BinaryRepresentationIndividual> operate(ArrayList<BinaryRepresentationIndividual> individuals) {
+	public ArrayList<Individual> operate(ArrayList<Individual> individuals) {
 		Random rand = new Random();
-		ArrayList<BinaryRepresentationIndividual> offspringIndividuals = new ArrayList<BinaryRepresentationIndividual>();
 		SensorsProblemIndividual ind1 = (SensorsProblemIndividual) individuals.get(0);
 		SensorsProblemIndividual ind2 = (SensorsProblemIndividual) individuals.get(1);
 		int alleleLength = ind1.getAllele().length;
@@ -25,9 +28,7 @@ public class SensorsProblemOnePointCrossoverOperator extends Operator{
 			ind1.getTransmissorsPositions()[i] = ind2.getTransmissorsPositions()[i];
 			ind2.getTransmissorsPositions()[i] = l;
 		}
-		offspringIndividuals.add(ind1);
-		offspringIndividuals.add(ind2);
-		return offspringIndividuals;
+		return individuals;
 	}
 	
 }

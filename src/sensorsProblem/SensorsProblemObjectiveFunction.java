@@ -1,6 +1,7 @@
 package sensorsProblem;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -64,8 +65,8 @@ public abstract class SensorsProblemObjectiveFunction extends ObjectiveFunction 
 		return calcFitness(coverageGrid, usedTransmissors, getProblemData().getAlfa());
 	}
 
-	public void evaluatePopulation(Population<Individual> population) {
-		Iterator<Individual> it = population.getIndividuals().iterator();
+	public void evaluatePopulation(ArrayList<Individual> population) {
+		Iterator<Individual> it = population.iterator();
 		while(it.hasNext()) {
 			Individual ind = it.next();
 			ind.setFitness(getFitness(ind));
@@ -73,32 +74,32 @@ public abstract class SensorsProblemObjectiveFunction extends ObjectiveFunction 
 	}
 
 	@Override
-	public void sortPopulationByFitness(Population<Individual> population) {
-		evaluatePopulation(population);
-		Collections.sort(population.getIndividuals(), new Comparator<Individual>(){
+	public void sortPopulationByFitness(ArrayList<Individual> individuals) {
+		evaluatePopulation(individuals);
+		Collections.sort(individuals, new Comparator<Individual>(){
 			@Override
 			public int compare(Individual ind1, Individual ind2) {
 				return ind1.compareTo(ind2, getProblemData().getObjFunc());
 			}	
 		});
-		Collections.reverse(population.getIndividuals());
+		Collections.reverse(individuals);
 	}
 	
 	@Override
-	public SensorsProblemIndividual getPopulationBestFitIndividual(Population<Individual> population) {
-		sortPopulationByFitness(population);
-		return (SensorsProblemIndividual) population.getIndividuals().get(0);
+	public SensorsProblemIndividual getPopulationBestFitIndividual(Population population) {
+		sortPopulationByFitness(population.getIndividuals());
+		return (SensorsProblemIndividual)population.getIndividuals().get(0);
 	}
 	
 	@Override
-	public SensorsProblemIndividual getPopulationWorstFitIndividual(Population<Individual> population) {
-		sortPopulationByFitness(population);
-		return (SensorsProblemIndividual) population.getIndividuals().get(0);
+	public SensorsProblemIndividual getPopulationWorstFitIndividual(Population population) {
+		sortPopulationByFitness(population.getIndividuals());
+		return (SensorsProblemIndividual)population.getIndividuals().get(0);
 	}
 	
 	@Override
-	public double getPopulationFitnessMean(Population<Individual> population) {
-		evaluatePopulation(population);
+	public double getPopulationFitnessMean(Population population) {
+		evaluatePopulation(population.getIndividuals());
 		Iterator<Individual> it = population.getIndividuals().iterator();
 		double summatory = 0; 
 		while(it.hasNext()) summatory += it.next().getFitness();
@@ -106,7 +107,7 @@ public abstract class SensorsProblemObjectiveFunction extends ObjectiveFunction 
 	}
 	
 	@Override
-	public double getPopulationFitnessStandardDeviation(Population<Individual> population) {
+	public double getPopulationFitnessStandardDeviation(Population population) {
 		Iterator<Individual> it = population.getIndividuals().iterator();
 		float sumatoriaCuad = 0;
 		while(it.hasNext()) sumatoriaCuad += Math.pow(it.next().getFitness()-getPopulationFitnessMean(population), 2);
@@ -114,7 +115,7 @@ public abstract class SensorsProblemObjectiveFunction extends ObjectiveFunction 
 	}
 	
 	@Override
-	public void printPopulationStatisticInfo(Population<Individual> population, double optimalScore) {
+	public void printPopulationStatisticInfo(Population population, double optimalScore) {
 		Individual best = getPopulationBestFitIndividual(population);
 		double bestFitnessScore = best.getFitness();
 		double mean = getPopulationFitnessMean(population);
@@ -131,5 +132,3 @@ public abstract class SensorsProblemObjectiveFunction extends ObjectiveFunction 
 		System.out.println(str);
 	}
 }
-
-	

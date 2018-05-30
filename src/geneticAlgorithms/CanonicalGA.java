@@ -2,7 +2,6 @@ package geneticAlgorithms;
 //probar usar polimorfismo con binaryTournament y esas yerbas para hacer mas reusable el codigo mas adelante
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Random;
 
 import generics.BinaryRepresentationIndividual;
@@ -12,8 +11,7 @@ import generics.Population;
 import generics.ProblemData;
 import operators.Operator;
 
-public class CanonicalGA <T extends Individual>{
-	private int alleleLength; //longitud del alelo
+public class CanonicalGA{
 	private int popSolutionNumber; //numero de soluciones de la poblacion
 	private int maxGen; //2000 numero màximo de generaciones
 	private float crossoverProbability;
@@ -22,14 +20,13 @@ public class CanonicalGA <T extends Individual>{
 	private Operator crossoverOperator;
 	private Operator mutationOperator;
 	private Operator replacementOperator;
-	private ProblemData data;
+	private ProblemData problemData;
 	
 	public CanonicalGA(int alleleLength, int popSolutionNumber, int maxGen,
 			float crossoverProbability, float mutationProbability, 
 			Operator selectionOperator,	Operator crossoverOperator, Operator mutationOperator, Operator replacementOperator, 
 			ProblemData data) {
 		super();
-		this.alleleLength = alleleLength;
 		this.popSolutionNumber = popSolutionNumber;
 		this.maxGen = maxGen;
 		this.crossoverProbability = crossoverProbability;
@@ -38,49 +35,49 @@ public class CanonicalGA <T extends Individual>{
 		this.crossoverOperator = crossoverOperator;
 		this.mutationOperator = mutationOperator;
 		this.replacementOperator = replacementOperator;
-		this.data = data;
+		this.problemData = data;
 	}
 
-	public T execute(Boolean tracing) {
+	public Individual execute(Boolean tracing) {
 		int genNumber = 0;
 		double bestFitness = 0;
-		ObjectiveFunction objFunc = data.getObjFunc();
-		Population<T> replacedPopulation = new Population<T>(getAlleleLength(), getPopSolutionNumber(), data);
+		ObjectiveFunction objFunc = problemData.getObjFunc();
+		Population replacedPopulation = new Population(getPopSolutionNumber(), problemData);
 		do{
-			Population<T> selectedParentsPopulation = applySelectionStrategy(replacedPopulation);
-			Population<T> offspringPopulation = applyReproductionStrategy(selectedParentsPopulation);
+			Population selectedParentsPopulation = applySelectionStrategy(replacedPopulation);
+			Population offspringPopulation = applyReproductionStrategy(selectedParentsPopulation);
 			replacedPopulation = applyReplacementStrategy(replacedPopulation, offspringPopulation);
-			bestFitness = objFunc.getPopulationBestFitIndividual((Population<T>) replacedPopulation).getFitness();
-			if(tracing) objFunc.printPopulationStatisticInfo((Population<T>) replacedPopulation, data.getMaxFit());
+			bestFitness = objFunc.getPopulationBestFitIndividual(replacedPopulation).getFitness();
+			if(tracing) objFunc.printPopulationStatisticInfo(replacedPopulation, problemData.getMaxFit());
 			genNumber++;
 		}
-		while( genNumber<getMaxGen() && bestFitness<data.getMaxFit() );
-		T bestIndividual = (T) objFunc.getPopulationBestFitIndividual(replacedPopulation);
+		while( genNumber<getMaxGen() && bestFitness<problemData.getMaxFit() );
+		Individual bestIndividual = objFunc.getPopulationBestFitIndividual(replacedPopulation);
 		if(tracing) {
 			System.out.println("Numero de iteraciones necesarias= "+genNumber);
-			bestIndividual.printAllele();
+			((BinaryRepresentationIndividual)bestIndividual).printAllele();
 			System.out.println("Fitness = " + objFunc.getPopulationBestFitIndividual(replacedPopulation).getFitness());
 		}
 		return bestIndividual;
 	}
 	
-	private Population<T> applySelectionStrategy(Population<T> population) {
+	private Population applySelectionStrategy(Population population) {
 		population = population.copy();
-		ArrayList<T> selectedIndividuals = new ArrayList<>();
+		ArrayList<Individual> selectedIndividuals = new ArrayList<>();
 		for(int i=0; i<population.getNumberOfIndividuals(); i++) {
-			ArrayList<T> selectedInd =  population.getIndividuals();
+			ArrayList<Individual> selectedInd =  population.getIndividuals();
 			selectedIndividuals.add(selectedInd.get(0));
 		}
-		return new Population<T>(selectedIndividuals);
+		return new Population(selectedIndividuals, problemData);
 	}
 	
 	
-	private Population<T> applyReproductionStrategy(Population<T> population) {
+	private Population applyReproductionStrategy(Population population) {
 		population = population.copy();
-		ArrayList<T> offSprings = new ArrayList<>();
+		ArrayList<Individual> offSprings = new ArrayList<>();
 		Random rand = new Random();
 		while(population.getNumberOfIndividuals()>0) {
-			ArrayList<BinaryRepresentationIndividual> individuals = new ArrayList<>();//Individuals son padres, terminan siendo hijos
+			ArrayList<Individual> individuals = new ArrayList<>();//Individuals son padres, terminan siendo hijos
 			for(int i=0; i<2; i++)
 				individuals.add(population.getIndividuals().remove(0));
 			float p = rand.nextFloat();
@@ -90,19 +87,15 @@ public class CanonicalGA <T extends Individual>{
 				individuals.set(0, individuals.get(1));
 				mutationOperator.operate(individuals);
 			}
-			offSprings.addAll( (Collection<? extends T>) individuals);
+			offSprings.addAll(individuals);
 		}
-		return new Population<T>(offSprings);
+		return new Population(offSprings, problemData);
 	}
 	
-	private Population<T> applyReplacementStrategy(Population<T> population1, Population<T> population2) {
-		Population<T> nextPop = population1.copy();
+	private Population applyReplacementStrategy(Population population1, Population population2) {
+		Population nextPop = population1.copy();
 		nextPop.getIndividuals().addAll(population2.copy().getIndividuals());
-		return new Population<T>( (ArrayList<T>) replacementOperator.operate((ArrayList<BinaryRepresentationIndividual>) nextPop.getIndividuals()));
-	}
-
-	public int getAlleleLength() {
-		return alleleLength;
+		return new Population(replacementOperator.operate(nextPop.getIndividuals()), problemData);
 	}
 
 	public int getPopSolutionNumber() {
@@ -138,11 +131,7 @@ public class CanonicalGA <T extends Individual>{
 	}
 
 	public ProblemData getData() {
-		return data;
-	}
-
-	public void setAlleleLength(int alleleLength) {
-		this.alleleLength = alleleLength;
+		return problemData;
 	}
 
 	public void setPopSolutionNumber(int popSolutionNumber) {
@@ -177,7 +166,11 @@ public class CanonicalGA <T extends Individual>{
 		this.replacementOperator = replacementOperator;
 	}
 
-	public void setData(ProblemData data) {
-		this.data = data;
-	}	
+	public void setProblemData(ProblemData data) {
+		this.problemData = data;
+	}
+
+	public ProblemData getProblemData() {
+		return problemData;
+	}
 }
