@@ -3,10 +3,10 @@ package operators;
 import java.util.ArrayList;
 import java.util.Random;
 
-import generics.Individual;
-import generics.Location;
-import generics.ProblemData;
-import sensorsProblem.SensorsProblemIndividual;
+import individuals.Individual;
+import individuals.SensorsProblemIndividual;
+import others.Location;
+import problemData.ProblemData;
 
 public class SensorsProblemMutationOperator extends Operator{
 	

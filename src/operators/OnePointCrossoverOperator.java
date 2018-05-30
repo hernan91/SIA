@@ -3,9 +3,9 @@ package operators;
 import java.util.ArrayList;
 import java.util.Random;
 
-import generics.BinaryRepresentationIndividual;
-import generics.Individual;
-import generics.ProblemData;
+import individuals.BinaryRepresentationIndividual;
+import individuals.Individual;
+import problemData.ProblemData;
 
 public class OnePointCrossoverOperator extends Operator{
 

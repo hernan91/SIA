@@ -3,22 +3,22 @@ package executor;
 import java.util.ArrayList;
 import java.util.Random;
 
-import generics.BinaryRepresentationIndividual;
-import generics.Location;
+import fileWriters.CsvWriter;
 import geneticAlgorithms.CanonicalGA;
-import oneMaxProblem.OneMaxObjectiveFunction;
-import oneMaxProblem.OneMaxProblemData;
+import individuals.BinaryRepresentationIndividual;
+import objectiveFunctions.CircularRatioObjectiveFunction;
+import objectiveFunctions.OneMaxObjectiveFunction;
+import objectiveFunctions.SquareRatioObjectiveFunction;
 import operators.BinaryTournamentSelectionOperator;
 import operators.BitFlipMutationOperator;
 import operators.OnePointCrossoverOperator;
 import operators.Operator;
 import operators.ReplacementOperator;
 import operators.TwoPointCrossoverOperator;
-import other.CsvWriter;
-import sensorsProblem.SensorsFieldData;
-import sensorsProblem.SensorsProblemData;
-import sensorsProblem.CircularRatioObjectiveFunction;
-import sensorsProblem.SquareRatioObjectiveFunction;
+import others.Location;
+import problemData.OneMaxProblemData;
+import problemData.SensorsFieldData;
+import problemData.SensorsProblemData;
 
 public class MainExecutor{
 	private static int popSolutionNumber = 100; //numero de soluciones de la poblacion

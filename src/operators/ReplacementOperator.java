@@ -1,10 +1,11 @@
 package operators;
 
 import java.util.ArrayList;
-import generics.Individual;
-import generics.ObjectiveFunction;
-import generics.Population;
-import generics.ProblemData;
+
+import individuals.Individual;
+import objectiveFunctions.ObjectiveFunction;
+import others.Population;
+import problemData.ProblemData;
 
 public class ReplacementOperator extends Operator {
 

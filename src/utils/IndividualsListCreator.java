@@ -3,10 +3,10 @@ package utils;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-import generics.BinaryRepresentationIndividual;
-import generics.Population;
-import sensorsProblem.SensorsFieldData;
-import sensorsProblem.SensorsProblemIndividual;
+import individuals.BinaryRepresentationIndividual;
+import individuals.SensorsProblemIndividual;
+import others.Population;
+import problemData.SensorsFieldData;
 
 public class IndividualsListCreator {
 	public static ArrayList<SensorsProblemIndividual> createSensorsProblemIndividualList(int alleleLength, int numberOfIndividuals, SensorsFieldData data){

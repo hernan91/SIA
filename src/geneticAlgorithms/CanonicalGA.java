@@ -4,12 +4,12 @@ package geneticAlgorithms;
 import java.util.ArrayList;
 import java.util.Random;
 
-import generics.BinaryRepresentationIndividual;
-import generics.Individual;
-import generics.ObjectiveFunction;
-import generics.Population;
-import generics.ProblemData;
+import individuals.BinaryRepresentationIndividual;
+import individuals.Individual;
+import objectiveFunctions.ObjectiveFunction;
 import operators.Operator;
+import others.Population;
+import problemData.ProblemData;
 
 public class CanonicalGA{
 	private int popSolutionNumber; //numero de soluciones de la poblacion

@@ -2,8 +2,8 @@ package operators;
 
 import java.util.ArrayList;
 
-import generics.Individual;
-import generics.ProblemData;
+import individuals.Individual;
+import problemData.ProblemData;
 
 public abstract class Operator {
 	private ProblemData problemData;

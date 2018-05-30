@@ -3,8 +3,8 @@ package operators;
 import java.util.ArrayList;
 import java.util.Random;
 
-import generics.Individual;
-import generics.ProblemData;
+import individuals.Individual;
+import problemData.ProblemData;
 
 /**
  * Clase que permite instanciar un operador binario (recibe dos individuos) y devolver el ganador de un torneo.

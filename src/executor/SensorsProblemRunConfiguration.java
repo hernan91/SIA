@@ -4,25 +4,22 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.StringTokenizer;
 
-import org.apache.poi.ss.formula.functions.T;
-
-import generics.BinaryRepresentationIndividual;
-import generics.Location;
-import generics.ObjectiveFunction;
-import generics.Population;
-import generics.ProblemData;
+import individuals.SensorsProblemIndividual;
+import objectiveFunctions.SensorsProblemObjectiveFunction;
 import operators.Operator;
-import sensorsProblem.SensorsFieldData;
-import sensorsProblem.SensorsProblemData;
-import sensorsProblem.SensorsProblemIndividual;
-import sensorsProblem.SensorsProblemObjectiveFunction;
+import others.Location;
+import others.Population;
+import problemData.SensorsFieldData;
+import problemData.SensorsProblemData;
 
 public class SensorsProblemRunConfiguration {
 	private SensorsProblemData sensorsProblemData;
 	private int numExecutions;
 	private int maxGen;
+	private Operator selectionOperator;
 	private Operator crossoverOperator;
 	private Operator mutationOperator;
+	private Operator ReplacementOperator;
 	private int popSolutionNumber; //numero de soluciones de la poblacion
 	private float crossoverProbability;
 	private float mutationProbability; //1/popSOoutionNumber
@@ -32,15 +29,17 @@ public class SensorsProblemRunConfiguration {
 	private Population bestIndividualsAfterRun;
 	private SensorsProblemIndividual bestFitIndividual;
 	
-	public void RunSensorsConfiguration(int numExecutions, Operator crossoverOperator, Operator mutationOperator, int maxGen, float crossoverProbability,
-			int popSolutionNumber, boolean tracing, SensorsProblemData sensorsProblemData) {
+	public SensorsProblemRunConfiguration (int numExecutions, Operator selectionOperator, Operator crossoverOperator, 
+			Operator mutationOperator, Operator replacementOperator, int maxGen, float crossoverProbability,
+			float mutationProbability, int popSolutionNumber, boolean tracing, SensorsProblemData sensorsProblemData) {
 		this.numExecutions = numExecutions;
+		this.selectionOperator = selectionOperator;
 		this.crossoverOperator = crossoverOperator;
 		this.mutationOperator = mutationOperator;
+		this.ReplacementOperator = replacementOperator;
 		this.maxGen = maxGen;
 		this.crossoverProbability = crossoverProbability;
-		//this.mutationProbability = mutationProbability;
-		this.mutationProbability = (1f/popSolutionNumber);
+		this.mutationProbability = (mutationProbability<0)? 1f/popSolutionNumber: mutationProbability;
 		this.popSolutionNumber = popSolutionNumber;
 		this.tracing = tracing;
 		this.sensorsProblemData = sensorsProblemData;
@@ -59,8 +58,10 @@ public class SensorsProblemRunConfiguration {
 				"Numero de sensores utilizado= " + bestFitIndividual.getAlleleLength() +"\n" +
 				"Numero de sensores aleatoriamente distribuidos= " + randomlyDistributedTransmissors +"\n"+
 				"Numero de ejecuciones= "+ numExecutions +"\n" +
+				"Operador de seleccion= "+ getSelectionOperator() +"\n" +
 				"Operador de cruza= "+ getCrossoverOperatorName() +"\n" +
 				"Operador de mutacion= "+ getMutationOperatorName() +"\n" +
+				"Operador de seleccion= "+ getReplacementOperator() +"\n" +
 				"Numero de generaciones= "+ maxGen +"\n" +
 				"Probabilidad de cruza= "+ crossoverProbability +"\n" +
 				"Probabilidad de mutación= "+ mutationProbability +"\n" +
@@ -68,22 +69,23 @@ public class SensorsProblemRunConfiguration {
 				"Número de individuos de la población= "+ popSolutionNumber +"\n" +
 				"Alfa= "+ getAlfa() +"\n" +
 				"Fitness óptimo= "+ getMaxFit() +"\n" +
-				"Radio de cobertura de los sensores= "+ getSearchSpaceProblemData().getTransmissorRangeRatio() +"\n" +
-				"Tamaño del área de despliegue en X= "+ getSearchSpaceProblemData().getGridSizeX() +"\n" +
-				"Tamaño del área de despliegue en Y= "+ getSearchSpaceProblemData().getGridSizeY();
+				"Radio de cobertura de los sensores= "+ getSensorsFieldData().getTransmissorRangeRatio() +"\n" +
+				"Tamaño del área de despliegue en X= "+ getSensorsFieldData().getGridSizeX() +"\n" +
+				"Tamaño del área de despliegue en Y= "+ getSensorsFieldData().getGridSizeY();
 	}
 	
 	public String[] getRelevantInfo() {
+		SensorsProblemObjectiveFunction objFunc = getObjectiveFunction();
 		String[] array = new String[5];
 		DecimalFormatSymbols symbol = new DecimalFormatSymbols();
 		symbol.setDecimalSeparator(',');
 		DecimalFormat formatter = new DecimalFormat("#.###", symbol);
-		double mean = getO.getPopulationFitnessMean((Population<T>)bestIndividualsAfterRun);
+		double mean = objFunc.getPopulationFitnessMean(bestIndividualsAfterRun);
 		array[0] = getName();
-		array[1] = formatter.format(getBestFitIndividual(objectiveFunction).getFitness());
-		array[2] = formatter.format(getWorstFitIndividual(objectiveFunction).getFitness());
+		array[1] = formatter.format(getBestFitIndividual().getFitness());
+		array[2] = formatter.format(getWorstFitIndividual().getFitness());
 		array[3] = formatter.format(mean);
-		array[4] = formatter.format(objectiveFunction.getPopulationFitnessMean((Population<T>)bestIndividualsAfterRun));
+		array[4] = formatter.format(objFunc.getPopulationFitnessMean(bestIndividualsAfterRun));
 		return array;
 	}
 	
@@ -94,7 +96,7 @@ public class SensorsProblemRunConfiguration {
 	public int getNumExecutions() {
 		return numExecutions;
 	}
-
+	
 	public void setNumExecutions(int numExecutions) {
 		this.numExecutions = numExecutions;
 	}
@@ -110,6 +112,7 @@ public class SensorsProblemRunConfiguration {
 			case "OnePointCrossoverOperator": return "Cruza1Punto";
 			case "TwoPointCrossoverOperator": return "Cruza2Puntos";
 			case "ThreePointCrossoverOperator": return "Cruza3Puntos";
+			case "SensorsProblemOnePointCrossoverOperator": return "CruzaSensores1Punto";
 		}
 		return "None";
 	}
@@ -215,7 +218,7 @@ public class SensorsProblemRunConfiguration {
 		this.randomlyDistributedTransmissors = randomlyDistributedTransmissors;
 	}
 
-	public SensorsFieldData getSearchSpaceProblemData() {
+	public SensorsFieldData getSensorsFieldData() {
 		return sensorsProblemData.getSquareGridProblemData();
 	}
 
@@ -257,5 +260,29 @@ public class SensorsProblemRunConfiguration {
 
 	public int getAlleleLength() {
 		return sensorsProblemData.getAlleleLength();
+	}
+
+	public SensorsProblemData getSensorsProblemData() {
+		return sensorsProblemData;
+	}
+
+	public void setSensorsProblemData(SensorsProblemData sensorsProblemData) {
+		this.sensorsProblemData = sensorsProblemData;
+	}
+
+	public Operator getSelectionOperator() {
+		return selectionOperator;
+	}
+
+	public void setSelectionOperator(Operator selectionOperator) {
+		this.selectionOperator = selectionOperator;
+	}
+
+	public Operator getReplacementOperator() {
+		return ReplacementOperator;
+	}
+
+	public void setReplacementOperator(Operator replacementOperator) {
+		ReplacementOperator = replacementOperator;
 	}
 }

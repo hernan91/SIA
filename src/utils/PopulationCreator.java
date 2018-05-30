@@ -3,10 +3,10 @@ package utils;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import generics.BinaryRepresentationIndividual;
-import generics.Population;
-import sensorsProblem.SensorsFieldData;
-import sensorsProblem.SensorsProblemIndividual;
+import individuals.BinaryRepresentationIndividual;
+import individuals.SensorsProblemIndividual;
+import others.Population;
+import problemData.SensorsFieldData;
 
 public class PopulationCreator {
 	public static Population<SensorsProblemIndividual> copySensorsPopulation(Population<SensorsProblemIndividual> pop, int alleleLength, int numberOfIndividuals) {
