@@ -7,8 +7,8 @@ import generics.ProblemData;
 public class SensorsProblemData extends ProblemData{
 	private SensorsFieldData squareGridProblemData;
 	
-	public SensorsProblemData(double maxFit, int alfa, SensorsFieldData squareGridProblemData, 
-			SensorsProblemObjectiveFunction sensorsProblemObjectiveFunction, Individual individual) {
+	public SensorsProblemData(double maxFit, int alfa, SensorsProblemObjectiveFunction sensorsProblemObjectiveFunction,
+			Individual individual, SensorsFieldData squareGridProblemData) {
 		super(sensorsProblemObjectiveFunction, maxFit, alfa, individual);
 		this.squareGridProblemData = squareGridProblemData;
 	}

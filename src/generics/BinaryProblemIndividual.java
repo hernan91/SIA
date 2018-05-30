@@ -2,13 +2,12 @@ package generics;
 
 public class BinaryProblemIndividual extends BinaryRepresentationIndividual{
 
-	public BinaryProblemIndividual(int[] allele, ObjectiveFunction objFunc) {
+	public BinaryProblemIndividual(int[] allele) {//objfunc va por e tema del fitness inicializado en 0, no deberia
 		super(allele);
-		this.setFitness(objFunc.getFitness(this));
 	}
 
 	@Override
-	public Individual copy(ObjectiveFunction) {
+	public Individual copy() {
 		int[] oldAllele = this.getAllele();
 		int[] newAllele = new int[oldAllele.length];
 		for(int i=0; i<newAllele.length; i++) {

@@ -4,7 +4,7 @@ public abstract class ObjectiveFunction{
 	private ProblemData problemData;
 	
 	public ObjectiveFunction(ProblemData problemData) {
-		this.problemData = problemData; 
+		this.problemData = problemData;
 	}
 	
 	public abstract double getFitness(Individual individual);

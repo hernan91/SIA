@@ -12,7 +12,7 @@ import generics.ProblemData;
 
 public abstract class SensorsProblemObjectiveFunction extends ObjectiveFunction {
 	
-	public SensorsProblemObjectiveFunction(ProblemData problemData) {
+	public SensorsProblemObjectiveFunction(SensorsProblemData problemData) {
 		super(problemData);
 	}
 	

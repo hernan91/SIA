@@ -4,8 +4,8 @@ import generics.Individual;
 import generics.Location;
 
 public class CircularRatioObjectiveFunction extends SensorsProblemObjectiveFunction {
-	public CircularRatioObjectiveFunction(SensorsFieldData conf, float alfa){
-		super(conf, alfa);
+	public CircularRatioObjectiveFunction(SensorsProblemData problemData){
+		super(problemData);
 	}
 	
 	public int[][] getCoverageGrid(Individual ind) {
@@ -19,7 +19,7 @@ public class CircularRatioObjectiveFunction extends SensorsProblemObjectiveFunct
 				Location transmissorLocation = individual.getTransmissorsPositions()[t];
 				int centerX = transmissorLocation.getPosX();
 				int centerY = transmissorLocation.getPosY();
-				CoverageLimits limits = new CircleCoverageLimits(transmissorLocation, getConf());
+				CoverageLimits limits = new CircleCoverageLimits(transmissorLocation, getProblemData().get);
 				for(int i=limits.getLimInfX(); i<limits.getLimSupX(); i++){
 					for(int j=limits.getLimInfY(); j<limits.getLimSupY(); j++) {
 						int ratio = super.getConf().getTransmissorRangeRatio();
