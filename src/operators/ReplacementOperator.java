@@ -3,6 +3,7 @@ package operators;
 import java.util.ArrayList;
 
 import generics.BinaryRepresentationIndividual;
+import generics.Individual;
 import generics.ObjectiveFunction;
 import generics.Population;
 
@@ -15,7 +16,7 @@ public class ReplacementOperator extends Operator {
 	}
 
 	@Override
-	public ArrayList<BinaryRepresentationIndividual> operate(ArrayList<BinaryRepresentationIndividual> pop) {
+	public ArrayList<Individual> operate(ArrayList<Individual> pop) {
 		Population<BinaryRepresentationIndividual> population = new Population<>(pop);
 		objFunc.sortPopulationByFitness(population);
 		int removeCount = population.getNumberOfIndividuals()/2;

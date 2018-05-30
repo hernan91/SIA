@@ -8,7 +8,6 @@ import java.util.Iterator;
 import generics.Individual;
 import generics.ObjectiveFunction;
 import generics.Population;
-import generics.ProblemData;
 
 public abstract class SensorsProblemObjectiveFunction extends ObjectiveFunction {
 	
@@ -19,9 +18,12 @@ public abstract class SensorsProblemObjectiveFunction extends ObjectiveFunction 
 	public abstract int[][] getCoverageGrid(Individual individual);
 	
 	protected int[][] initializeGrid(){
-		int grid[][] = new int[getConf().getGridSizeX()][getConf().getGridSizeY()];
-		for(int i=0; i<getConf().getGridSizeX(); i++) {
-			for(int j=0; j<getConf().getGridSizeY(); j++) {
+		SensorsProblemData sensorsProblemData = (SensorsProblemData) getProblemData();
+		int gridSizeX = sensorsProblemData.getSensorsFieldProblemData().getGridSizeX();
+		int gridSizeY = sensorsProblemData.getSensorsFieldProblemData().getGridSizeY();
+		int grid[][] = new int[gridSizeX][gridSizeY];
+		for(int i=0; i<gridSizeX; i++) {
+			for(int j=0; j<gridSizeY; j++) {
 				grid[i][j] = 0;
 			}
 		}
@@ -29,7 +31,8 @@ public abstract class SensorsProblemObjectiveFunction extends ObjectiveFunction 
 	}
 	
 	private double calcFitness(int coverageGrid[][], int usedTransmissors, float alfa) {
-		float coverRange = (100*getCoveredPoints(coverageGrid)) /getConf().getGridSize();
+		SensorsProblemData sensorsProblemData = (SensorsProblemData) getProblemData();
+		float coverRange = (100*getCoveredPoints(coverageGrid)) /sensorsProblemData.getSensorsFieldProblemData().getGridSize();
 		if(coverRange==0) return 0;
 		return Math.pow(coverRange, alfa) / usedTransmissors;
 		/**
@@ -40,9 +43,12 @@ public abstract class SensorsProblemObjectiveFunction extends ObjectiveFunction 
 	}
 	
 	private int getCoveredPoints(int coverageGrid[][]) {
+		SensorsProblemData sensorsProblemData = (SensorsProblemData) getProblemData();
+		int gridSizeX = sensorsProblemData.getSensorsFieldProblemData().getGridSizeX();
+		int gridSizeY = sensorsProblemData.getSensorsFieldProblemData().getGridSizeY();
 		int coveredPoints = 0;
-		for(int i=0; i<getProblemData().getGridSizeX(); i++) {
-			for(int j=0; j<getConf().getGridSizeY(); j++) {
+		for(int i=0; i<gridSizeX; i++) {
+			for(int j=0; j<gridSizeY; j++) {
 				coveredPoints += coverageGrid[i][j];
 			}
 		}

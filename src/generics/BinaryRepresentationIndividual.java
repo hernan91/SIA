@@ -5,6 +5,10 @@ import java.util.Random;
 public abstract class BinaryRepresentationIndividual extends Individual implements Cloneable, Comparable<BinaryRepresentationIndividual>{
 	private int genotype[]; //sensor status allele
 	
+	public BinaryRepresentationIndividual(int alleleLength) {
+		this.genotype = getBinaryString(alleleLength);
+	}
+	
 	public BinaryRepresentationIndividual(int[] allele) {
 		super();
 		this.genotype = allele;
@@ -13,10 +17,6 @@ public abstract class BinaryRepresentationIndividual extends Individual implemen
 	public BinaryRepresentationIndividual(int[] allele, double fitness) {
 		super(fitness);
 		this.genotype = allele;
-	}
-	
-	public BinaryRepresentationIndividual(int alleleLength) {
-		this.genotype = getBinaryString(alleleLength);
 	}
 
 	public int[] getBinaryString(int l){
