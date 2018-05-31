@@ -199,15 +199,15 @@ public class SensorsProblemRunConfiguration {
 	}
 
 	public int getSensorRatio() {
-		return sensorsProblemData.getSquareGridProblemData().getTransmissorRangeRatio();
+		return sensorsProblemData.getSensorsFieldData().getTransmissorRangeRatio();
 	}
 
 	public int getGridSizeX() {
-		return sensorsProblemData.getSquareGridProblemData().getGridSizeX();
+		return sensorsProblemData.getSensorsFieldData().getGridSizeX();
 	}
 
 	public int getGridSizeY() {
-		return sensorsProblemData.getSquareGridProblemData().getGridSizeY();
+		return sensorsProblemData.getSensorsFieldData().getGridSizeY();
 	}
 
 	public int getRandomlyDistributedTransmissors() {
@@ -219,7 +219,7 @@ public class SensorsProblemRunConfiguration {
 	}
 
 	public SensorsFieldData getSensorsFieldData() {
-		return sensorsProblemData.getSquareGridProblemData();
+		return sensorsProblemData.getSensorsFieldData();
 	}
 
 	public Location[] getPrefixedPositions() {

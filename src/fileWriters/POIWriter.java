@@ -13,14 +13,13 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import executor.RunConfiguration;
-import individuals.BinaryRepresentationIndividual;
+import executor.SensorsProblemRunConfiguration;
+import individuals.Individual;
 
 public class POIWriter {
-	public static void writeData(String dir, String filename, ArrayList<RunConfiguration> runConfigs) {
+	public static void writeData(String dir, String filename, ArrayList<SensorsProblemRunConfiguration> runConfigs) {
 		XSSFWorkbook workbook = new XSSFWorkbook();
-		for (RunConfiguration runConf : runConfigs) {
+		for (SensorsProblemRunConfiguration runConf : runConfigs) {
 			String crossoverProbability = String.valueOf(runConf.getCrossoverProbability());
 			String crossoverOperatorShorterName = shortenCrossoverOperator(runConf.getCrossoverOperatorName());
 			String genNumber = String.valueOf(runConf.getMaxGen());
@@ -31,7 +30,7 @@ public class POIWriter {
 			Cell cell = row.createCell(column);
 			cell.setCellValue("Fitness");
 			r++;
-			for (BinaryRepresentationIndividual individual : runConf.getBestIndividualsAfterRun().getIndividuals()) {
+			for (Individual individual : runConf.getBestIndividualsAfterRun().getIndividuals()) {
 				row = sheet.createRow(r);
 				cell = row.createCell(column);
 				DecimalFormatSymbols symbol = new DecimalFormatSymbols();
@@ -67,7 +66,7 @@ public class POIWriter {
 		}
 	}
 
-	public static void writeRelevantData(String dir, String filename, ArrayList<RunConfiguration> runConfigs) {
+	public static void writeRelevantData(String dir, String filename, ArrayList<SensorsProblemRunConfiguration> runConfigs) {
 		XSSFWorkbook workbook = new XSSFWorkbook();
 		XSSFSheet sheet = workbook.createSheet();
 		String[] columnHeaders = { "Configuracion", "Mejor fitness", "Peor fitness", "Media", "Desvio estandar" };
@@ -78,7 +77,7 @@ public class POIWriter {
 			cell.setCellValue(header);
 		}
 		int rowNum = 1;
-		for (RunConfiguration runConf : runConfigs) {
+		for (SensorsProblemRunConfiguration runConf : runConfigs) {
 			row = sheet.createRow(rowNum++);
 			colNum = 0;
 			for (String field : runConf.getRelevantInfo()) {
@@ -86,7 +85,6 @@ public class POIWriter {
 				cell.setCellValue(field);
 			}
 		}
-
 		try {
 			File directory = new File(dir);
 			directory.mkdirs();
@@ -103,13 +101,15 @@ public class POIWriter {
 
 	public static String shortenCrossoverOperator(String crossoverOperatorName) {
 		switch (crossoverOperatorName) {
-		case "OnePointCrossoverOperator":
-			return "1PC";
-		case "TwoPointCrossoverOperator":
-			return "2PC";
-		case "ThreePointCrossoverOperator":
-			return "3PC";
+			case "OnePointCrossoverOperator":
+				return "1PC";
+			case "TwoPointCrossoverOperator":
+				return "2PC";
+			case "ThreePointCrossoverOperator":
+				return "3PC";
+			case "SensorsProblemOnePointCrossoverOperator":
+				return "SP1PC";
+			default: return crossoverOperatorName;
 		}
-		return crossoverOperatorName;
 	}
 }

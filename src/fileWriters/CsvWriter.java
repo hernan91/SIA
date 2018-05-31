@@ -115,13 +115,46 @@ public class CsvWriter {
 		}
 	}
 	
-	public static void writeIndividuals(String directory, Population<SensorsProblemIndividual> pop) {
+	public static void writeIndividuals(String directory, Population pop) {
 		FileWriter fileWriter = null;
 		File dir = new File(directory);
 		try {
 			dir.mkdirs();
 			int num = 0;
-			for(BinaryRepresentationIndividual individual : pop.getIndividuals()) {
+			for(Individual individual : pop.getIndividuals()) {
+				SensorsProblemIndividual ind = (SensorsProblemIndividual) individual;
+				String filename = String.valueOf(num);
+				fileWriter = new FileWriter(new File(dir.getAbsolutePath(), filename));
+				fileWriter.append("x,y\n");
+				for (Location location : ind.getTransmissorsPositions()) {
+					if(location == null) continue; 
+					fileWriter.append(String.valueOf(location.getPosX()));
+					fileWriter.append(",");
+					fileWriter.append(String.valueOf(location.getPosY()));
+					fileWriter.append("\n");
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("Error");
+			e.printStackTrace();
+		} finally {
+			try {
+				fileWriter.flush();
+				fileWriter.close();
+			} catch (IOException e) {
+				System.out.println("Error while flushing/closing fileWriter !!!");
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public static void writeSensorsIndividuals(String directory, Population pop) {
+		FileWriter fileWriter = null;
+		File dir = new File(directory);
+		try {
+			dir.mkdirs();
+			int num = 0;
+			for(Individual individual : pop.getIndividuals()) {
 				SensorsProblemIndividual ind = (SensorsProblemIndividual) individual;
 				String filename = String.valueOf(num);
 				fileWriter = new FileWriter(new File(dir.getAbsolutePath(), filename));

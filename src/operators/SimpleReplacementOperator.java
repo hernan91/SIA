@@ -7,9 +7,9 @@ import objectiveFunctions.ObjectiveFunction;
 import others.Population;
 import problemData.ProblemData;
 
-public class ReplacementOperator extends Operator {
+public class SimpleReplacementOperator extends Operator {
 
-	public ReplacementOperator(ProblemData problemData) {
+	public SimpleReplacementOperator(ProblemData problemData) {
 		super(problemData);
 	}
 

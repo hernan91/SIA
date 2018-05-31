@@ -38,24 +38,29 @@ public class CanonicalGA{
 	}
 
 	public Individual execute(Boolean tracing) {
+		Population replacedPopulation = new Population(getPopSolutionNumber(), problemData);
+		ObjectiveFunction objFunc = problemData.getObjFunc();
 		int genNumber = 0;
 		double bestFitness = 0;
-		ObjectiveFunction objFunc = problemData.getObjFunc();
-		Population replacedPopulation = new Population(getPopSolutionNumber(), problemData);
+		
 		do{
 			Population selectedParentsPopulation = applySelectionStrategy(replacedPopulation);
 			Population offspringPopulation = applyReproductionStrategy(selectedParentsPopulation);
 			replacedPopulation = applyReplacementStrategy(replacedPopulation, offspringPopulation);
 			bestFitness = objFunc.getPopulationBestFitIndividual(replacedPopulation).getFitness();
-			if(tracing) objFunc.printPopulationStatisticInfo(replacedPopulation, problemData.getMaxFit());
+			if(tracing) {
+				System.out.println("Generación nro "+genNumber);
+				objFunc.printPopulationStatisticInfo(replacedPopulation, problemData.getMaxFit());
+			}
 			genNumber++;
 		}
 		while( genNumber<getMaxGen() && bestFitness<problemData.getMaxFit() );
 		Individual bestIndividual = objFunc.getPopulationBestFitIndividual(replacedPopulation);
 		if(tracing) {
 			System.out.println("Numero de iteraciones necesarias= "+genNumber);
-			((BinaryRepresentationIndividual)bestIndividual).printAllele();
-			System.out.println("Fitness = " + objFunc.getPopulationBestFitIndividual(replacedPopulation).getFitness());
+			System.out.println("Mejor individuo");
+			((BinaryRepresentationIndividual)bestIndividual).printData();
+			System.out.println("\n");
 		}
 		return bestIndividual;
 	}

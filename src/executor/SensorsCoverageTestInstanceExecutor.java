@@ -1,24 +1,29 @@
 package executor;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-import fileWriters.CsvWriter;
-import geneticAlgorithms.CanonicalGA;
+import fileWriters.POIWriter;
 import individuals.Individual;
 import individuals.SensorsProblemIndividual;
 import objectiveFunctions.CircularRatioObjectiveFunction;
 import objectiveFunctions.ObjectiveFunction;
 import operators.BinaryTournamentSelectionOperator;
 import operators.Operator;
-import operators.ReplacementOperator;
+import operators.SimpleReplacementOperator;
 import operators.SensorsProblemMutationOperator;
 import operators.SensorsProblemOnePointCrossoverOperator;
 import others.Location;
-import others.Population;
 import problemData.SensorsFieldData;
 import problemData.SensorsProblemData;
 
-public class SensorsCoverageTestInstanceExecutor extends Thread{
+public class SensorsCoverageTestInstanceExecutor{
+	private static final int MAX_NUM_HILOS = 1;
+	private static boolean tracing = true;
+	static String outputDir = "/home/hernan/git/SIA/pruebaC1";
+	private static String filename = "CircularRadioTest";
+	
 	static int sensorRatio = 10;
 	static int gridSizeX = 60;
 	static int gridSizeY = 60;
@@ -51,23 +56,28 @@ public class SensorsCoverageTestInstanceExecutor extends Thread{
 //			new OnePointCrossoverOperator(),
 //			new TwoPointCrossoverOperator(),
 //			new ThreePointCrossoverOperator()};
-	private static Operator[] replacementOperators = {new ReplacementOperator(sensorsProblemData)};
-	private static boolean tracing = false;
-	static String outputDir = "/home/hernan/git/SIA/pruebaB1";
-	private static String filename = "CircularRadioTest";
+	private static Operator[] replacementOperators = {new SimpleReplacementOperator(sensorsProblemData)};
 	
 	public static void main(String[] args) {
 		ArrayList<SensorsProblemRunConfiguration> runConfigurations = getRunConfigurations();
-		int r = 0;
+		ExecutorService executor = Executors.newFixedThreadPool(MAX_NUM_HILOS);
+		int r = 1;
 		for(SensorsProblemRunConfiguration runConf : runConfigurations) {
-			ThreadedExecutor thread = new ThreadedExecutor(runConf, outputDir);
-			System.out.println("Thread "+r+" started");
-			thread.start();
+			ThreadedExecutor thread = new ThreadedExecutor(runConf, outputDir, r);
+			executor.execute(thread);
 			r++;
 		}
-		//CsvWriter.writeLocations(outputDir, getTransmissorsPositions());
-		//POIWriter.writeData(outputDir, filename, runConfigurations);
-		//POIWriter.writeRelevantData(outputDir, "ResumenDatos", runConfigurations);
+		executor.shutdown();
+        while (!executor.isTerminated()) {
+        	try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+        }
+        System.out.println("Terminan todos los hilos de ejecución");
+		POIWriter.writeData(outputDir, filename, runConfigurations);
+		POIWriter.writeRelevantData(outputDir, "ResumenDatos", runConfigurations);
 	}
 	
 	public static ArrayList<SensorsProblemRunConfiguration> getRunConfigurations(){

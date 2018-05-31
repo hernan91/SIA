@@ -76,6 +76,8 @@ public class SensorsProblemIndividual extends BinaryRepresentationIndividual {
 	public void printData() {
 		super.printData();
 		System.out.println("Locations: ");
-		for(Location l : transmissorsPositions) System.out.println("x= "+l.getPosX()+"y= "+l.getPosY());
+		for(Location l : transmissorsPositions) {
+			if (l!=null) System.out.println("x="+l.getPosX()+" y="+l.getPosY());
+		}
 	}
 }
