@@ -29,7 +29,7 @@ public class BinaryTournamentSelectionOperator extends Operator{
 		int randNum2 = rand.nextInt(individuals.size()-1);
 		Individual individual1 = individuals.get(randNum1).copy();
 		Individual individual2 = individuals.get(randNum2).copy();
-		return (individual1.compareTo(individual2, getProblemData().getObjFunc())==1)? individual1: individual2;
+		return (individual1.compareTo(individual2, getProblemData().getObjFunc())==-1)? individual1: individual2;
 	}
 
 	/**

@@ -18,8 +18,8 @@ public class SensorsProblemIndividual extends BinaryRepresentationIndividual {
 	public SensorsProblemIndividual(int alleleLength, SensorsFieldData sensorsFieldData) {
 		super(alleleLength);
 		this.setAllele(getBinaryString(alleleLength)); 
-		this.transmissorsPositions = generateRandomLocations();
 		this.sensorsFieldData = sensorsFieldData;
+		this.transmissorsPositions = generateRandomLocations();
 	}
 	
 	private Location[] generateRandomLocations(){

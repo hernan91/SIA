@@ -84,7 +84,6 @@ public abstract class SensorsProblemObjectiveFunction extends ObjectiveFunction 
 				return ind1.compareTo(ind2, objFunc);
 			}	
 		});
-		Collections.reverse(individuals);
 	}
 	
 	@Override

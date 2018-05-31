@@ -18,23 +18,23 @@ import others.Population;
 import problemData.SensorsFieldData;
 import problemData.SensorsProblemData;
 
-public class SensorsCoverageTestInstanceExecutor{
+public class SensorsCoverageTestInstanceExecutor extends Thread{
 	static int sensorRatio = 10;
 	static int gridSizeX = 60;
 	static int gridSizeY = 60;
 	static SensorsFieldData sensorsFieldData = new SensorsFieldData(sensorRatio, gridSizeX, gridSizeY);
 	static Location[] prefixedLocations = {};
 	
-	private static int alleleLength = 10;
+	private static int alleleLength = 60;
 	private static int[] numExecutions = {30};
 	private static int[] maxGens = {100,500};
-	private static int[] popSolutionNumbers = {6};
+	private static int[] popSolutionNumbers = {100};
 	private static float[] crossoverProbabilities = {0.8f, 0.9f, 1.0f};
 	private static float[] mutationProbabilities = {-1}; // para que la poblacion sea 1/popSOoutionNumber, ingresar un negativo
 	private static int alfa = 2; //siempre tiene que ser >1 para que funcione bien la func objetivo
 	private static ObjectiveFunction objectiveFunction = new CircularRatioObjectiveFunction(sensorsFieldData, alfa);
 	//new SensorsProblemSquareRatioObjectiveFunction(sensorsFieldData, getTransmissorsPositions(), alfa)
-	private static double maxFit = 99999f; //1111.11
+	private static double maxFit = 800.11f; //1111.11
 	private static Individual individual = new SensorsProblemIndividual(alleleLength, sensorsFieldData);
 	
 	private static SensorsProblemData sensorsProblemData = new SensorsProblemData(maxFit, alfa, objectiveFunction, individual, prefixedLocations);
@@ -53,48 +53,21 @@ public class SensorsCoverageTestInstanceExecutor{
 //			new ThreePointCrossoverOperator()};
 	private static Operator[] replacementOperators = {new ReplacementOperator(sensorsProblemData)};
 	private static boolean tracing = false;
-	static String outputDir = "/home/hernan/git/SIA/pruebaA1";
+	static String outputDir = "/home/hernan/git/SIA/pruebaB1";
 	private static String filename = "CircularRadioTest";
-	
 	
 	public static void main(String[] args) {
 		ArrayList<SensorsProblemRunConfiguration> runConfigurations = getRunConfigurations();
 		int r = 0;
 		for(SensorsProblemRunConfiguration runConf : runConfigurations) {
-			ArrayList<Individual> bestIndividuals = new ArrayList<>();
-			System.out.println("RunConf= "+r);
-			for(int i=0; i<runConf.getNumExecutions(); i++) {
-				bestIndividuals.add(sensorsCoverage(runConf));
-			}
+			ThreadedExecutor thread = new ThreadedExecutor(runConf, outputDir);
+			System.out.println("Thread "+r+" started");
+			thread.start();
 			r++;
-			
-			runConf.setBestIndividualsAfterRun(new Population(bestIndividuals, sensorsProblemData));
-			SensorsProblemIndividual bestFitIndividual = runConf.getBestFitIndividual();
-			runConf.setBestFitIndividual(bestFitIndividual);
-			String filename = String.valueOf(runConf.getCrossoverProbability())+"-"+runConf.getCrossoverOperatorName()+"-"+runConf.getMaxGen()+".csv";
-			//CsvWriter.writeRunConfigurationInfo(outputDir, filename, runConf);
-			CsvWriter.writeSolution(outputDir, filename, bestFitIndividual);
 		}
 		//CsvWriter.writeLocations(outputDir, getTransmissorsPositions());
 		//POIWriter.writeData(outputDir, filename, runConfigurations);
 		//POIWriter.writeRelevantData(outputDir, "ResumenDatos", runConfigurations);
-	}
-	
-	public static Individual sensorsCoverage(SensorsProblemRunConfiguration runConf) {		
-		CanonicalGA ga = new CanonicalGA(
-				runConf.getAlleleLength(),
-				runConf.getPopSolutionNumber(),
-				runConf.getMaxGen(),
-				runConf.getCrossoverProbability(),
-				runConf.getMutationProbability(),
-				runConf.getSelectionOperator(),
-				runConf.getCrossoverOperator(),
-				runConf.getMutationOperator(),
-				runConf.getReplacementOperator(),
-				runConf.getSensorsProblemData()
-		);
-		Individual bestIndividual = ga.execute(runConf.getTracing());
-		return bestIndividual;
 	}
 	
 	public static ArrayList<SensorsProblemRunConfiguration> getRunConfigurations(){

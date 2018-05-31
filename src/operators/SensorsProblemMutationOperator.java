@@ -22,12 +22,12 @@ public class SensorsProblemMutationOperator extends Operator{
 		Random rand = new Random();
 		int limitPosition = allele.length;
 		int choosenPos = rand.nextInt(limitPosition);
-		float moveOrRemoveProbability = rand.nextFloat();
 		if(allele[choosenPos]==0) {
 			allele[choosenPos] = 1;
 			individual.moveSensorToRandomLocation(choosenPos);
 		}
 		else {
+			float moveOrRemoveProbability = rand.nextFloat();
 			if(moveOrRemoveProbability>0.5) 
 				individual.moveSensorToRandomLocation(choosenPos);
 			else {

@@ -82,8 +82,7 @@ public class CanonicalGA{
 			float p = rand.nextFloat();
 			if(p<=crossoverProbability && individuals.size()==2) crossoverOperator.operate(individuals);
 			if(p<=mutationProbability) {
-				mutationOperator.operate(individuals);
-				individuals.set(0, individuals.get(1));
+				individuals.add(0, individuals.remove(1));
 				mutationOperator.operate(individuals);
 			}
 			offSprings.addAll(individuals);
