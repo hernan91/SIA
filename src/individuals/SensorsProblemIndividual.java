@@ -15,11 +15,11 @@ public class SensorsProblemIndividual extends BinaryRepresentationIndividual {
 		this.sensorsFieldData = sensorsFieldData;
 	}
 	
-	public SensorsProblemIndividual(int alleleLength, SensorsFieldData sensorFieldData) {
+	public SensorsProblemIndividual(int alleleLength, SensorsFieldData sensorsFieldData) {
 		super(alleleLength);
 		this.setAllele(getBinaryString(alleleLength)); 
-		this.sensorsFieldData = sensorFieldData;
 		this.transmissorsPositions = generateRandomLocations();
+		this.sensorsFieldData = sensorsFieldData;
 	}
 	
 	private Location[] generateRandomLocations(){
@@ -53,14 +53,15 @@ public class SensorsProblemIndividual extends BinaryRepresentationIndividual {
 		this.transmissorsPositions = transmissorsPositions;
 	}
 
+
 	public SensorsFieldData getSensorsFieldData() {
 		return sensorsFieldData;
 	}
 
-	public void setSensorFieldData(SensorsFieldData sensorFieldData) {
-		this.sensorsFieldData = sensorFieldData;
+	public void setSensorsFieldData(SensorsFieldData sensorsFieldData) {
+		this.sensorsFieldData = sensorsFieldData;
 	}
-	
+
 	private Location getRandomLocation() {
 		Random randX = new Random();
 		Random randY = new Random();

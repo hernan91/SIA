@@ -31,11 +31,21 @@ public class SensorsProblemData extends ProblemData{
 	@Override
 	public Individual getIndividualInstance() throws ClassNotFoundException{
 		String className = this.getIndividual().getClass().getName().substring(this.getIndividual().getClass().getName().indexOf(".")+1);
+		Individual individual;
 		switch(className) {
-			case "BinaryProblemIndividual": return new BinaryProblemIndividual(getAlleleLength());
-			case "SensorsProblemIndividual": return new SensorsProblemIndividual(getAlleleLength(), getSensorsFieldData());
+			case "BinaryProblemIndividual": {
+				individual = new BinaryProblemIndividual(getAlleleLength()); 
+				break;
+			}
+			case "SensorsProblemIndividual": {
+				individual = new SensorsProblemIndividual(getAlleleLength(), getSensorsFieldData()); 
+				break;
+			}
 			default: throw new ClassNotFoundException();
 		}
+		SensorsProblemObjectiveFunction objFunc = (SensorsProblemObjectiveFunction) this.getObjFunc();
+		individual.setFitness(objFunc.getFitness(individual));
+		return individual;
 	}
 	
 	public int getAlleleLength() {
@@ -46,14 +56,6 @@ public class SensorsProblemData extends ProblemData{
 	public SensorsFieldData getSensorsFieldData() {
 		SensorsProblemIndividual sensorsProblemIndividual = (SensorsProblemIndividual) getIndividual();
 		return sensorsProblemIndividual.getSensorsFieldData();
-	}
-
-	public SensorsFieldData getSquareGridProblemData() {
-		return sensorsFieldData;
-	}
-
-	public void setSquareGridProblemData(SensorsFieldData squareGridProblemData) {
-		this.sensorsFieldData = squareGridProblemData;
 	}
 
 	public Location[] getPrefixedPositions() {

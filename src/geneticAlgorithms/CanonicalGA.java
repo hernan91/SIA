@@ -1,5 +1,4 @@
 package geneticAlgorithms;
-//probar usar polimorfismo con binaryTournament y esas yerbas para hacer mas reusable el codigo mas adelante
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -65,7 +64,7 @@ public class CanonicalGA{
 		population = population.copy();
 		ArrayList<Individual> selectedIndividuals = new ArrayList<>();
 		for(int i=0; i<population.getNumberOfIndividuals(); i++) {
-			ArrayList<Individual> selectedInd =  population.getIndividuals();
+			ArrayList<Individual> selectedInd =  selectionOperator.operate(population.getIndividuals());
 			selectedIndividuals.add(selectedInd.get(0));
 		}
 		return new Population(selectedIndividuals, problemData);

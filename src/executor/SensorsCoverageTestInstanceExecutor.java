@@ -28,7 +28,7 @@ public class SensorsCoverageTestInstanceExecutor{
 	private static int alleleLength = 10;
 	private static int[] numExecutions = {30};
 	private static int[] maxGens = {100,500};
-	private static int[] popSolutionNumbers = {100};
+	private static int[] popSolutionNumbers = {6};
 	private static float[] crossoverProbabilities = {0.8f, 0.9f, 1.0f};
 	private static float[] mutationProbabilities = {-1}; // para que la poblacion sea 1/popSOoutionNumber, ingresar un negativo
 	private static int alfa = 2; //siempre tiene que ser >1 para que funcione bien la func objetivo
