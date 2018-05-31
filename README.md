@@ -1,3 +1,3 @@
 # SIA
 
-La clase principal es executor.MainExecutor.java.
+Ver la wiki para correrlo.
