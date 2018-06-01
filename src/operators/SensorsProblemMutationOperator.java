@@ -5,6 +5,7 @@ import java.util.Random;
 
 import individuals.Individual;
 import individuals.SensorsProblemIndividual;
+import operatorsModels.Operator;
 import others.Location;
 import problemData.ProblemData;
 

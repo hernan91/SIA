@@ -1,8 +1,5 @@
-package operators;
+package operatorsModels;
 
-import java.util.ArrayList;
-
-import individuals.Individual;
 import problemData.ProblemData;
 
 public abstract class Operator {
@@ -11,8 +8,6 @@ public abstract class Operator {
 	public Operator(ProblemData problemData) {
 		this.problemData = problemData;
 	}
-	
-	public abstract ArrayList<Individual> operate(ArrayList<Individual> individuals);
 
 	public ProblemData getProblemData() {
 		return problemData;

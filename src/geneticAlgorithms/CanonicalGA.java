@@ -6,7 +6,7 @@ import java.util.Random;
 import individuals.BinaryRepresentationIndividual;
 import individuals.Individual;
 import objectiveFunctions.ObjectiveFunction;
-import operators.Operator;
+import operatorsModels.Operator;
 import others.Population;
 import problemData.ProblemData;
 

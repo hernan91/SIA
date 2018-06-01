@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import individuals.Individual;
+import operatorsModels.Operator;
+import operatorsModels.OperatorInt;
 import problemData.ProblemData;
 
 /**
@@ -11,7 +13,7 @@ import problemData.ProblemData;
  * @author hernan
  *
  */
-public class BinaryTournamentSelectionOperator extends Operator{
+public class BinaryTournamentSelectionOperator extends Operator implements OperatorInt{
 	
 	public BinaryTournamentSelectionOperator(ProblemData problemData) {
 		super(problemData);

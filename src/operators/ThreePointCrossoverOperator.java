@@ -5,6 +5,7 @@ import java.util.Random;
 
 import individuals.BinaryRepresentationIndividual;
 import individuals.Individual;
+import operatorsModels.Operator;
 import problemData.ProblemData;
 
 public class ThreePointCrossoverOperator extends Operator{

@@ -6,7 +6,7 @@ import java.util.StringTokenizer;
 
 import individuals.SensorsProblemIndividual;
 import objectiveFunctions.SensorsProblemObjectiveFunction;
-import operators.Operator;
+import operatorsModels.Operator;
 import others.Location;
 import others.Population;
 import problemData.SensorsFieldData;

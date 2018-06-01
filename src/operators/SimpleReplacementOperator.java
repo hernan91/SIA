@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import individuals.Individual;
 import objectiveFunctions.ObjectiveFunction;
+import operatorsModels.Operator;
 import others.Population;
 import problemData.ProblemData;
 
@@ -22,5 +23,4 @@ public class SimpleReplacementOperator extends Operator {
 		population.removeLastNIndividualsFromPopulation(population, removeCount);
 		return population.getIndividuals();
 	}
-
 }
