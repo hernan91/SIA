@@ -2,10 +2,8 @@ package operators;
 
 import java.util.ArrayList;
 import java.util.Random;
-
 import individuals.Individual;
-import operatorsModels.Operator;
-import operatorsModels.OperatorInt;
+import operatorsModels.SelectionOperator;
 import problemData.ProblemData;
 
 /**
@@ -13,7 +11,7 @@ import problemData.ProblemData;
  * @author hernan
  *
  */
-public class BinaryTournamentSelectionOperator extends Operator implements OperatorInt{
+public class BinaryTournamentSelectionOperator extends SelectionOperator{
 	
 	public BinaryTournamentSelectionOperator(ProblemData problemData) {
 		super(problemData);
@@ -37,7 +35,6 @@ public class BinaryTournamentSelectionOperator extends Operator implements Opera
 	/**
 	 * Devuelve un arrayList con el individuo ganador del torneo
 	 */
-	@Override
 	public ArrayList<Individual> operate(ArrayList<Individual> population) {
 		ArrayList<Individual> individuals = new ArrayList<>();
 		individuals.add(doTournamentRound(population));

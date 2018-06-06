@@ -1,25 +1,24 @@
 package operators;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import individuals.Individual;
 import individuals.SensorsProblemIndividual;
-import operatorsModels.Operator;
+import operatorsModels.CrossoverOperator;
 import others.Location;
 import problemData.ProblemData;
 
-public class SensorsProblemOnePointCrossoverOperator extends Operator{
+public class SensorsProblemOnePointCrossoverOperator extends CrossoverOperator{
 
 	public SensorsProblemOnePointCrossoverOperator(ProblemData problemData) {
 		super(problemData);
 	}
 
 	@Override
-	public ArrayList<Individual> operate(ArrayList<Individual> individuals) {
+	public void operate(Individual individual1, Individual individual2) {
 		Random rand = new Random();
-		SensorsProblemIndividual ind1 = (SensorsProblemIndividual) individuals.get(0);
-		SensorsProblemIndividual ind2 = (SensorsProblemIndividual) individuals.get(1);
+		SensorsProblemIndividual ind1 = (SensorsProblemIndividual) individual1;
+		SensorsProblemIndividual ind2 = (SensorsProblemIndividual) individual2;
 		int alleleLength = ind1.getAllele().length;
 		int cutPoint = rand.nextInt(alleleLength-1)+1;
 		for(int i=0; i<cutPoint; i++) {
@@ -30,7 +29,6 @@ public class SensorsProblemOnePointCrossoverOperator extends Operator{
 			ind1.getTransmissorsPositions()[i] = ind2.getTransmissorsPositions()[i];
 			ind2.getTransmissorsPositions()[i] = l;
 		}
-		return individuals;
 	}
 	
 }

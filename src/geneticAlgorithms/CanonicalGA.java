@@ -6,24 +6,29 @@ import java.util.Random;
 import individuals.BinaryRepresentationIndividual;
 import individuals.Individual;
 import objectiveFunctions.ObjectiveFunction;
+import operatorsModels.CrossoverOperator;
+import operatorsModels.MutationOperator;
 import operatorsModels.Operator;
+import operatorsModels.ReplacementOperator;
+import operatorsModels.SelectionOperator;
 import others.Population;
 import problemData.ProblemData;
+import utils.TwoIndividualsTuple;
 
 public class CanonicalGA{
 	private int popSolutionNumber; //numero de soluciones de la poblacion
 	private int maxGen; //2000 numero màximo de generaciones
 	private float crossoverProbability;
 	private float mutationProbability;
-	private Operator selectionOperator;
-	private Operator crossoverOperator;
-	private Operator mutationOperator;
-	private Operator replacementOperator;
+	private SelectionOperator selectionOperator;
+	private CrossoverOperator crossoverOperator;
+	private MutationOperator mutationOperator;
+	private ReplacementOperator replacementOperator;
 	private ProblemData problemData;
 	
 	public CanonicalGA(int alleleLength, int popSolutionNumber, int maxGen,
 			float crossoverProbability, float mutationProbability, 
-			Operator selectionOperator,	Operator crossoverOperator, Operator mutationOperator, Operator replacementOperator, 
+			SelectionOperator selectionOperator,	CrossoverOperator crossoverOperator, MutationOperator mutationOperator, ReplacementOperator replacementOperator, 
 			ProblemData data) {
 		super();
 		this.popSolutionNumber = popSolutionNumber;
@@ -81,24 +86,27 @@ public class CanonicalGA{
 		ArrayList<Individual> offSprings = new ArrayList<>();
 		Random rand = new Random();
 		while(population.getNumberOfIndividuals()>0) {
-			ArrayList<Individual> individuals = new ArrayList<>();//Individuals son padres, terminan siendo hijos
-			for(int i=0; i<2; i++)
-				individuals.add(population.getIndividuals().remove(0));
+			Individual individual1 = population.getIndividuals().remove(0);
+			Individual individual2 = population.getIndividuals().remove(0);
+			new TwoIndividualsTuple(individual1, individual2);
 			float p = rand.nextFloat();
-			if(p<=crossoverProbability && individuals.size()==2) crossoverOperator.operate(individuals);
+			if(p<=crossoverProbability) 
+				crossoverOperator.operate(individual1, individual2);
 			if(p<=mutationProbability) {
-				individuals.add(0, individuals.remove(1));
-				mutationOperator.operate(individuals);
+				mutationOperator.operate(individual1);
+				mutationOperator.operate(individual2);
 			}
-			offSprings.addAll(individuals);
+			offSprings.add(individual1);
+			offSprings.add(individual2);
 		}
 		return new Population(offSprings, problemData);
 	}
 	
-	private Population applyReplacementStrategy(Population population1, Population population2) {
-		Population nextPop = population1.copy();
-		nextPop.getIndividuals().addAll(population2.copy().getIndividuals());
-		return new Population(replacementOperator.operate(nextPop.getIndividuals()), problemData);
+	private Population applyReplacementStrategy(Population oldPop, Population newPop) {
+		oldPop = oldPop.copy();
+		newPop = newPop.copy();		
+		Population replacedPop = replacementOperator.operate(oldPop, newPop);
+		return new Population(replacedPop.getIndividuals(), problemData);
 	}
 
 	public int getPopSolutionNumber() {
@@ -153,19 +161,19 @@ public class CanonicalGA{
 		this.mutationProbability = mutationProbability;
 	}
 
-	public void setSelectionOperator(Operator selectionOperator) {
+	public void setSelectionOperator(SelectionOperator selectionOperator) {
 		this.selectionOperator = selectionOperator;
 	}
 
-	public void setCrossoverOperator(Operator crossoverOperator) {
+	public void setCrossoverOperator(CrossoverOperator crossoverOperator) {
 		this.crossoverOperator = crossoverOperator;
 	}
 
-	public void setMutationOperator(Operator mutationOperator) {
+	public void setMutationOperator(MutationOperator mutationOperator) {
 		this.mutationOperator = mutationOperator;
 	}
 
-	public void setReplacementOperator(Operator replacementOperator) {
+	public void setReplacementOperator(ReplacementOperator replacementOperator) {
 		this.replacementOperator = replacementOperator;
 	}
 

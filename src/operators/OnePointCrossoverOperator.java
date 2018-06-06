@@ -1,25 +1,23 @@
 package operators;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import individuals.BinaryRepresentationIndividual;
 import individuals.Individual;
-import operatorsModels.Operator;
+import operatorsModels.CrossoverOperator;
 import problemData.ProblemData;
 
-public class OnePointCrossoverOperator extends Operator{
+public class OnePointCrossoverOperator extends CrossoverOperator{
 
 	public OnePointCrossoverOperator(ProblemData problemData) {
 		super(problemData);
 	}
 
 	@Override
-	public ArrayList<Individual> operate(ArrayList<Individual> individuals) {
+	public void operate(Individual individual1, Individual individual2) {
 		Random rand = new Random();
-		ArrayList<Individual> offspringIndividuals = new ArrayList<>();
-		BinaryRepresentationIndividual ind1 = (BinaryRepresentationIndividual) individuals.get(0);
-		BinaryRepresentationIndividual ind2 = (BinaryRepresentationIndividual) individuals.get(1);
+		BinaryRepresentationIndividual ind1 = (BinaryRepresentationIndividual) individual1;
+		BinaryRepresentationIndividual ind2 = (BinaryRepresentationIndividual) individual2;
 		int alleleLength = ind1.getAllele().length;
 		int cutPoint = rand.nextInt(alleleLength-1)+1;
 		for(int i=0; i<cutPoint; i++) {
@@ -27,9 +25,6 @@ public class OnePointCrossoverOperator extends Operator{
 			ind1.getAllele()[i] = ind2.getAllele()[i];
 			ind2.getAllele()[i] = k;
 		}
-		offspringIndividuals.add(ind1);
-		offspringIndividuals.add(ind2);
-		return offspringIndividuals;
 	}
 
 }

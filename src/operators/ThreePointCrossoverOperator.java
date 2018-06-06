@@ -1,23 +1,22 @@
 package operators;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import individuals.BinaryRepresentationIndividual;
 import individuals.Individual;
-import operatorsModels.Operator;
+import operatorsModels.CrossoverOperator;
 import problemData.ProblemData;
 
-public class ThreePointCrossoverOperator extends Operator{
+public class ThreePointCrossoverOperator extends CrossoverOperator{
 	public ThreePointCrossoverOperator(ProblemData problemData) {
 		super(problemData);
 	}
 
 	@Override
-	public ArrayList<Individual> operate(ArrayList<Individual> individuals) {
+	public void operate(Individual ind1, Individual ind2) {
 		Random rand = new Random();
-		BinaryRepresentationIndividual individual1 = (BinaryRepresentationIndividual) individuals.get(0);
-		BinaryRepresentationIndividual individual2 = (BinaryRepresentationIndividual) individuals.get(1);
+		BinaryRepresentationIndividual individual1 = (BinaryRepresentationIndividual) ind1;
+		BinaryRepresentationIndividual individual2 = (BinaryRepresentationIndividual) ind2;
 		int[] allele1 = individual1.getAllele();
 		int[] allele2 = individual2.getAllele();
 		int alleleLength = allele1.length;
@@ -30,6 +29,5 @@ public class ThreePointCrossoverOperator extends Operator{
 			allele2[i] = k;
 			if(i==cutPoint2) i=cutPoint3-1;
 		}
-		return individuals;
 	}
 }

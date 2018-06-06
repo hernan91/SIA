@@ -6,7 +6,10 @@ import java.util.StringTokenizer;
 
 import individuals.SensorsProblemIndividual;
 import objectiveFunctions.SensorsProblemObjectiveFunction;
-import operatorsModels.Operator;
+import operatorsModels.CrossoverOperator;
+import operatorsModels.MutationOperator;
+import operatorsModels.ReplacementOperator;
+import operatorsModels.SelectionOperator;
 import others.Location;
 import others.Population;
 import problemData.SensorsFieldData;
@@ -16,10 +19,10 @@ public class SensorsProblemRunConfiguration {
 	private SensorsProblemData sensorsProblemData;
 	private int numExecutions;
 	private int maxGen;
-	private Operator selectionOperator;
-	private Operator crossoverOperator;
-	private Operator mutationOperator;
-	private Operator ReplacementOperator;
+	private SelectionOperator selectionOperator;
+	private CrossoverOperator crossoverOperator;
+	private MutationOperator mutationOperator;
+	private ReplacementOperator ReplacementOperator;
 	private int popSolutionNumber; //numero de soluciones de la poblacion
 	private float crossoverProbability;
 	private float mutationProbability; //1/popSOoutionNumber
@@ -29,8 +32,8 @@ public class SensorsProblemRunConfiguration {
 	private Population bestIndividualsAfterRun;
 	private SensorsProblemIndividual bestFitIndividual;
 	
-	public SensorsProblemRunConfiguration (int numExecutions, Operator selectionOperator, Operator crossoverOperator, 
-			Operator mutationOperator, Operator replacementOperator, int maxGen, float crossoverProbability,
+	public SensorsProblemRunConfiguration (int numExecutions, SelectionOperator selectionOperator, CrossoverOperator crossoverOperator, 
+			MutationOperator mutationOperator, ReplacementOperator replacementOperator, int maxGen, float crossoverProbability,
 			float mutationProbability, int popSolutionNumber, boolean tracing, SensorsProblemData sensorsProblemData) {
 		this.numExecutions = numExecutions;
 		this.selectionOperator = selectionOperator;
@@ -101,7 +104,7 @@ public class SensorsProblemRunConfiguration {
 		this.numExecutions = numExecutions;
 	}
 
-	public Operator getCrossoverOperator() {
+	public CrossoverOperator getCrossoverOperator() {
 		return crossoverOperator;
 	}
 
@@ -128,7 +131,7 @@ public class SensorsProblemRunConfiguration {
 		return s;
 	}
 	
-	public void setCrossoverOperator(Operator crossoverOperator) {
+	public void setCrossoverOperator(CrossoverOperator crossoverOperator) {
 		this.crossoverOperator = crossoverOperator;
 	}
 
@@ -250,11 +253,11 @@ public class SensorsProblemRunConfiguration {
 		this.bestIndividualsAfterRun = bestIndividualsAfterRun;
 	}
 
-	public Operator getMutationOperator() {
+	public MutationOperator getMutationOperator() {
 		return mutationOperator;
 	}
 
-	public void setMutationOperator(Operator mutationOperator) {
+	public void setMutationOperator(MutationOperator mutationOperator) {
 		this.mutationOperator = mutationOperator;
 	}
 
@@ -270,19 +273,19 @@ public class SensorsProblemRunConfiguration {
 		this.sensorsProblemData = sensorsProblemData;
 	}
 
-	public Operator getSelectionOperator() {
+	public SelectionOperator getSelectionOperator() {
 		return selectionOperator;
 	}
 
-	public void setSelectionOperator(Operator selectionOperator) {
+	public void setSelectionOperator(SelectionOperator selectionOperator) {
 		this.selectionOperator = selectionOperator;
 	}
 
-	public Operator getReplacementOperator() {
+	public ReplacementOperator getReplacementOperator() {
 		return ReplacementOperator;
 	}
 
-	public void setReplacementOperator(Operator replacementOperator) {
+	public void setReplacementOperator(ReplacementOperator replacementOperator) {
 		ReplacementOperator = replacementOperator;
 	}
 }

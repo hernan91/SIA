@@ -10,10 +10,13 @@ import individuals.SensorsProblemIndividual;
 import objectiveFunctions.CircularRatioObjectiveFunction;
 import objectiveFunctions.ObjectiveFunction;
 import operators.BinaryTournamentSelectionOperator;
-import operators.SimpleReplacementOperator;
-import operatorsModels.Operator;
 import operators.SensorsProblemMutationOperator;
 import operators.SensorsProblemOnePointCrossoverOperator;
+import operators.SensorsProblemPercentageReplacementOperator;
+import operatorsModels.CrossoverOperator;
+import operatorsModels.MutationOperator;
+import operatorsModels.ReplacementOperator;
+import operatorsModels.SelectionOperator;
 import others.Location;
 import problemData.SensorsFieldData;
 import problemData.SensorsProblemData;
@@ -32,31 +35,31 @@ public class SensorsCoverageTestInstanceExecutor{
 	
 	private static int alleleLength = 60;
 	private static int[] numExecutions = {30};
-	private static int[] maxGens = {100,500};
+	private static int[] maxGens = {100, 500};
 	private static int[] popSolutionNumbers = {100};
 	private static float[] crossoverProbabilities = {0.8f, 0.9f, 1.0f};
 	private static float[] mutationProbabilities = {-1}; // para que la poblacion sea 1/popSOoutionNumber, ingresar un negativo
 	private static int alfa = 2; //siempre tiene que ser >1 para que funcione bien la func objetivo
 	private static ObjectiveFunction objectiveFunction = new CircularRatioObjectiveFunction(sensorsFieldData, alfa);
 	//new SensorsProblemSquareRatioObjectiveFunction(sensorsFieldData, getTransmissorsPositions(), alfa)
-	private static double maxFit = 800.11f; //1111.11
+	private static double maxFit = 1111.11f; //1111.11
 	private static Individual individual = new SensorsProblemIndividual(alleleLength, sensorsFieldData);
 	
 	private static SensorsProblemData sensorsProblemData = new SensorsProblemData(maxFit, alfa, objectiveFunction, individual, prefixedLocations);
-	private static Operator[] selectionOperators = { new BinaryTournamentSelectionOperator(sensorsProblemData) };
-	private static Operator[] crossoverOperators = {
+	private static SelectionOperator[] selectionOperators = { new BinaryTournamentSelectionOperator(sensorsProblemData) };
+	private static CrossoverOperator[] crossoverOperators = {
 			new SensorsProblemOnePointCrossoverOperator(sensorsProblemData)};
 //	private static Operator[] crossoverOperators = {
 //			new OnePointCrossoverOperator(),
 //			new TwoPointCrossoverOperator(),
 //			new ThreePointCrossoverOperator()};
-	private static Operator[] mutationOperators = {
+	private static MutationOperator[] mutationOperators = {
 			new SensorsProblemMutationOperator(sensorsProblemData)};
 //	private static Operator[] crossoverOperators = {
 //			new OnePointCrossoverOperator(),
 //			new TwoPointCrossoverOperator(),
 //			new ThreePointCrossoverOperator()};
-	private static Operator[] replacementOperators = {new SimpleReplacementOperator(sensorsProblemData)};
+	private static ReplacementOperator[] replacementOperators = {new SensorsProblemPercentageReplacementOperator(sensorsProblemData)};
 	
 	public static void main(String[] args) {
 		ArrayList<SensorsProblemRunConfiguration> runConfigurations = getRunConfigurations();

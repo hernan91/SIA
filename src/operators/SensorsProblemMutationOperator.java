@@ -1,23 +1,22 @@
 package operators;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import individuals.Individual;
 import individuals.SensorsProblemIndividual;
-import operatorsModels.Operator;
+import operatorsModels.MutationOperator;
 import others.Location;
 import problemData.ProblemData;
 
-public class SensorsProblemMutationOperator extends Operator{
+public class SensorsProblemMutationOperator extends MutationOperator{
 	
 	public SensorsProblemMutationOperator(ProblemData problemData) {
 		super(problemData);
 	}
 
 	@Override
-	public ArrayList<Individual> operate(ArrayList<Individual> individuals) {
-		SensorsProblemIndividual individual = (SensorsProblemIndividual) individuals.get(0);
+	public Individual operate(Individual ind) {
+		SensorsProblemIndividual individual = (SensorsProblemIndividual) ind;
 		int[] allele = individual.getAllele();
 		Location[] transmissorsPositions = individual.getTransmissorsPositions();
 		Random rand = new Random();
@@ -36,6 +35,6 @@ public class SensorsProblemMutationOperator extends Operator{
 				transmissorsPositions[choosenPos] = null;
 			}
 		}
-		return individuals;
+		return individual;
 	}
 }

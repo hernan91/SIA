@@ -54,9 +54,9 @@ public class Population{
 		}
 	}
 	
-	public void removeLastNIndividualsFromPopulation(Population population, int n) {
-		for(int i=1; i<population.getNumberOfIndividuals(); i++) {
-			population.getIndividuals().remove(population.getNumberOfIndividuals()-1);
+	public void removeLastNIndividualsFromPopulation(int n) {
+		for(int i=1; i<this.getNumberOfIndividuals(); i++) {
+			this.getIndividuals().remove(this.getNumberOfIndividuals()-1);
 		}
 	}
 }
