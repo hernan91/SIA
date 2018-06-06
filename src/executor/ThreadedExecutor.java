@@ -31,7 +31,7 @@ public class ThreadedExecutor implements Runnable {
 		runConf.setBestFitIndividual(bestFitIndividual);
 		String filename = String.valueOf(runConf.getCrossoverProbability())+"-"+runConf.getCrossoverOperatorName()+"-"+runConf.getMaxGen()+".csv";
 		CsvWriter.writeRunConfigurationInfo(outputDir, filename, runConf);
-		CsvWriter.writeSolution(outputDir, filename, bestFitIndividual);
+		//CsvWriter.writeSolution(outputDir, filename, bestFitIndividual);
 		//CsvWriter.writeLocations(outputDir, getTransmissorsPositions());
 		System.out.println("Hilo "+number+" termina su ejecución");
 	}

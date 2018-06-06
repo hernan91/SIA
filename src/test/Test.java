@@ -1,49 +1,38 @@
 package test;
 
-import java.util.ArrayList;
-
-import fileWriters.CsvWriter;
-import individuals.BinaryRepresentationIndividual;
 import individuals.SensorsProblemIndividual;
 import objectiveFunctions.CircularRatioObjectiveFunction;
-import operators.SensorsProblemMutationOperator;
-import operators.SensorsProblemOnePointCrossoverOperator;
-import others.Population;
+import others.Location;
 import problemData.SensorsFieldData;
-import utils.IndividualsListCreator;
 
 public class Test {
 	public static void main(String args[]) {
-		int range = 5;
-		int alleleLength = 4;
+		double start = System.nanoTime();
+		int range = 10;
+		int alleleLength = 9;
 		int numberOfIndividuals = 2;
-		SensorsFieldData areaData = new SensorsFieldData(range, 20, 20);
+		SensorsFieldData areaData = new SensorsFieldData(range, 60, 60);
 		CircularRatioObjectiveFunction objFunc = new CircularRatioObjectiveFunction(areaData, 2);
 		String dir = "/home/hernan/git/SIA/pruebona";
 		
-		Population<SensorsProblemIndividual> pop1 = 
-				new Population<>(IndividualsListCreator.createSensorsProblemIndividualList(alleleLength, numberOfIndividuals, areaData));
-		objFunc.evaluatePopulation((Population<BinaryRepresentationIndividual>)(Population)(pop1));
-		pop1.printPop();
-		CsvWriter.writeIndividuals(dir+"/pop1", pop1);
+		int[] allele = { 1,1,1,1,1,1,1,1,1 };
+		Location[] positions = {
+				new Location(10,10),
+				new Location(10,30),
+				new Location(10,50),
+				new Location(30,10),
+				new Location(30,30),
+				new Location(30,50),
+				new Location(50,10),
+				new Location(50,30),
+				new Location(50,50),
+		};
+		SensorsProblemIndividual ind = new SensorsProblemIndividual(allele, 0, positions, areaData);
+		double fitness = objFunc.getFitness(ind);
+		System.out.println(fitness);
 		
-		Population<SensorsProblemIndividual> pop2 = pop1.copy();
-		SensorsProblemOnePointCrossoverOperator crossOp = new SensorsProblemOnePointCrossoverOperator();
-		crossOp.operate((ArrayList<BinaryRepresentationIndividual>)(ArrayList)pop2.getIndividuals());
-		objFunc.evaluatePopulation((Population<BinaryRepresentationIndividual>)(Population)pop2);
-		pop2.printPop();
-		//CsvWriter.writeIndividuals(dir+"/pop2", pop2);
-		
-		Population<SensorsProblemIndividual> pop3 = pop1.copy();
-		SensorsProblemMutationOperator mutOp = new SensorsProblemMutationOperator();
-		for(BinaryRepresentationIndividual ind : pop3.getIndividuals()) {
-			ArrayList<BinaryRepresentationIndividual> individual = new ArrayList<BinaryRepresentationIndividual>();
-			individual.add(ind);
-			mutOp.operate(individual);
-		}
-		objFunc.evaluatePopulation((Population<BinaryRepresentationIndividual>)(Population)(pop3));
-		pop3.printPop();
-		CsvWriter.writeIndividuals(dir+"/pop3", pop3);
+		double end = (System.nanoTime() - start)/Math.pow(10, 7);
+		System.out.println("end = "+end);
 		
 		//CsvWriter.writeSolution(dir, "solution", individual);
 		//ArrayList<SensorsProblemIndividual> individuals = new ArrayList<SensorsProblemIndividual>();

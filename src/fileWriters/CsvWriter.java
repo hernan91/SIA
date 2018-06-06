@@ -148,6 +148,76 @@ public class CsvWriter {
 		}
 	}
 	
+	public static void writeSensorsIndividual(String directory, Individual individual) {
+		FileWriter fileWriter = null;
+		File dir = new File(directory);
+		try {
+			dir.mkdirs();
+			int num = 0;
+			SensorsProblemIndividual ind = (SensorsProblemIndividual) individual;
+			String filename = String.valueOf(num);
+			fileWriter = new FileWriter(new File(dir.getAbsolutePath(), filename));
+			fileWriter.append("\n"+ind.getAlleleString()+"\n");
+			fileWriter.append("x,y\n");
+			for (Location location : ind.getTransmissorsPositions()) {
+				if(location == null) continue; 
+				fileWriter.append(String.valueOf(location.getPosX()));
+				fileWriter.append(",");
+				fileWriter.append(String.valueOf(location.getPosY()));
+				fileWriter.append("\n");
+			}
+		} catch (Exception e) {
+			System.out.println("Error");
+			e.printStackTrace();
+		} finally {
+			try {
+				fileWriter.flush();
+				fileWriter.close();
+			} catch (IOException e) {
+				System.out.println("Error while flushing/closing fileWriter !!!");
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public static void writeSensorsIndividual(String directory, ArrayList<SensorsProblemRunConfiguration> confs) {
+		FileWriter fileWriter = null;
+		File dir = new File(directory);
+		String filename = "bestInd";
+		try {
+			dir.mkdirs();
+			SensorsProblemIndividual bestInd = new SensorsProblemIndividual(new int[0], 0, new Location[0], confs.get(0).getSensorsProblemData().getSensorsFieldData());
+			for(SensorsProblemRunConfiguration runConfiguration: confs) {
+				SensorsProblemIndividual currentBest = runConfiguration.getBestFitIndividual();
+				if(currentBest.getFitness()>bestInd.getFitness()) {
+					bestInd = currentBest;
+				}
+			}
+			SensorsProblemIndividual ind = (SensorsProblemIndividual) bestInd;
+			fileWriter = new FileWriter(new File(dir.getAbsolutePath(), filename));
+			fileWriter.append("\n"+ind.getAlleleString()+"\n");
+			fileWriter.append("x,y\n");
+			for (Location location : ind.getTransmissorsPositions()) {
+				if(location == null) continue; 
+				fileWriter.append(String.valueOf(location.getPosX()));
+				fileWriter.append(",");
+				fileWriter.append(String.valueOf(location.getPosY()));
+				fileWriter.append("\n");
+			}
+		} catch (Exception e) {
+			System.out.println("Error");
+			e.printStackTrace();
+		} finally {
+			try {
+				fileWriter.flush();
+				fileWriter.close();
+			} catch (IOException e) {
+				System.out.println("Error while flushing/closing fileWriter !!!");
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public static void writeSensorsIndividuals(String directory, Population pop) {
 		FileWriter fileWriter = null;
 		File dir = new File(directory);
@@ -158,6 +228,7 @@ public class CsvWriter {
 				SensorsProblemIndividual ind = (SensorsProblemIndividual) individual;
 				String filename = String.valueOf(num);
 				fileWriter = new FileWriter(new File(dir.getAbsolutePath(), filename));
+				fileWriter.append("\n"+ind.getAlleleString()+"\n");
 				fileWriter.append("x,y\n");
 				for (Location location : ind.getTransmissorsPositions()) {
 					if(location == null) continue; 
@@ -180,4 +251,6 @@ public class CsvWriter {
 			}
 		}
 	}
+	
+	
 }

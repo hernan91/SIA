@@ -13,11 +13,14 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import executor.SensorsProblemRunConfiguration;
 import individuals.Individual;
+import individuals.SensorsProblemIndividual;
+import others.Location;
 
 public class POIWriter {
-	public static void writeData(String dir, String filename, ArrayList<SensorsProblemRunConfiguration> runConfigs) {
+	public static void writeSensorsData(String dir, String filename, ArrayList<SensorsProblemRunConfiguration> runConfigs) {
 		XSSFWorkbook workbook = new XSSFWorkbook();
 		for (SensorsProblemRunConfiguration runConf : runConfigs) {
 			String crossoverProbability = String.valueOf(runConf.getCrossoverProbability());
@@ -26,28 +29,49 @@ public class POIWriter {
 			XSSFSheet sheet = workbook.createSheet(crossoverProbability + "-" + crossoverOperatorShorterName + "-" + genNumber);
 			int r = 0;
 			int column = 0;
-			Row row = sheet.createRow(r);
-			Cell cell = row.createCell(column);
-			cell.setCellValue("Fitness");
-			r++;
-			for (Individual individual : runConf.getBestIndividualsAfterRun().getIndividuals()) {
-				row = sheet.createRow(r);
-				cell = row.createCell(column);
-				DecimalFormatSymbols symbol = new DecimalFormatSymbols();
-				symbol.setDecimalSeparator(',');
-				DecimalFormat formatter = new DecimalFormat("#.###", symbol);
-				String fit = formatter.format(individual.getFitness());
-				cell.setCellValue(fit);
+			int ejec = 1;
+			//Row row = sheet.createRow(r);
+			//Cell cell = row.createCell(column);
+//			cell.setCellValue("Fitness");
+//			row.createCell(column+1).setCellValue("Allele");
+//			r++;
+			for (Individual ind : runConf.getBestIndividualsAfterRun().getIndividuals()) {
+				SensorsProblemIndividual individual = (SensorsProblemIndividual) ind;
+				Row titleRow = sheet.createRow(r);
+				titleRow.createCell(column).setCellValue("Ejecución nro "+ejec);
 				r++;
+				Row headRow = sheet.createRow(r);
+				headRow.createCell(column).setCellValue("Allele");
+				headRow.createCell(column+1).setCellValue("Fitness");
+				r++;
+				Row dataRow = sheet.createRow(r);				
+				dataRow.createCell(column+1).setCellValue(individual.getAlleleString());
+				dataRow.createCell(column).setCellValue(formatter(individual.getFitness()));
+				r++;
+				headRow = sheet.createRow(r);
+				headRow.createCell(column).setCellValue("x");
+				headRow.createCell(column+1).setCellValue("y");
+				r++;
+				for(Location location : individual.getTransmissorsPositions()) {
+					if(location!=null) {
+						Row locationRow = sheet.createRow(r);
+						locationRow.createCell(column).setCellValue(location.getPosX());
+						locationRow.createCell(column+1).setCellValue(location.getPosY());
+						r++;
+					}
+				}
+				r++;
+				ejec++;
 			}
 			r = 7;
 			column = 7;
 			StringTokenizer tokenizer = runConf.getInfoTokenizer();
+			Row row;
 			while (tokenizer.hasMoreTokens()) {
 				if (sheet.getRow(r) == null)
 					row = sheet.createRow(r);
 				row = sheet.getRow(r);
-				cell = row.createCell(column);
+				Cell cell = row.createCell(column);
 				cell.setCellValue(tokenizer.nextToken());
 				r++;
 			}
@@ -111,5 +135,12 @@ public class POIWriter {
 				return "SP1PC";
 			default: return crossoverOperatorName;
 		}
+	}
+	
+	private static String formatter(double num) {
+		DecimalFormatSymbols symbol = new DecimalFormatSymbols();
+		symbol.setDecimalSeparator(',');
+		DecimalFormat formatter = new DecimalFormat("#.###", symbol);
+		return formatter.format(num);
 	}
 }
