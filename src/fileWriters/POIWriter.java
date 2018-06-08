@@ -24,9 +24,11 @@ public class POIWriter {
 		XSSFWorkbook workbook = new XSSFWorkbook();
 		for (SensorsProblemRunConfiguration runConf : runConfigs) {
 			String crossoverProbability = String.valueOf(runConf.getCrossoverProbability());
+			String mutationProbability = String.valueOf(runConf.getMutationProbability());
 			String crossoverOperatorShorterName = shortenCrossoverOperator(runConf.getCrossoverOperatorName());
 			String genNumber = String.valueOf(runConf.getMaxGen());
-			XSSFSheet sheet = workbook.createSheet(crossoverProbability + "-" + crossoverOperatorShorterName + "-" + genNumber);
+			String sheetName = crossoverProbability +"-"+ mutationProbability +"-"+ crossoverOperatorShorterName +"-"+ genNumber;
+			XSSFSheet sheet = workbook.createSheet(sheetName);
 			int r = 0;
 			int column = 0;
 			int ejec = 1;

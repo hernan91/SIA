@@ -29,7 +29,8 @@ public class ThreadedExecutor implements Runnable {
 		runConf.setBestIndividualsAfterRun(new Population(bestIndividuals, runConf.getSensorsProblemData()));
 		SensorsProblemIndividual bestFitIndividual = runConf.getBestFitIndividual();
 		runConf.setBestFitIndividual(bestFitIndividual);
-		String filename = String.valueOf(runConf.getCrossoverProbability())+"-"+runConf.getCrossoverOperatorName()+"-"+runConf.getMaxGen()+".csv";
+		String filename = String.valueOf(runConf.getCrossoverProbability())+"-"+runConf.getMaxGen()+runConf.getMutationProbability()+"-"+
+				runConf.getCrossoverOperatorName()+".csv";
 		CsvWriter.writeRunConfigurationInfo(outputDir, filename, runConf);
 		//CsvWriter.writeSolution(outputDir, filename, bestFitIndividual);
 		//CsvWriter.writeLocations(outputDir, getTransmissorsPositions());
