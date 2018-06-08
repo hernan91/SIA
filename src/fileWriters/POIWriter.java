@@ -97,7 +97,7 @@ public class POIWriter {
 	public static void writeRelevantData(String dir, String filename, ArrayList<SensorsProblemRunConfiguration> runConfigs) {
 		XSSFWorkbook workbook = new XSSFWorkbook();
 		XSSFSheet sheet = workbook.createSheet();
-		String[] columnHeaders = { "Configuracion", "Mejor fitness", "Peor fitness", "Media", "Desvio estandar" };
+		String[] columnHeaders = { "Configuracion", "Mejor fitness", "Peor fitness", "Media", "Desvio estandar"};
 		int colNum = 0;
 		Row row = sheet.createRow(0);
 		for (String header : columnHeaders) {
@@ -115,7 +115,7 @@ public class POIWriter {
 				else cell.setCellValue(field);
 				CellStyle style = workbook.createCellStyle();
 				DataFormat format = workbook.createDataFormat();
-				style.setDataFormat(format.getFormat("0.0"));
+				style.setDataFormat(format.getFormat("0.000"));
 				cell.setCellStyle(style);
 				f++;
 			}

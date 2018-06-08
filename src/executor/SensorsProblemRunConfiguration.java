@@ -26,6 +26,7 @@ public class SensorsProblemRunConfiguration {
 	private int popSolutionNumber; //numero de soluciones de la poblacion
 	private float crossoverProbability;
 	private float mutationProbability; //1/popSOoutionNumber
+	private float takenFromNewGen;
 	private boolean tracing;
 	private int randomlyDistributedTransmissors;
 	private Location[] prefixedPositions;
@@ -34,7 +35,7 @@ public class SensorsProblemRunConfiguration {
 	
 	public SensorsProblemRunConfiguration (int numExecutions, SelectionOperator selectionOperator, CrossoverOperator crossoverOperator, 
 			MutationOperator mutationOperator, ReplacementOperator replacementOperator, int maxGen, float crossoverProbability,
-			float mutationProbability, int popSolutionNumber, boolean tracing, SensorsProblemData sensorsProblemData) {
+			float mutationProbability, float takenFromNewGen, int popSolutionNumber, boolean tracing, SensorsProblemData sensorsProblemData) {
 		this.numExecutions = numExecutions;
 		this.selectionOperator = selectionOperator;
 		this.crossoverOperator = crossoverOperator;
@@ -46,6 +47,7 @@ public class SensorsProblemRunConfiguration {
 		this.popSolutionNumber = popSolutionNumber;
 		this.tracing = tracing;
 		this.sensorsProblemData = sensorsProblemData;
+		this.takenFromNewGen = takenFromNewGen;
 	}
 	
 	public String getInfo() {
@@ -68,6 +70,7 @@ public class SensorsProblemRunConfiguration {
 				"Numero de generaciones= "+ maxGen +"\n" +
 				"Probabilidad de cruza= "+ crossoverProbability +"\n" +
 				"Probabilidad de mutación= "+ mutationProbability +"\n" +
+				"Proporción de individuos tomados de la nueva generacion"+ getTakenFromNewGen()+"\n"+
 				"Función objetivo= "+ getObjectiveFunctionName() +"\n" +
 				"Número de individuos de la población= "+ popSolutionNumber +"\n" +
 				"Alfa= "+ getAlfa() +"\n" +
@@ -120,6 +123,7 @@ public class SensorsProblemRunConfiguration {
 			case "TwoPointCrossoverOperator": return "Cruza2Puntos";
 			case "ThreePointCrossoverOperator": return "Cruza3Puntos";
 			case "SensorsProblemOnePointCrossoverOperator": return "CruzaSensores1Punto";
+			case "SensorsProblemTwoPointCrossoverOperator": return "CruzaSensores2Puntos";
 		}
 		return "None";
 	}
@@ -291,5 +295,13 @@ public class SensorsProblemRunConfiguration {
 
 	public void setReplacementOperator(ReplacementOperator replacementOperator) {
 		ReplacementOperator = replacementOperator;
+	}
+
+	public float getTakenFromNewGen() {
+		return takenFromNewGen;
+	}
+
+	public void setTakenFromNewGen(float takenFromNewGen) {
+		this.takenFromNewGen = takenFromNewGen;
 	}
 }

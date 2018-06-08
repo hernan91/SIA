@@ -35,14 +35,18 @@ public abstract class SensorsProblemObjectiveFunction extends ObjectiveFunction 
 	}
 	
 	private double calcFitness(int coverageGrid[][], int usedTransmissors, float alfa) {
-		float coverRange = (100*getCoveredPoints(coverageGrid)) /sensorsFieldData.getGridSize();
-		if(coverRange==0) return 0;
-		return Math.pow(coverRange, alfa) / usedTransmissors;
+		float coveragePercentage = getCoveragePercentage(coverageGrid);
+		if(coveragePercentage==0) return 0;
+		return Math.pow(coveragePercentage, alfa) / usedTransmissors;
 		/**
 		 * El problema con alfa=1 cuando se usa un solo transmisor, entonces queda (11**1)/1 = 11.11
 		 * El fitness es el mismo que cuando se usan 9, queda (100**1)/9=11.11
 		 * Alfa siempre > 1
 		 */
+	}
+	
+	public float getCoveragePercentage(int coverageGrid[][]) {
+		return (100*getCoveredPoints(coverageGrid)) /sensorsFieldData.getGridSize();
 	}
 	
 	private int getCoveredPoints(int coverageGrid[][]) {

@@ -4,23 +4,25 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 import executor.SensorsProblemRunConfiguration;
 import individuals.BinaryRepresentationIndividual;
 import individuals.Individual;
 import individuals.SensorsProblemIndividual;
+import objectiveFunctions.SensorsProblemObjectiveFunction;
 import others.Location;
 import others.Population;
 
 public class CsvWriter {
 
-	public static void writeLocations(String directory, ArrayList<Location> locationsArray) {
+	public static void writeSensorsLocations(String directory, String filename, Location[] locationsArray) {
 		FileWriter fileWriter = null;
 		File dir = new File(directory);
-		String filename = "locations.csv";
 		try {
 			dir.mkdirs();
-			fileWriter = new FileWriter(new File(dir.getAbsolutePath(), filename));
+			fileWriter = new FileWriter(new File(dir.getAbsolutePath(), filename+".csv"));
 			fileWriter.append("x,y\n");
 			for (Location location : locationsArray) {
 				fileWriter.append(String.valueOf(location.getPosX()));
@@ -179,30 +181,17 @@ public class CsvWriter {
 		}
 	}
 	
-	public static void writeSensorsIndividual(String directory, ArrayList<SensorsProblemRunConfiguration> confs) {
+	public static void writeSensorsIndividualData(String directory, String filename, SensorsProblemIndividual ind, SensorsProblemObjectiveFunction objFunc) {
 		FileWriter fileWriter = null;
 		File dir = new File(directory);
-		String filename = "bestInd";
 		try {
 			dir.mkdirs();
-			SensorsProblemIndividual bestInd = new SensorsProblemIndividual(new int[0], 0, new Location[0], confs.get(0).getSensorsProblemData().getSensorsFieldData());
-			for(SensorsProblemRunConfiguration runConfiguration: confs) {
-				SensorsProblemIndividual currentBest = runConfiguration.getBestFitIndividual();
-				if(currentBest.getFitness()>bestInd.getFitness()) {
-					bestInd = currentBest;
-				}
-			}
-			SensorsProblemIndividual ind = (SensorsProblemIndividual) bestInd;
 			fileWriter = new FileWriter(new File(dir.getAbsolutePath(), filename+".csv"));
-			fileWriter.append("\n"+ind.getAlleleString()+"\n");
-			fileWriter.append("x,y\n");
-			for (Location location : ind.getTransmissorsPositions()) {
-				if(location == null) continue; 
-				fileWriter.append(String.valueOf(location.getPosX()));
-				fileWriter.append(",");
-				fileWriter.append(String.valueOf(location.getPosY()));
-				fileWriter.append("\n");
-			}
+			fileWriter.append("Fitness"+String.valueOf(ind.getFitness())+"\n");
+			fileWriter.append("Cantidad de sensores activados"+ind.getActiveSensorsNumber()+"\n");
+			float coveragePercentage = objFunc.getCoveragePercentage(objFunc.getCoverageGrid(ind));
+			fileWriter.append("Porcentaje de cobertura"+coveragePercentage+"\n");
+			fileWriter.append("Porcentaje de interferencia"+(100-coveragePercentage)+"\n");
 		} catch (Exception e) {
 			System.out.println("Error");
 			e.printStackTrace();

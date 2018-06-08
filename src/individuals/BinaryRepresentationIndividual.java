@@ -75,4 +75,12 @@ public abstract class BinaryRepresentationIndividual extends Individual implemen
 	public int getAlleleLength() {
 		return getAllele().length;
 	}
+	
+	public int getActiveSensorsNumber() {
+		int count = 0;
+		for(int bit : this.getAllele()) {
+			if(bit==1) count++;
+		}
+		return count;
+	}
 }
