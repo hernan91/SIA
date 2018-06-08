@@ -1,0 +1,28 @@
+Fitness del mejor individuo de cada generacion
+617.7857142857143
+616.3333333333334
+609.3076923076923
+
+
+DATOS DE CORRIDA Y POBLACION
+Media= 614,476
+Desvío estándar= 3,702
+Fitness del mejor individuo= 617,786
+Cromosoma del mejor individuo= 10111111011011011010
+Numero de sensores utilizado= 20
+Numero de sensores aleatoriamente distribuidos= 0
+Numero de ejecuciones= 3
+Operador de seleccion= operators.BinaryTournamentSelectionOperator@40ff9037
+Operador de cruza= CruzaSensores1Punto
+Operador de mutacion= SensorsProblemMutationOperator
+Operador de seleccion= operators.SensorsProblemPercentageReplacementOperator@5f7cda2
+Numero de generaciones= 100
+Probabilidad de cruza= 0.6
+Probabilidad de mutación= 0.7
+Función objetivo= RadioCircular
+Número de individuos de la población= 100
+Alfa= 2
+Fitness óptimo= 684.6939697265625
+Radio de cobertura de los sensores= 10
+Tamaño del área de despliegue en X= 60
+Tamaño del área de despliegue en Y= 60
