@@ -85,10 +85,14 @@ public class SensorsProblemRunConfiguration {
 		DecimalFormat formatter = new DecimalFormat("#.###", symbol);
 		double mean = objFunc.getPopulationFitnessMean(bestIndividualsAfterRun);
 		array[0] = getName();
-		array[1] = formatter.format(getBestFitIndividual().getFitness());
-		array[2] = formatter.format(getWorstFitIndividual().getFitness());
-		array[3] = formatter.format(mean);
-		array[4] = formatter.format(objFunc.getPopulationFitnessMean(bestIndividualsAfterRun));
+		array[1] = String.valueOf(getBestFitIndividual().getFitness());
+		array[2] = String.valueOf(getWorstFitIndividual().getFitness());
+		array[3] = String.valueOf(mean);
+		array[4] = String.valueOf(objFunc.getPopulationFitnessStandardDeviation(bestIndividualsAfterRun));
+//		array[1] = formatter.format(getBestFitIndividual().getFitness());
+//		array[2] = formatter.format(getWorstFitIndividual().getFitness());
+//		array[3] = formatter.format(mean);
+//		array[4] = formatter.format(objFunc.getPopulationFitnessStandardDeviation(bestIndividualsAfterRun));
 		return array;
 	}
 	
@@ -174,7 +178,7 @@ public class SensorsProblemRunConfiguration {
 	}
 	
 	public String getName() {
-		return getObjectiveFunctionName()+"-"+getCrossoverProbability()+"-"+getCrossoverOperatorName()+"-"+getMaxGen();
+		return getObjectiveFunctionName()+"-"+getCrossoverProbability()+"-"+getMutationProbability()+"-"+getCrossoverOperatorName()+"-"+getMaxGen();
 	}
 
 	public int getPopSolutionNumber() {

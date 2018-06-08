@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -47,8 +49,8 @@ public class POIWriter {
 				headRow.createCell(column+1).setCellValue("Fitness");
 				r++;
 				Row dataRow = sheet.createRow(r);				
-				dataRow.createCell(column+1).setCellValue(individual.getAlleleString());
-				dataRow.createCell(column).setCellValue(formatter(individual.getFitness()));
+				dataRow.createCell(column).setCellValue(individual.getAlleleString());
+				dataRow.createCell(column+1).setCellValue(formatter(individual.getFitness()));
 				r++;
 				headRow = sheet.createRow(r);
 				headRow.createCell(column).setCellValue("x");
@@ -106,9 +108,16 @@ public class POIWriter {
 		for (SensorsProblemRunConfiguration runConf : runConfigs) {
 			row = sheet.createRow(rowNum++);
 			colNum = 0;
+			int f=0;
 			for (String field : runConf.getRelevantInfo()) {
 				Cell cell = row.createCell(colNum++);
-				cell.setCellValue(field);
+				if(f>0) cell.setCellValue(Double.parseDouble(field));
+				else cell.setCellValue(field);
+				CellStyle style = workbook.createCellStyle();
+				DataFormat format = workbook.createDataFormat();
+				style.setDataFormat(format.getFormat("0.0"));
+				cell.setCellStyle(style);
+				f++;
 			}
 		}
 		try {

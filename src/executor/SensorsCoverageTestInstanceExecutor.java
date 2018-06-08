@@ -25,7 +25,7 @@ import problemData.SensorsProblemData;
 public class SensorsCoverageTestInstanceExecutor{
 	private static final int MAX_NUM_HILOS = 8;
 	private static boolean tracing = false;
-	static String outputDir = "/home/hernan/git/SIA/pruebaE1";
+	static String outputDir = "/home/hernan/git/SIA/pruebaE2";
 	private static String filename = "CircularRadioTest";
 	
 	static int sensorRatio = 10;
@@ -34,12 +34,12 @@ public class SensorsCoverageTestInstanceExecutor{
 	static SensorsFieldData sensorsFieldData = new SensorsFieldData(sensorRatio, gridSizeX, gridSizeY);
 	static Location[] prefixedLocations = {};
 	
-	private static int alleleLength = 60;
+	private static int alleleLength = 20;
 	private static int[] numExecutions = {30}; //30
 	private static int[] maxGens = {200}; //100,500
 	private static int[] popSolutionNumbers = {100};
-	private static float[] crossoverProbabilities = {0.4f, 0.5f, 0.6f,0.7f, 0.8f};
-	private static float[] mutationProbabilities = {0.1f, 0.3f, 0.5f, 0.7f, 0.9f}; // para que la poblacion sea 1/popSOoutionNumber, ingresar un negativo
+	private static float[] crossoverProbabilities = {0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f,0.7f, 0.8f, 0.9f, 1};
+	private static float[] mutationProbabilities = {0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f,0.7f, 0.8f, 0.9f, 1}; // para que la poblacion sea 1/popSOoutionNumber, ingresar un negativo
 	private static int alfa = 2; //siempre tiene que ser >1 para que funcione bien la func objetivo
 	private static ObjectiveFunction objectiveFunction = new CircularRatioObjectiveFunction(sensorsFieldData, alfa);
 	//new SensorsProblemSquareRatioObjectiveFunction(sensorsFieldData, getTransmissorsPositions(), alfa)

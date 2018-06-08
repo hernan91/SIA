@@ -157,7 +157,6 @@ public class CsvWriter {
 			SensorsProblemIndividual ind = (SensorsProblemIndividual) individual;
 			String filename = String.valueOf(num);
 			fileWriter = new FileWriter(new File(dir.getAbsolutePath(), filename));
-			fileWriter.append("\n"+ind.getAlleleString()+"\n");
 			fileWriter.append("x,y\n");
 			for (Location location : ind.getTransmissorsPositions()) {
 				if(location == null) continue; 
@@ -194,7 +193,7 @@ public class CsvWriter {
 				}
 			}
 			SensorsProblemIndividual ind = (SensorsProblemIndividual) bestInd;
-			fileWriter = new FileWriter(new File(dir.getAbsolutePath(), filename));
+			fileWriter = new FileWriter(new File(dir.getAbsolutePath(), filename+".csv"));
 			fileWriter.append("\n"+ind.getAlleleString()+"\n");
 			fileWriter.append("x,y\n");
 			for (Location location : ind.getTransmissorsPositions()) {

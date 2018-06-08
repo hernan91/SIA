@@ -95,7 +95,7 @@ public abstract class SensorsProblemObjectiveFunction extends ObjectiveFunction 
 	@Override
 	public SensorsProblemIndividual getPopulationWorstFitIndividual(Population population) {
 		sortPopulationByFitness(population.getIndividuals());
-		return (SensorsProblemIndividual)population.getIndividuals().get(0);
+		return (SensorsProblemIndividual)population.getIndividuals().get(population.getNumberOfIndividuals()-1);
 	}
 	
 	@Override
