@@ -1,5 +1,6 @@
 package individuals;
 
+import java.util.Arrays;
 import java.util.Random;
 
 import others.Location;
@@ -79,5 +80,18 @@ public class SensorsProblemIndividual extends BinaryRepresentationIndividual {
 		for(Location l : transmissorsPositions) {
 			if (l!=null) System.out.println("x="+l.getPosX()+" y="+l.getPosY());
 		}
+	}
+
+	@Override
+	public int compareTo(BinaryRepresentationIndividual i2) {
+		SensorsProblemIndividual ind2 = (SensorsProblemIndividual) i2;
+		if(this.getFitness()!=ind2.getFitness()) return -1;
+		if(this.getActiveSensorsNumber()!=ind2.getActiveSensorsNumber()) return -1;
+    	if( !(Arrays.equals(this.getAllele(), ind2.getAllele())) ) return -1;
+    	for(int i=0; i<this.getTransmissorsPositions().length; i++) {
+    		int comparation = this.getTransmissorsPositions()[i].compareTo(ind2.getTransmissorsPositions()[i]);
+    		if(comparation!=0) return -1;
+    	}
+        return 0;
 	}
 }

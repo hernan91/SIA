@@ -11,13 +11,15 @@ public class SensorsProblemData extends ProblemData{
 	private SensorsFieldData sensorsFieldData;
 	private Location[] prefixedPositions;
 	private int randomlyDistributedTransmissors;
+	private float takenFromNewGenProportion;
 	
-	public SensorsProblemData(double maxFit, int alfa, ObjectiveFunction objectiveFunction,
+	public SensorsProblemData(double maxFit, int alfa, float takenFromNewGenProportion, ObjectiveFunction objectiveFunction,
 			Individual individual, Location[] prefixedPositions) {
 		super(objectiveFunction, maxFit, alfa, individual);
 		this.sensorsFieldData = ((SensorsProblemIndividual)getIndividual()).getSensorsFieldData();
 		this.prefixedPositions = prefixedPositions;
 		this.randomlyDistributedTransmissors = getAlleleLength()-prefixedPositions.length;
+		this.takenFromNewGenProportion = takenFromNewGenProportion;
 	}
 	
 	public SensorsFieldData getSensorsFieldProblemData() {
@@ -38,7 +40,7 @@ public class SensorsProblemData extends ProblemData{
 				break;
 			}
 			case "SensorsProblemIndividual": {
-				individual = new SensorsProblemIndividual(getAlleleLength(), getSensorsFieldData()); 
+				individual = new SensorsProblemIndividual(getAlleleLength(), getSensorsFieldProblemData()); 
 				break;
 			}
 			default: throw new ClassNotFoundException();
@@ -51,11 +53,6 @@ public class SensorsProblemData extends ProblemData{
 	public int getAlleleLength() {
 		SensorsProblemIndividual sensorsProblemIndividual = (SensorsProblemIndividual) getIndividual();
 		return sensorsProblemIndividual.getAllele().length;
-	}
-	
-	public SensorsFieldData getSensorsFieldData() {
-		SensorsProblemIndividual sensorsProblemIndividual = (SensorsProblemIndividual) getIndividual();
-		return sensorsProblemIndividual.getSensorsFieldData();
 	}
 
 	public Location[] getPrefixedPositions() {
@@ -82,5 +79,13 @@ public class SensorsProblemData extends ProblemData{
 	@Override
 	public SensorsProblemIndividual getIndividual() {
 		return (SensorsProblemIndividual)super.getIndividual();
+	}
+
+	public float getTakenFromNewGenProportion() {
+		return takenFromNewGenProportion;
+	}
+
+	public void setTakenFromNewGenProportion(float takenFromNewGenProportion) {
+		this.takenFromNewGenProportion = takenFromNewGenProportion;
 	}
 }

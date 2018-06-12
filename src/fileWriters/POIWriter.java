@@ -25,12 +25,7 @@ public class POIWriter {
 	public static void writeSensorsData(String dir, String filename, ArrayList<SensorsProblemRunConfiguration> runConfigs) {
 		XSSFWorkbook workbook = new XSSFWorkbook();
 		for (SensorsProblemRunConfiguration runConf : runConfigs) {
-			String crossoverProbability = String.valueOf(runConf.getCrossoverProbability());
-			String mutationProbability = String.valueOf(runConf.getMutationProbability());
-			String crossoverOperatorShorterName = shortenCrossoverOperator(runConf.getCrossoverOperatorName());
-			String genNumber = String.valueOf(runConf.getMaxGen());
-			String sheetName = crossoverProbability +"-"+ mutationProbability +"-"+ crossoverOperatorShorterName +"-"+ genNumber;
-			XSSFSheet sheet = workbook.createSheet(sheetName);
+			XSSFSheet sheet = workbook.createSheet(runConf.getName());
 			int r = 0;
 			int column = 0;
 			int ejec = 1;
@@ -131,20 +126,6 @@ public class POIWriter {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-	}
-
-	public static String shortenCrossoverOperator(String crossoverOperatorName) {
-		switch (crossoverOperatorName) {
-			case "OnePointCrossoverOperator":
-				return "1PC";
-			case "TwoPointCrossoverOperator":
-				return "2PC";
-			case "ThreePointCrossoverOperator":
-				return "3PC";
-			case "SensorsProblemOnePointCrossoverOperator":
-				return "SP1PC";
-			default: return crossoverOperatorName;
 		}
 	}
 	

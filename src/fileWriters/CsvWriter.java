@@ -25,10 +25,12 @@ public class CsvWriter {
 			fileWriter = new FileWriter(new File(dir.getAbsolutePath(), filename+".csv"));
 			fileWriter.append("x,y\n");
 			for (Location location : locationsArray) {
-				fileWriter.append(String.valueOf(location.getPosX()));
-				fileWriter.append(",");
-				fileWriter.append(String.valueOf(location.getPosY()));
-				fileWriter.append("\n");
+				if(location!=null) {
+					fileWriter.append(String.valueOf(location.getPosX()));
+					fileWriter.append(",");
+					fileWriter.append(String.valueOf(location.getPosY()));
+					fileWriter.append("\n");
+				}
 
 			}
 		} catch (Exception e) {
@@ -96,7 +98,7 @@ public class CsvWriter {
 		File dir = new File(directory+"/runConf");
 		try {
 			dir.mkdirs();
-			fileWriter = new FileWriter(new File(dir.getAbsolutePath(), filename));
+			fileWriter = new FileWriter(new File(dir.getAbsolutePath(), filename+".csv"));
 			fileWriter.write("Fitness del mejor individuo de cada generacion\n");
 			for(Individual ind : runConf.getBestIndividualsAfterRun().getIndividuals()) {
 				fileWriter.append(ind.getFitness()+"\n");
@@ -187,11 +189,12 @@ public class CsvWriter {
 		try {
 			dir.mkdirs();
 			fileWriter = new FileWriter(new File(dir.getAbsolutePath(), filename+".csv"));
-			fileWriter.append("Fitness"+String.valueOf(ind.getFitness())+"\n");
-			fileWriter.append("Cantidad de sensores activados"+ind.getActiveSensorsNumber()+"\n");
+			fileWriter.append("Fitness: "+String.valueOf(ind.getFitness())+"\n");
+			fileWriter.append("Alelo: "+String.valueOf(ind.getAlleleString())+"\n");
+			fileWriter.append("Cantidad de sensores activados: "+ind.getActiveSensorsNumber()+"\n");
 			float coveragePercentage = objFunc.getCoveragePercentage(objFunc.getCoverageGrid(ind));
-			fileWriter.append("Porcentaje de cobertura"+coveragePercentage+"\n");
-			fileWriter.append("Porcentaje de interferencia"+(100-coveragePercentage)+"\n");
+			fileWriter.append("Porcentaje de cobertura: "+coveragePercentage+"%\n");
+			fileWriter.append("Porcentaje de interferencia: "+(100-coveragePercentage)+"%\n");
 		} catch (Exception e) {
 			System.out.println("Error");
 			e.printStackTrace();

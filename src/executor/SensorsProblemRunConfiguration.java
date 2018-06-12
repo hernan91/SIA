@@ -26,7 +26,6 @@ public class SensorsProblemRunConfiguration {
 	private int popSolutionNumber; //numero de soluciones de la poblacion
 	private float crossoverProbability;
 	private float mutationProbability; //1/popSOoutionNumber
-	private float takenFromNewGen;
 	private boolean tracing;
 	private int randomlyDistributedTransmissors;
 	private Location[] prefixedPositions;
@@ -35,7 +34,7 @@ public class SensorsProblemRunConfiguration {
 	
 	public SensorsProblemRunConfiguration (int numExecutions, SelectionOperator selectionOperator, CrossoverOperator crossoverOperator, 
 			MutationOperator mutationOperator, ReplacementOperator replacementOperator, int maxGen, float crossoverProbability,
-			float mutationProbability, float takenFromNewGen, int popSolutionNumber, boolean tracing, SensorsProblemData sensorsProblemData) {
+			float mutationProbability, int popSolutionNumber, boolean tracing, SensorsProblemData sensorsProblemData) {
 		this.numExecutions = numExecutions;
 		this.selectionOperator = selectionOperator;
 		this.crossoverOperator = crossoverOperator;
@@ -47,7 +46,6 @@ public class SensorsProblemRunConfiguration {
 		this.popSolutionNumber = popSolutionNumber;
 		this.tracing = tracing;
 		this.sensorsProblemData = sensorsProblemData;
-		this.takenFromNewGen = takenFromNewGen;
 	}
 	
 	public String getInfo() {
@@ -64,13 +62,13 @@ public class SensorsProblemRunConfiguration {
 				"Numero de sensores aleatoriamente distribuidos= " + randomlyDistributedTransmissors +"\n"+
 				"Numero de ejecuciones= "+ numExecutions +"\n" +
 				"Operador de seleccion= "+ getSelectionOperator() +"\n" +
-				"Operador de cruza= "+ getCrossoverOperatorName() +"\n" +
+				"Operador de cruza= "+ getCrossoverOperatorClassname() +"\n" +
 				"Operador de mutacion= "+ getMutationOperatorName() +"\n" +
 				"Operador de seleccion= "+ getReplacementOperator() +"\n" +
 				"Numero de generaciones= "+ maxGen +"\n" +
 				"Probabilidad de cruza= "+ crossoverProbability +"\n" +
 				"Probabilidad de mutación= "+ mutationProbability +"\n" +
-				"Proporción de individuos tomados de la nueva generacion"+ getTakenFromNewGen()+"\n"+
+				"Proporción de individuos tomados de la nueva generacion= "+ getTakenFromNewGenProportion()+"\n"+
 				"Función objetivo= "+ getObjectiveFunctionName() +"\n" +
 				"Número de individuos de la población= "+ popSolutionNumber +"\n" +
 				"Alfa= "+ getAlfa() +"\n" +
@@ -85,7 +83,7 @@ public class SensorsProblemRunConfiguration {
 		String[] array = new String[5];
 		DecimalFormatSymbols symbol = new DecimalFormatSymbols();
 		symbol.setDecimalSeparator(',');
-		DecimalFormat formatter = new DecimalFormat("#.###", symbol);
+		//DecimalFormat formatter = new DecimalFormat("#.###", symbol);
 		double mean = objFunc.getPopulationFitnessMean(bestIndividualsAfterRun);
 		array[0] = getName();
 		array[1] = String.valueOf(getBestFitIndividual().getFitness());
@@ -115,17 +113,9 @@ public class SensorsProblemRunConfiguration {
 		return crossoverOperator;
 	}
 
-	public String getCrossoverOperatorName() {
+	public String getCrossoverOperatorClassname() {
 		String s = crossoverOperator.getClass().getName();
-		s = s.substring(s.indexOf(".")+1);
-		switch(s) {
-			case "OnePointCrossoverOperator": return "Cruza1Punto";
-			case "TwoPointCrossoverOperator": return "Cruza2Puntos";
-			case "ThreePointCrossoverOperator": return "Cruza3Puntos";
-			case "SensorsProblemOnePointCrossoverOperator": return "CruzaSensores1Punto";
-			case "SensorsProblemTwoPointCrossoverOperator": return "CruzaSensores2Puntos";
-		}
-		return "None";
+		return s.substring(s.indexOf(".")+1);
 	}
 	
 	public String getMutationOperatorName() {
@@ -182,7 +172,31 @@ public class SensorsProblemRunConfiguration {
 	}
 	
 	public String getName() {
-		return getObjectiveFunctionName()+"-"+getCrossoverProbability()+"-"+getMutationProbability()+"-"+getCrossoverOperatorName()+"-"+getMaxGen();
+		String crossoverProbability = String.valueOf(getCrossoverProbability());
+		String mutationProbability = String.valueOf(getMutationProbability());
+		String takenFromNewGen = String.valueOf(getTakenFromNewGenProportion());
+		String objectiveFunction = getObjectiveFunctionName();
+		String crossoverOperatorShorterName = shortenCrossoverOperator(getCrossoverOperatorClassname());
+		String genNumber = String.valueOf(getMaxGen());
+		String name = "PC="+crossoverProbability +"-"+ "PM="+mutationProbability +"-"+ "PR="+takenFromNewGen+"-"+
+				"IT="+genNumber +"-"+"OPC="+crossoverOperatorShorterName +"-"+"OF="+objectiveFunction;
+		return name;
+	}
+	
+	public static String shortenCrossoverOperator(String crossoverOperatorName) {
+		switch (crossoverOperatorName) {
+			case "OnePointCrossoverOperator":
+				return "1PC";
+			case "TwoPointCrossoverOperator":
+				return "2PC";
+			case "ThreePointCrossoverOperator":
+				return "3PC";
+			case "SensorsProblemOnePointCrossoverOperator":
+				return "SP1PC";
+			case "SensorsProblemTwoPointCrossoverOperator":
+				return "SP2PC";
+			default: return crossoverOperatorName;
+		}
 	}
 
 	public int getPopSolutionNumber() {
@@ -210,15 +224,15 @@ public class SensorsProblemRunConfiguration {
 	}
 
 	public int getSensorRatio() {
-		return sensorsProblemData.getSensorsFieldData().getTransmissorRangeRatio();
+		return sensorsProblemData.getSensorsFieldProblemData().getTransmissorRangeRatio();
 	}
 
 	public int getGridSizeX() {
-		return sensorsProblemData.getSensorsFieldData().getGridSizeX();
+		return sensorsProblemData.getSensorsFieldProblemData().getGridSizeX();
 	}
 
 	public int getGridSizeY() {
-		return sensorsProblemData.getSensorsFieldData().getGridSizeY();
+		return sensorsProblemData.getSensorsFieldProblemData().getGridSizeY();
 	}
 
 	public int getRandomlyDistributedTransmissors() {
@@ -230,7 +244,7 @@ public class SensorsProblemRunConfiguration {
 	}
 
 	public SensorsFieldData getSensorsFieldData() {
-		return sensorsProblemData.getSensorsFieldData();
+		return sensorsProblemData.getSensorsFieldProblemData();
 	}
 
 	public Location[] getPrefixedPositions() {
@@ -297,11 +311,11 @@ public class SensorsProblemRunConfiguration {
 		ReplacementOperator = replacementOperator;
 	}
 
-	public float getTakenFromNewGen() {
-		return takenFromNewGen;
+	public float getTakenFromNewGenProportion() {
+		return getSensorsProblemData().getTakenFromNewGenProportion();
 	}
 
-	public void setTakenFromNewGen(float takenFromNewGen) {
-		this.takenFromNewGen = takenFromNewGen;
+	public void setTakenFromNewGen(float takenFromNewGenProportion) {
+		getSensorsProblemData().setTakenFromNewGenProportion(takenFromNewGenProportion);
 	}
 }

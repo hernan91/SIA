@@ -27,7 +27,7 @@ public class CanonicalGA{
 	private ProblemData problemData;
 	
 	public CanonicalGA(int alleleLength, int popSolutionNumber, int maxGen,
-			float crossoverProbability, float mutationProbability, 
+			float crossoverProbability, float mutationProbability,
 			SelectionOperator selectionOperator,	CrossoverOperator crossoverOperator, MutationOperator mutationOperator, ReplacementOperator replacementOperator, 
 			ProblemData data) {
 		super();
@@ -52,6 +52,7 @@ public class CanonicalGA{
 			Population selectedParentsPopulation = applySelectionStrategy(replacedPopulation);
 			Population offspringPopulation = applyReproductionStrategy(selectedParentsPopulation);
 			replacedPopulation = applyReplacementStrategy(replacedPopulation, offspringPopulation);
+			
 			bestFitness = objFunc.getPopulationBestFitIndividual(replacedPopulation).getFitness();
 			if(tracing) {
 				System.out.println("Generación nro "+genNumber);

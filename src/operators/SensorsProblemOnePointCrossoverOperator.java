@@ -8,7 +8,7 @@ import operatorsModels.CrossoverOperator;
 import others.Location;
 import problemData.ProblemData;
 
-public class SensorsProblemOnePointCrossoverOperator extends OnePointCrossoverOperator{
+public class SensorsProblemOnePointCrossoverOperator extends CrossoverOperator{
 
 	public SensorsProblemOnePointCrossoverOperator(ProblemData problemData) {
 		super(problemData);
