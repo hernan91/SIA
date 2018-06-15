@@ -44,27 +44,6 @@ public class CsvWriter {
 		}
 	}
 	
-	public static void writeSolution(String directory, String filename, BinaryRepresentationIndividual individual) {
-		FileWriter fileWriter = null;
-		File dir = new File(directory);
-		try {
-			dir.mkdirs();
-			fileWriter = new FileWriter(new File(dir.getAbsolutePath(), filename+".csv"));
-			for(int num : individual.getAllele()) fileWriter.write(String.valueOf(num)+"\n");
-		} catch (Exception e) {
-			System.out.println("Error");
-			e.printStackTrace();
-		} finally {
-			try {
-				fileWriter.flush();
-				fileWriter.close();
-			} catch (IOException e) {
-				System.out.println("Error while flushing/closing fileWriter !!!");
-				e.printStackTrace();
-			}
-		}
-	}
-	
 	public static void writeGrid(String fileName, int[][] coverageGrid) {
 		FileWriter fileWriter = null;
 		try {
@@ -116,7 +95,7 @@ public class CsvWriter {
 		}
 	}
 	
-	public static void writeIndividuals(String directory, Population pop) {
+	/*public static void writeIndividuals(String directory, Population pop) {
 		FileWriter fileWriter = null;
 		File dir = new File(directory);
 		try {
@@ -147,9 +126,9 @@ public class CsvWriter {
 				e.printStackTrace();
 			}
 		}
-	}
+	}*/
 	
-	public static void writeSensorsIndividual(String directory, Individual individual) {
+	/*public static void writeSensorsIndividual(String directory, Individual individual) {
 		FileWriter fileWriter = null;
 		File dir = new File(directory);
 		try {
@@ -178,7 +157,7 @@ public class CsvWriter {
 				e.printStackTrace();
 			}
 		}
-	}
+	}*/
 	
 	public static void writeSensorsIndividualData(String directory, String filename, SensorsProblemIndividual ind, SensorsProblemObjectiveFunction objFunc) {
 		FileWriter fileWriter = null;
@@ -206,7 +185,7 @@ public class CsvWriter {
 		}
 	}
 	
-	public static void writeSensorsIndividuals(String directory, Population pop) {
+	/*public static void writeSensorsIndividuals(String directory, Population pop) {
 		FileWriter fileWriter = null;
 		File dir = new File(directory);
 		try {
@@ -238,7 +217,7 @@ public class CsvWriter {
 				e.printStackTrace();
 			}
 		}
-	}
+	}*/
 	
 	
 }

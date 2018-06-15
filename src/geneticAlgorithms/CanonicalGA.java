@@ -9,6 +9,7 @@ import operatorsModels.MutationOperator;
 import operatorsModels.Operator;
 import operatorsModels.ReplacementOperator;
 import operatorsModels.SelectionOperator;
+import operatorsModels.TranslocationOperator;
 import others.Population;
 import problemData.ProblemData;
 
@@ -19,13 +20,14 @@ public class CanonicalGA{
 	private float mutationProbability;
 	private SelectionOperator selectionOperator;
 	private CrossoverOperator crossoverOperator;
+	private TranslocationOperator translocationOperator;
 	private MutationOperator mutationOperator;
 	private ReplacementOperator replacementOperator;
 	private ProblemData problemData;
 	
 	public CanonicalGA(int alleleLength, int popSolutionNumber, int maxGen,
 			float crossoverProbability, float mutationProbability,
-			SelectionOperator selectionOperator,	CrossoverOperator crossoverOperator, MutationOperator mutationOperator, ReplacementOperator replacementOperator, 
+			SelectionOperator selectionOperator, CrossoverOperator crossoverOperator, TranslocationOperator translocationOperator, MutationOperator mutationOperator, ReplacementOperator replacementOperator, 
 			ProblemData data) {
 		super();
 		this.popSolutionNumber = popSolutionNumber;
@@ -34,6 +36,7 @@ public class CanonicalGA{
 		this.mutationProbability = mutationProbability;
 		this.selectionOperator = selectionOperator;
 		this.crossoverOperator = crossoverOperator;
+		this.translocationOperator = translocationOperator;
 		this.mutationOperator = mutationOperator;
 		this.replacementOperator = replacementOperator;
 		this.problemData = data;
@@ -82,6 +85,7 @@ public class CanonicalGA{
 	private Population applyReproductionStrategy(Population population) {
 		population = population.copy();
 		population = crossoverOperator.operate(population);
+		if(translocationOperator!=null) population = translocationOperator.operate(population);
 		population = mutationOperator.operate(population);
 		return population;
 	}
@@ -167,5 +171,13 @@ public class CanonicalGA{
 
 	public ProblemData getProblemData() {
 		return problemData;
+	}
+
+	public TranslocationOperator getTranslocationOperator() {
+		return translocationOperator;
+	}
+
+	public void setTranslocationOperator(TranslocationOperator translocationOperator) {
+		this.translocationOperator = translocationOperator;
 	}
 }

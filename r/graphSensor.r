@@ -1,18 +1,18 @@
 library(plotrix)
-dir = "~/git/SIA/pruebaG1/";
-bestInd = read.csv("~/git/SIA/pruebaF1/bestInd.csv", header = TRUE, sep = ",", dec = ".")
+dir = "~/git/SIA/pruebas/M1/bestIndLocations.csv";
+bestInd = read.csv(dir, header = TRUE, sep = ",", dec = ".")
 
 x = bestInd$x
 y = bestInd$y
 
 toImage = TRUE;
 
-if(toImage) png("~/git/SIA/pruebaG1/bestInd.png", width=800, height=800)
+if(toImage) png("~/git/SIA/pruebas/M1/bestIndLocations.png", width=800, height=800)
 
 # Graph the cars vector with all defaults
-plot(x,y,pch=20, ylim=c(0,60), xlim=c(0,60))
+plot(x,y,pch=20, ylim=c(0,287), xlim=c(0,287))
 
-range=10
+range=23
 
 #  for (i in 1:9){
 #    points(x[i],y[i],col=rgb(1,0,0),pch=20)

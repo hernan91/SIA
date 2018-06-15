@@ -47,21 +47,25 @@ public class Test2 {
 //		//ArrayList<SensorsProblemIndividual> individuals = new ArrayList<SensorsProblemIndividual>();
 //		//for(int i=0; i<numberOfIndividuals; i++) individuals.add(new SensorsProblemIndividual(alleleLength, areaData));
 //				
+		String dir = "/home/hernan/git/SIA/pruebas/M1";
 		int alfa = 2;
 		int alelleLength = 4;
 		int maxGen = 100;
+		float threshold = 10*1f;
 		Location[] prefixedPositions = {};
 		SensorsFieldData sfData = new SensorsFieldData(10, 60, 60);
 		CircularRatioObjectiveFunction objFunc = new CircularRatioObjectiveFunction(sfData, alfa);
 		SensorsProblemIndividual ind = new SensorsProblemIndividual(alelleLength, sfData);
 		SensorsProblemData spData = new SensorsProblemData(99999, alfa, 0, objFunc, ind, prefixedPositions, maxGen);
-		PacoOperator paco = new PacoOperator(spData);
+		PacoOperator paco = new PacoOperator(spData, threshold);
 		ArrayList<Individual> individuals = new ArrayList<>();
 		int[] allele = {1,1,1,1};
-		Location[] loc = {new Location(10,10), new Location(10,10), new Location(10,10), new Location(10,10), new Location(10,10)};
-		individuals.add(new SensorsProblemIndividual(allele, 0, loc, sfData));
+		Location[] loc = {new Location(10,10), new Location(15,15), new Location(20,20), new Location(25,25)};
+		SensorsProblemIndividual spIndividual = new SensorsProblemIndividual(60, sfData);
+		CsvWriter.writeSensorsLocations(dir, "pre", spIndividual.getTransmissorsPositions());
+		individuals.add(spIndividual);
 		Population population = new Population(individuals, spData);
 		paco.operate(population);
-		CsvWriter.writeGrid("/home/hernan/git/SIA/pruebas/M1/asd.csv", intersectionGrid);
+		CsvWriter.writeSensorsLocations(dir, "post", spIndividual.getTransmissorsPositions());
 	}
 }

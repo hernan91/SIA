@@ -30,40 +30,40 @@ public class SensorsCoverageTestInstanceExecutor{
 	private static String filename = "M1";
 	static String outputDir = "/home/hernan/git/SIA/pruebas/"+filename;
 	
-	static int sensorRatio = 10; //23
-	static int gridSizeX = 60; //287
-	static int gridSizeY = 60;
+	static int sensorRatio = 15; //23
+	static int gridSizeX = 287; //287
+	static int gridSizeY = 287;
 	static SensorsFieldData sensorsFieldData = new SensorsFieldData(sensorRatio, gridSizeX, gridSizeY);
 	static Location[] prefixedLocations = {};
 	
-	private static int alleleLength = 60; //200
+	private static int alleleLength = 200; //200
 	private static int[] numExecutions = {1}; //30
-	private static int[] maxGens = {200}; //100,500
+	private static int[] maxGens = {100}; //100,500
 	private static int[] popSolutionNumbers = {100}; //Solo pares
 	private static float[] crossoverProbabilities = {1f};// OP=0.7 {0.1f, 0.3f, 0.5f, 0.7f, 0.9f, 1};
-	private static float[] translocationOpThrershold = {1f};
+	private static float[] translocationOpThrershold = {sensorRatio*1.3f};//(float) Math.sqrt(3*sensorRatio)/2
 	private static float[] mutationProbabilities = {1f};// OP=0.9 {0.7f, 0.8f}; // para que la poblacion sea 1/popSOoutionNumber, ingresar un negativo
-	private static float[] takenFromNewGenProportions = {0.99f};// OP=0.6 {0.3f, 0.9f}; //0.1f, 0.3f, 0.5f, 0.7f, 0.9f, 1
+	private static float[] takenFromNewGenProportions = {0.95f};// OP=0.6 {0.3f, 0.9f}; //0.1f, 0.3f, 0.5f, 0.7f, 0.9f, 1
 	private static int alfa = 2; //siempre tiene que ser >1 para que funcione bien la func objetivo
 	private static ObjectiveFunction objectiveFunction = new CircularRatioObjectiveFunction(sensorsFieldData, alfa);
 	//new SensorsProblemSquareRatioObjectiveFunction(sensorsFieldData, getTransmissorsPositions(), alfa)
 	private static double maxFit = 700f; //1111,111111111 cuadrado  684,694444444/   676 para 9 sensores circulares radio 10
 	private static Individual individual = new SensorsProblemIndividual(alleleLength, sensorsFieldData);
 	
-	private static String[] selectionOperatorsClassname = {"RouletteWheelSelectionOperator", };//new BinaryTournamentSelectionOperator(sensorsProblemData) 
+	private static String[] selectionOperatorsClassname = {"BinaryTournamentSelectionOperator", };//new BinaryTournamentSelectionOperator(sensorsProblemData) 
 	private static String[] crossoverOperatorsClassname = {"SensorsProblemSimpleTwoPointCrossoverOperator"};//SensorsProblemSimpleTwoPointCrossoverOperator(sensorsProblemData)
-	private static String[] translocationOperatorClassname = {"PacoCrossoverOperator"};
+	private static String[] translocationOperatorClassname = {"PacoOperator"};
 			//new SensorsProblemOnePointCrossoverOperator(sensorsProblemData),
 //	private static Operator[] crossoverOperators = {
 //			new OnePointCrossoverOperator(),
 //			new TwoPointCrossoverOperator(),
 //			new ThreePointCrossoverOperator()};
-	private static String[] mutationOperatorsClassname = {"SingleVortexNeighborhoodMutationOperator"}; //new SingleVortexNeighborhoodMutationOperator(sensorsProblemData)
+	private static String[] mutationOperatorsClassname = {"RandomMutationOperator"}; //new SingleVortexNeighborhoodMutationOperator(sensorsProblemData)
 //	private static Operator[] crossoverOperators = {
 //			new OnePointCrossoverOperator(),
 //			new TwoPointCrossoverOperator(),
 //			new ThreePointCrossoverOperator()};
-	private static String[] replacementOperatorsClassname = {"SensorsProblemProportionReplacementOperator"}; //new SensorsProblemProportionReplacementOperator(sensorsProblemData)
+	private static String[] replacementOperatorsClassname = {"ElitistReplacementOperator"}; //new SensorsProblemProportionReplacementOperator(sensorsProblemData)
 			//new SensorsProblemSimpleReplacementWithoutRepeatedInd(sensorsProblemData)
 	
 	public static void main(String[] args) {
@@ -117,7 +117,7 @@ public class SensorsCoverageTestInstanceExecutor{
 																numExecutions[i], 
 																(SelectionOperator)getInstance(selectionOperatorsClassname[j], sensorsProblemData, null), 
 																(CrossoverOperator)getInstance(crossoverOperatorsClassname[k], sensorsProblemData, crossoverProbabilities[p]), 
-																(TranslocationOperator)getInstance(translocationOperatorClassname[l], sensorsProblemData, null),
+																(TranslocationOperator)getInstance(translocationOperatorClassname[l], sensorsProblemData, translocationOpThrershold[q]),
 																(MutationOperator)getInstance(mutationOperatorsClassname[m], sensorsProblemData, mutationProbabilities[r]),
 																(ReplacementOperator)getInstance(replacementOperatorsClassname[n], sensorsProblemData, null),
 																maxGens[o], 
@@ -167,7 +167,7 @@ public class SensorsCoverageTestInstanceExecutor{
 	}
 	
 	public static SensorsProblemIndividual getBestIndividual(ArrayList<SensorsProblemRunConfiguration> confs) {
-		SensorsProblemIndividual bestInd = null;
+		SensorsProblemIndividual bestInd = new SensorsProblemIndividual(new int[0], 0, new Location[0], SensorsCoverageTestInstanceExecutor.sensorsFieldData);
 		for(SensorsProblemRunConfiguration runConfiguration: confs) {
 			SensorsProblemIndividual currentBest = runConfiguration.getBestFitIndividual();
 			if(currentBest.getFitness()>bestInd.getFitness()) {

@@ -118,7 +118,7 @@ public abstract class SensorsProblemObjectiveFunction extends ObjectiveFunction 
 		Iterator<Individual> it = population.getIndividuals().iterator();
 		float sumatoriaCuad = 0;
 		while(it.hasNext()) sumatoriaCuad += Math.pow(it.next().getFitness()-getPopulationFitnessMean(population), 2);
-		return Math.sqrt(sumatoriaCuad/population.getNumberOfIndividuals());
+		return Math.sqrt(((float)sumatoriaCuad)/population.getNumberOfIndividuals());
 	}
 	
 	@Override

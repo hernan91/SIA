@@ -47,6 +47,7 @@ public class ThreadedExecutor implements Runnable {
 				runConf.getMutationProbability(),
 				runConf.getSelectionOperator(),
 				runConf.getCrossoverOperator(),
+				runConf.getTranslocationOperator(),
 				runConf.getMutationOperator(),
 				runConf.getReplacementOperator(),
 				runConf.getSensorsProblemData()

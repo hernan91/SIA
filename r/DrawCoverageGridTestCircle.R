@@ -1,12 +1,14 @@
-coveredPoints <- read.csv("~/git/SIA/circularGridSolution.csv", header = TRUE, sep = ",", dec = ".")
+library(plotrix)
+coveredPoints <- read.csv("/home/hernan/git/SIA/pruebas/M1/pre.csv", header = TRUE, sep = ",", dec = ".")
 range= 10
-plot(coveredPoints, col = 'black')
-
-draw.circle(10,10,range,border="purple",col=rgb(1,0,0,alpha =0.6),lty=1,lwd=1)
-draw.circle(30,30,range,border="purple",col=rgb(1,0,0,alpha =0.6),lty=1,lwd=1)
-draw.circle(50,50,range,border="purple",col=rgb(1,0,0,alpha =0.6),lty=1,lwd=1)
+png("/home/hernan/git/SIA/pruebas/M1/asd.png", width=800, height=800)
+plot(coveredPoints, col = 'black', xlim=c(0,60), ylim=c(0,60), plt="s")
 
 
+draw.circle(11,10,range,border="purple",col=rgb(1,0,0,alpha =0.1),lty=1,lwd=1)
+draw.circle(30,11,range,border="purple",col=rgb(1,0,0,alpha =0.1),lty=1,lwd=1)
 
-#png("~/git/SIA/r/img.png", width=800, height=800)
-#dev.off()
+
+
+
+dev.off()
