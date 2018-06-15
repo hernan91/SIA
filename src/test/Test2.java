@@ -6,11 +6,11 @@ import fileWriters.CsvWriter;
 import individuals.Individual;
 import individuals.SensorsProblemIndividual;
 import objectiveFunctions.CircularRatioObjectiveFunction;
-import operators.PacoOperator;
 import others.Location;
 import others.Population;
 import problemData.SensorsFieldData;
 import problemData.SensorsProblemData;
+import translocationOperators.PacoOperator;
 
 public class Test2 {
 	public static void main(String args[]) {

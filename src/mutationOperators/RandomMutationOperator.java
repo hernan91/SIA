@@ -1,4 +1,4 @@
-package operators;
+package mutationOperators;
 
 import java.util.Random;
 

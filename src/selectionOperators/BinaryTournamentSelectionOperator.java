@@ -1,4 +1,4 @@
-package operators;
+package selectionOperators;
 
 import java.util.ArrayList;
 import java.util.Random;

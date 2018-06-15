@@ -1,4 +1,4 @@
-package operators;
+package translocationOperators;
 
 import java.util.ArrayList;
 import individuals.Individual;
