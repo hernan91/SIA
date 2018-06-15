@@ -23,7 +23,8 @@ public class BinaryTournamentSelectionOperator extends SelectionOperator{
 	 * @param individuals EL arrayList de la poblacion de la cual se seleccionaran los individuos
 	 * @return El individuo que gane el torneo
 	 */
-	private Individual doTournamentRound(ArrayList<Individual> individuals) {
+	@Override
+	public Individual select(ArrayList<Individual> individuals) {
 		Random rand = new Random();
 		int randNum1 = rand.nextInt(individuals.size()-1);
 		int randNum2 = rand.nextInt(individuals.size()-1);
@@ -35,9 +36,4 @@ public class BinaryTournamentSelectionOperator extends SelectionOperator{
 	/**
 	 * Devuelve un arrayList con el individuo ganador del torneo
 	 */
-	public ArrayList<Individual> operate(ArrayList<Individual> population) {
-		ArrayList<Individual> individuals = new ArrayList<>();
-		individuals.add(doTournamentRound(population));
-		return individuals;
-	}
 }

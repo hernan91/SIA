@@ -22,7 +22,7 @@ public abstract class SensorsProblemObjectiveFunction extends ObjectiveFunction 
 	
 	public abstract int[][] getCoverageGrid(Individual individual);
 	
-	protected int[][] initializeGrid(){
+	public int[][] initializeGrid(){
 		int gridSizeX = sensorsFieldData.getGridSizeX();
 		int gridSizeY = sensorsFieldData.getGridSizeY();
 		int grid[][] = new int[gridSizeX][gridSizeY];
@@ -66,8 +66,10 @@ public abstract class SensorsProblemObjectiveFunction extends ObjectiveFunction 
 		SensorsProblemIndividual individual = (SensorsProblemIndividual) ind;
 		int[][] coverageGrid =  getCoverageGrid(individual);
 		int usedTransmissors = 0;
-		for(int bit : individual.getAllele()) usedTransmissors += bit; 
-		return calcFitness(coverageGrid, usedTransmissors, alfa);
+		for(int bit : individual.getAllele()) usedTransmissors += bit;
+		double fitness = calcFitness(coverageGrid, usedTransmissors, alfa);
+		ind.setFitness(fitness);
+		return fitness;
 	}
 
 	public void evaluatePopulation(ArrayList<Individual> population) {

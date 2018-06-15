@@ -24,6 +24,8 @@ public class ThreadedExecutor implements Runnable {
 		System.out.println("Hilo "+number+" comienza su ejecución");
 		ArrayList<Individual> bestIndividuals = new ArrayList<>();
 		for(int i=0; i<runConf.getNumExecutions(); i++) {
+			if(SensorsCoverageTestInstanceExecutor.progressVerbosity>0)
+				System.out.println("Hilo "+number+" %"+((float)i/runConf.getNumExecutions())*100);
 			bestIndividuals.add(gaExecute(runConf));
 		}		
 		runConf.setBestIndividualsAfterRun(new Population(bestIndividuals, runConf.getSensorsProblemData()));
@@ -33,6 +35,7 @@ public class ThreadedExecutor implements Runnable {
 		//CsvWriter.writeSolution(outputDir, filename, bestFitIndividual);
 		//CsvWriter.writeLocations(outputDir, getTransmissorsPositions());
 		System.out.println("Hilo "+number+" termina su ejecución");
+		System.out.println("");
 	}
 	
 	public static Individual gaExecute(SensorsProblemRunConfiguration runConf) {		

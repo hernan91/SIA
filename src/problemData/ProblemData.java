@@ -8,13 +8,16 @@ public abstract class ProblemData{
 	private double maxFit; //maximo fitness a encontrar hasta parar
 	private int alfa;
 	private Individual individual;
+	private int maxGen;
+	private int currentGeneration;
 	
-	public ProblemData(ObjectiveFunction objFunc, double maxFit, int alfa, Individual individual) {
+	public ProblemData(ObjectiveFunction objFunc, double maxFit, int alfa, Individual individual, int maxGen) {
 		super();
 		this.maxFit = maxFit;
 		this.alfa = alfa;
 		this.objFunc = objFunc;
 		this.individual = individual;
+		this.maxGen = maxGen;
 	}
 	
 	public ObjectiveFunction getObjFunc() {
@@ -50,4 +53,20 @@ public abstract class ProblemData{
 	}
 
 	public abstract Individual getIndividualInstance() throws ClassNotFoundException;
+
+	public int getMaxGen() {
+		return maxGen;
+	}
+
+	public void setMaxGen(int maxGen) {
+		this.maxGen = maxGen;
+	}
+	
+	public int getCurrentGeneration() {
+		return currentGeneration;
+	}
+
+	public void setCurrentGeneration(int currentGeneration) {
+		this.currentGeneration = currentGeneration;
+	}
 }

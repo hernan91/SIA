@@ -3,9 +3,6 @@ package fileWriters;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 
 import executor.SensorsProblemRunConfiguration;
 import individuals.BinaryRepresentationIndividual;

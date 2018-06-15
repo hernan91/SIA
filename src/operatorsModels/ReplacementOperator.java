@@ -7,6 +7,6 @@ public abstract class ReplacementOperator extends Operator{
 	public ReplacementOperator(ProblemData problemData) {
 		super(problemData);
 	}
-
+	
 	public abstract Population operate(Population oldGeneration, Population newGeneration);
 }

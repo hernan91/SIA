@@ -12,7 +12,7 @@ import objectiveFunctions.SquareRatioObjectiveFunction;
 import operators.BinaryTournamentSelectionOperator;
 import operators.BitFlipMutationOperator;
 import operators.OnePointCrossoverOperator;
-import operators.SimpleReplacementOperator;
+import operators.ElitistReplacementOperator;
 import operators.TwoPointCrossoverOperator;
 import operatorsModels.Operator;
 import others.Location;
@@ -65,7 +65,7 @@ public class MainExecutor{
 		//Operator crossoverOperator = new TwoPointCrossoverOperator();
 		//Operator crossoverOperator = new ThreePointCrossoverOperator();
 		Operator mutationOperator = new BitFlipMutationOperator();
-		Operator replacementOperator = new SimpleReplacementOperator(sensorsCoverageOptimizationProblemData.getObjFunc(), popSolutionNumber);
+		Operator replacementOperator = new ElitistReplacementOperator(sensorsCoverageOptimizationProblemData.getObjFunc(), popSolutionNumber);
 		
 		CanonicalGA ga = new CanonicalGA(transmissorsPositions.size(), popSolutionNumber, maxGen, crossoverProbability, mutationProbability, 
 				selectionOperator, crossoverOperator, mutationOperator, replacementOperator, sensorsCoverageOptimizationProblemData);
@@ -80,7 +80,7 @@ public class MainExecutor{
 		Operator selectionOperator = new BinaryTournamentSelectionOperator(oneMaxProblemData.getObjFunc());
 		Operator crossoverOperator = new TwoPointCrossoverOperator();
 		Operator mutationOperator = new BitFlipMutationOperator();
-		Operator replacementOperator = new SimpleReplacementOperator(oneMaxProblemData.getObjFunc(), popSolutionNumber);
+		Operator replacementOperator = new ElitistReplacementOperator(oneMaxProblemData.getObjFunc(), popSolutionNumber);
 		CanonicalGA ga = new CanonicalGA(alleleLength, popSolutionNumber, maxGen, crossoverProbability, mutationProbability, 
 				selectionOperator, crossoverOperator, mutationOperator, replacementOperator, oneMaxProblemData);
 		ga.execute(tracing);

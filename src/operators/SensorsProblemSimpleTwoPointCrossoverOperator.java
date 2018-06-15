@@ -8,13 +8,13 @@ import operatorsModels.CrossoverOperator;
 import others.Location;
 import problemData.ProblemData;
 
-public class SensorsProblemTwoPointCrossoverOperator extends CrossoverOperator{
-	public SensorsProblemTwoPointCrossoverOperator(ProblemData problemData) {
-		super(problemData);
+public class SensorsProblemSimpleTwoPointCrossoverOperator extends CrossoverOperator{
+	public SensorsProblemSimpleTwoPointCrossoverOperator(ProblemData problemData, float crossoverProbability) {
+		super(problemData, crossoverProbability);
 	}
 
 	@Override
-	public void operate(Individual individual1, Individual individual2) {
+	public void cross(Individual individual1, Individual individual2) {
 		Random rand = new Random();
 		SensorsProblemIndividual ind1 = (SensorsProblemIndividual) individual1;
 		SensorsProblemIndividual ind2 = (SensorsProblemIndividual) individual2;

@@ -24,16 +24,15 @@ import others.Location;
 public class POIWriter {
 	public static void writeSensorsData(String dir, String filename, ArrayList<SensorsProblemRunConfiguration> runConfigs) {
 		XSSFWorkbook workbook = new XSSFWorkbook();
+		int i = 0;
 		for (SensorsProblemRunConfiguration runConf : runConfigs) {
-			XSSFSheet sheet = workbook.createSheet(runConf.getName());
+			XSSFSheet sheet = workbook.createSheet("Conf "+i);
 			int r = 0;
 			int column = 0;
 			int ejec = 1;
-			//Row row = sheet.createRow(r);
-			//Cell cell = row.createCell(column);
-//			cell.setCellValue("Fitness");
-//			row.createCell(column+1).setCellValue("Allele");
-//			r++;
+			Row nameRow = sheet.createRow(r);
+			nameRow.createCell(column).setCellValue(runConf.getName());
+			r++;
 			for (Individual ind : runConf.getBestIndividualsAfterRun().getIndividuals()) {
 				SensorsProblemIndividual individual = (SensorsProblemIndividual) ind;
 				Row titleRow = sheet.createRow(r);
@@ -74,6 +73,7 @@ public class POIWriter {
 				cell.setCellValue(tokenizer.nextToken());
 				r++;
 			}
+			i++;
 		}
 		try {
 			File directory = new File(dir + "/runConf");
@@ -91,7 +91,7 @@ public class POIWriter {
 
 	public static void writeRelevantData(String dir, String filename, ArrayList<SensorsProblemRunConfiguration> runConfigs) {
 		XSSFWorkbook workbook = new XSSFWorkbook();
-		XSSFSheet sheet = workbook.createSheet();
+		XSSFSheet sheet = workbook.createSheet("Configuraciones de corrida");
 		String[] columnHeaders = { "Configuracion", "Mejor fitness", "Peor fitness", "Media", "Desvio estandar"};
 		int colNum = 0;
 		Row row = sheet.createRow(0);

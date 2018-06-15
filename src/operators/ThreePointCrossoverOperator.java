@@ -8,12 +8,12 @@ import operatorsModels.CrossoverOperator;
 import problemData.ProblemData;
 
 public class ThreePointCrossoverOperator extends CrossoverOperator{
-	public ThreePointCrossoverOperator(ProblemData problemData) {
-		super(problemData);
+	public ThreePointCrossoverOperator(ProblemData problemData, float crossoverProbability) {
+		super(problemData, crossoverProbability);
 	}
 
 	@Override
-	public void operate(Individual ind1, Individual ind2) {
+	public void cross(Individual ind1, Individual ind2) {
 		Random rand = new Random();
 		BinaryRepresentationIndividual individual1 = (BinaryRepresentationIndividual) ind1;
 		BinaryRepresentationIndividual individual2 = (BinaryRepresentationIndividual) ind2;

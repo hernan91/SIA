@@ -8,14 +8,14 @@ import operatorsModels.MutationOperator;
 import others.Location;
 import problemData.ProblemData;
 
-public class SensorsProblemMutationOperator extends MutationOperator{
+public class RandomMutationOperator extends MutationOperator{
 	
-	public SensorsProblemMutationOperator(ProblemData problemData) {
-		super(problemData);
+	public RandomMutationOperator(ProblemData problemData, float mutationProbability) {
+		super(problemData, mutationProbability);
 	}
 
 	@Override
-	public Individual operate(Individual ind) {
+	public void mutate(Individual ind) {
 		SensorsProblemIndividual individual = (SensorsProblemIndividual) ind;
 		int[] allele = individual.getAllele();
 		Location[] transmissorsPositions = individual.getTransmissorsPositions();
@@ -35,6 +35,5 @@ public class SensorsProblemMutationOperator extends MutationOperator{
 				transmissorsPositions[choosenPos] = null;
 			}
 		}
-		return individual;
 	}
 }

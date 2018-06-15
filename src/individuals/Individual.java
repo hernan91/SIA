@@ -4,9 +4,7 @@ import objectiveFunctions.ObjectiveFunction;
 
 public abstract class Individual {
 	private double fitness;
-	public Individual() {
-		
-	}
+	public Individual() {}
 	
 	public Individual(double fitness) {
 		this.fitness = fitness;

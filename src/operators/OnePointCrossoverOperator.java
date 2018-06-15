@@ -9,12 +9,12 @@ import problemData.ProblemData;
 
 public class OnePointCrossoverOperator extends CrossoverOperator{
 
-	public OnePointCrossoverOperator(ProblemData problemData) {
-		super(problemData);
+	public OnePointCrossoverOperator(ProblemData problemData, float crossoverProbability) {
+		super(problemData, crossoverProbability);
 	}
 
 	@Override
-	public void operate(Individual individual1, Individual individual2) {
+	public void cross(Individual individual1, Individual individual2) {
 		Random rand = new Random();
 		BinaryRepresentationIndividual ind1 = (BinaryRepresentationIndividual) individual1;
 		BinaryRepresentationIndividual ind2 = (BinaryRepresentationIndividual) individual2;

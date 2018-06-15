@@ -1,3 +1,4 @@
+//Para calcular la interferencia ver "a sensor deployment aprroach" Wen-HWa, cuarta carilla, al final
 package executor;
 
 import java.lang.reflect.Constructor;
@@ -16,44 +17,48 @@ import operatorsModels.CrossoverOperator;
 import operatorsModels.MutationOperator;
 import operatorsModels.ReplacementOperator;
 import operatorsModels.SelectionOperator;
+import operatorsModels.TranslocationOperator;
 import others.Location;
 import problemData.ProblemData;
 import problemData.SensorsFieldData;
 import problemData.SensorsProblemData;
 
 public class SensorsCoverageTestInstanceExecutor{
-	private static final int MAX_NUM_HILOS = 8;
-	private static boolean tracing = false;
-	private static String filename = "K3";
+	private static final int MAX_NUM_HILOS = 1;
+	private static boolean tracing = true;
+	public static int progressVerbosity = 0;
+	private static String filename = "M1";
 	static String outputDir = "/home/hernan/git/SIA/pruebas/"+filename;
 	
-	static int sensorRatio = 10;
-	static int gridSizeX = 60;
+	static int sensorRatio = 10; //23
+	static int gridSizeX = 60; //287
 	static int gridSizeY = 60;
 	static SensorsFieldData sensorsFieldData = new SensorsFieldData(sensorRatio, gridSizeX, gridSizeY);
 	static Location[] prefixedLocations = {};
 	
-	private static int alleleLength = 60; //60
-	private static int[] numExecutions = {30}; //30
-	private static int[] maxGens = {100}; //100,500
+	private static int alleleLength = 60; //200
+	private static int[] numExecutions = {1}; //30
+	private static int[] maxGens = {200}; //100,500
 	private static int[] popSolutionNumbers = {100}; //Solo pares
-	private static float[] crossoverProbabilities = {0.6f, 0.7f, 0.8f};//{0.1f, 0.3f, 0.5f, 0.7f, 0.9f, 1};
-	private static float[] mutationProbabilities = {0.8f, 0.9f, 1};//{0.7f, 0.8f}; // para que la poblacion sea 1/popSOoutionNumber, ingresar un negativo
-	private static float[] takenFromNewGenProportions = {0.3f, 0.4f, 0.5f, 0.6f, 0.7f};//0.3f, 0.9f}; //0.1f, 0.3f, 0.5f, 0.7f, 0.9f, 1
+	private static float[] crossoverProbabilities = {1f};// OP=0.7 {0.1f, 0.3f, 0.5f, 0.7f, 0.9f, 1};
+	private static float[] translocationOpThrershold = {1f};
+	private static float[] mutationProbabilities = {1f};// OP=0.9 {0.7f, 0.8f}; // para que la poblacion sea 1/popSOoutionNumber, ingresar un negativo
+	private static float[] takenFromNewGenProportions = {0.99f};// OP=0.6 {0.3f, 0.9f}; //0.1f, 0.3f, 0.5f, 0.7f, 0.9f, 1
 	private static int alfa = 2; //siempre tiene que ser >1 para que funcione bien la func objetivo
 	private static ObjectiveFunction objectiveFunction = new CircularRatioObjectiveFunction(sensorsFieldData, alfa);
 	//new SensorsProblemSquareRatioObjectiveFunction(sensorsFieldData, getTransmissorsPositions(), alfa)
-	private static double maxFit = 676f; //1111,111111111 cuadrado  684,694444444/676 para 9 sensores circulares radio 10
+	private static double maxFit = 700f; //1111,111111111 cuadrado  684,694444444/   676 para 9 sensores circulares radio 10
 	private static Individual individual = new SensorsProblemIndividual(alleleLength, sensorsFieldData);
 	
-	private static String[] selectionOperatorsClassname = {"BinaryTournamentSelectionOperator"};//new BinaryTournamentSelectionOperator(sensorsProblemData) 
-	private static String[] crossoverOperatorsClassname = {"SensorsProblemTwoPointCrossoverOperator"};//SensorsProblemTwoPointCrossoverOperator(sensorsProblemData)
+	private static String[] selectionOperatorsClassname = {"RouletteWheelSelectionOperator", };//new BinaryTournamentSelectionOperator(sensorsProblemData) 
+	private static String[] crossoverOperatorsClassname = {"SensorsProblemSimpleTwoPointCrossoverOperator"};//SensorsProblemSimpleTwoPointCrossoverOperator(sensorsProblemData)
+	private static String[] translocationOperatorClassname = {"PacoCrossoverOperator"};
 			//new SensorsProblemOnePointCrossoverOperator(sensorsProblemData),
 //	private static Operator[] crossoverOperators = {
 //			new OnePointCrossoverOperator(),
 //			new TwoPointCrossoverOperator(),
 //			new ThreePointCrossoverOperator()};
-	private static String[] mutationOperatorsClassname = {"SensorsProblemMutationOperator"}; //new SensorsProblemMutationOperator(sensorsProblemData)
+	private static String[] mutationOperatorsClassname = {"SingleVortexNeighborhoodMutationOperator"}; //new SingleVortexNeighborhoodMutationOperator(sensorsProblemData)
 //	private static Operator[] crossoverOperators = {
 //			new OnePointCrossoverOperator(),
 //			new TwoPointCrossoverOperator(),
@@ -96,31 +101,37 @@ public class SensorsCoverageTestInstanceExecutor{
 		for(int i=0; i<numExecutions.length; i++) {
 			for(int j=0; j<selectionOperatorsClassname.length; j++) {
 				for(int k=0; k<crossoverOperatorsClassname.length; k++) {
-					for(int l=0; l<mutationOperatorsClassname.length; l++) {
-						for(int m=0; m<replacementOperatorsClassname.length; m++) {
-							for(int n=0; n<maxGens.length; n++) {
-								for(int o=0; o<crossoverProbabilities.length; o++) {
-									for(int p=0; p<mutationProbabilities.length; p++) {
-										for(int q=0; q<takenFromNewGenProportions.length; q++) {
-											for(int r=0; r<popSolutionNumbers.length; r++) {
-												//for(int p=0; p<maxFit.length; p++) {
-												SensorsProblemData sensorsProblemData = new SensorsProblemData(maxFit, alfa, 
-														takenFromNewGenProportions[q], objectiveFunction, individual, prefixedLocations);
-												runConfigurations.add(new SensorsProblemRunConfiguration(
-														numExecutions[i], 
-														(SelectionOperator)getInstance(selectionOperatorsClassname[j], sensorsProblemData), 
-														(CrossoverOperator)getInstance(crossoverOperatorsClassname[k], sensorsProblemData), 
-														(MutationOperator)getInstance(mutationOperatorsClassname[l], sensorsProblemData), 
-														(ReplacementOperator)getInstance(replacementOperatorsClassname[m], sensorsProblemData),
-														maxGens[n], 
-														crossoverProbabilities[o], 
-														mutationProbabilities[p],/*objectiveFunctions[n],*/
-														popSolutionNumbers[r], 
-														tracing,
-														sensorsProblemData
-														)
-												);
-												//}
+					for(int l=0; l<translocationOperatorClassname.length; l++) {
+						for(int m=0; m<mutationOperatorsClassname.length; m++) {
+							for(int n=0; n<replacementOperatorsClassname.length; n++) {
+								for(int o=0; o<maxGens.length; o++) {
+									for(int p=0; p<crossoverProbabilities.length; p++) {
+										for(int q=0; q<translocationOpThrershold.length; q++) {
+											for(int r=0; r<mutationProbabilities.length; r++) {
+												for(int s=0; s<takenFromNewGenProportions.length; s++) {
+													for(int t=0; t<popSolutionNumbers.length; t++) {
+														//for(int p=0; p<maxFit.length; p++) {
+														SensorsProblemData sensorsProblemData = new SensorsProblemData(maxFit, alfa, 
+																takenFromNewGenProportions[s], objectiveFunction, individual, prefixedLocations, maxGens[n]);
+														runConfigurations.add(new SensorsProblemRunConfiguration(
+																numExecutions[i], 
+																(SelectionOperator)getInstance(selectionOperatorsClassname[j], sensorsProblemData, null), 
+																(CrossoverOperator)getInstance(crossoverOperatorsClassname[k], sensorsProblemData, crossoverProbabilities[p]), 
+																(TranslocationOperator)getInstance(translocationOperatorClassname[l], sensorsProblemData, null),
+																(MutationOperator)getInstance(mutationOperatorsClassname[m], sensorsProblemData, mutationProbabilities[r]),
+																(ReplacementOperator)getInstance(replacementOperatorsClassname[n], sensorsProblemData, null),
+																maxGens[o], 
+																crossoverProbabilities[p],
+																translocationOpThrershold[q],
+																mutationProbabilities[r],/*objectiveFunctions[n],*/
+																popSolutionNumbers[t],
+																tracing,
+																sensorsProblemData
+																)
+														);
+														//}
+													}
+												}
 											}
 										}
 									}
@@ -135,11 +146,18 @@ public class SensorsCoverageTestInstanceExecutor{
 		//for(int n=0; n<objectiveFunctions.length; n++) {}
 	}
 	
-	private static Object getInstance(String operatorClassname, SensorsProblemData sensorsProblemData) {		
+	private static Object getInstance(String operatorClassname, SensorsProblemData sensorsProblemData, Float probability) {
 		try {
 			Class<?> clazz = Class.forName("operators."+operatorClassname);
-			Constructor<?> ctor = clazz.getConstructor(ProblemData.class);
-			return ctor.newInstance(new Object[] { sensorsProblemData });
+			if(probability==null) {
+				Constructor<?> ctor = clazz.getConstructor(ProblemData.class);
+				return ctor.newInstance(new Object[] { sensorsProblemData });
+			}
+			else {
+				Constructor<?> ctor = clazz.getConstructor(ProblemData.class, float.class);
+				return ctor.newInstance(new Object[] { sensorsProblemData, probability.floatValue() });
+			}
+			
 		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | 
 				IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
@@ -149,7 +167,7 @@ public class SensorsCoverageTestInstanceExecutor{
 	}
 	
 	public static SensorsProblemIndividual getBestIndividual(ArrayList<SensorsProblemRunConfiguration> confs) {
-		SensorsProblemIndividual bestInd = new SensorsProblemIndividual(new int[0], 0, new Location[0], confs.get(0).getSensorsProblemData().getSensorsFieldProblemData());
+		SensorsProblemIndividual bestInd = null;
 		for(SensorsProblemRunConfiguration runConfiguration: confs) {
 			SensorsProblemIndividual currentBest = runConfiguration.getBestFitIndividual();
 			if(currentBest.getFitness()>bestInd.getFitness()) {

@@ -12,10 +12,10 @@ public class SensorsProblemData extends ProblemData{
 	private Location[] prefixedPositions;
 	private int randomlyDistributedTransmissors;
 	private float takenFromNewGenProportion;
-	
+
 	public SensorsProblemData(double maxFit, int alfa, float takenFromNewGenProportion, ObjectiveFunction objectiveFunction,
-			Individual individual, Location[] prefixedPositions) {
-		super(objectiveFunction, maxFit, alfa, individual);
+			Individual individual, Location[] prefixedPositions, int maxGen) {
+		super(objectiveFunction, maxFit, alfa, individual, maxGen);
 		this.sensorsFieldData = ((SensorsProblemIndividual)getIndividual()).getSensorsFieldData();
 		this.prefixedPositions = prefixedPositions;
 		this.randomlyDistributedTransmissors = getAlleleLength()-prefixedPositions.length;
@@ -88,4 +88,5 @@ public class SensorsProblemData extends ProblemData{
 	public void setTakenFromNewGenProportion(float takenFromNewGenProportion) {
 		this.takenFromNewGenProportion = takenFromNewGenProportion;
 	}
+
 }

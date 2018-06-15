@@ -1,8 +1,6 @@
 package geneticAlgorithms;
 
-import java.util.ArrayList;
-import java.util.Random;
-
+import executor.SensorsCoverageTestInstanceExecutor;
 import individuals.BinaryRepresentationIndividual;
 import individuals.Individual;
 import objectiveFunctions.ObjectiveFunction;
@@ -13,7 +11,6 @@ import operatorsModels.ReplacementOperator;
 import operatorsModels.SelectionOperator;
 import others.Population;
 import problemData.ProblemData;
-import utils.TwoIndividualsTuple;
 
 public class CanonicalGA{
 	private int popSolutionNumber; //numero de soluciones de la poblacion
@@ -49,6 +46,7 @@ public class CanonicalGA{
 		double bestFitness = 0;
 		
 		do{
+			problemData.setCurrentGeneration(genNumber);
 			Population selectedParentsPopulation = applySelectionStrategy(replacedPopulation);
 			Population offspringPopulation = applyReproductionStrategy(selectedParentsPopulation);
 			replacedPopulation = applyReplacementStrategy(replacedPopulation, offspringPopulation);
@@ -59,6 +57,10 @@ public class CanonicalGA{
 				objFunc.printPopulationStatisticInfo(replacedPopulation, problemData.getMaxFit());
 			}
 			genNumber++;
+			if(SensorsCoverageTestInstanceExecutor.progressVerbosity>1) {
+				float p = genNumber/(float)getMaxGen();
+				System.out.println("%"+p*100);
+			}
 		}
 		while( genNumber<getMaxGen() && bestFitness<problemData.getMaxFit() );
 		Individual bestIndividual = objFunc.getPopulationBestFitIndividual(replacedPopulation);
@@ -73,34 +75,15 @@ public class CanonicalGA{
 	
 	private Population applySelectionStrategy(Population population) {
 		population = population.copy();
-		ArrayList<Individual> selectedIndividuals = new ArrayList<>();
-		for(int i=0; i<population.getNumberOfIndividuals(); i++) {
-			ArrayList<Individual> selectedInd =  selectionOperator.operate(population.getIndividuals());
-			selectedIndividuals.add(selectedInd.get(0));
-		}
-		return new Population(selectedIndividuals, problemData);
+		return selectionOperator.operate(population);
 	}
 	
 	
 	private Population applyReproductionStrategy(Population population) {
 		population = population.copy();
-		ArrayList<Individual> offSprings = new ArrayList<>();
-		Random rand = new Random();
-		while(population.getNumberOfIndividuals()>0) {
-			Individual individual1 = population.getIndividuals().remove(0);
-			Individual individual2 = population.getIndividuals().remove(0);
-			new TwoIndividualsTuple(individual1, individual2);
-			float p = rand.nextFloat();
-			if(p<=crossoverProbability) 
-				crossoverOperator.operate(individual1, individual2);
-			if(p<=mutationProbability) {
-				mutationOperator.operate(individual1);
-				mutationOperator.operate(individual2);
-			}
-			offSprings.add(individual1);
-			offSprings.add(individual2);
-		}
-		return new Population(offSprings, problemData);
+		population = crossoverOperator.operate(population);
+		population = mutationOperator.operate(population);
+		return population;
 	}
 	
 	private Population applyReplacementStrategy(Population oldPop, Population newPop) {

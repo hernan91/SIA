@@ -1,17 +1,16 @@
 package operators;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import individuals.BinaryRepresentationIndividual;
 import individuals.Individual;
-import operatorsModels.Operator;
+import operatorsModels.MutationOperator;
 import problemData.ProblemData;
 
-public class BitFlipMutationOperator extends Operator{
+public class BitFlipMutationOperator extends MutationOperator{
 	
-	public BitFlipMutationOperator(ProblemData problemData) {
-		super(problemData);
+	public BitFlipMutationOperator(ProblemData problemData, float mutationProbability) {
+		super(problemData, mutationProbability);
 
 	}
 
@@ -21,15 +20,14 @@ public class BitFlipMutationOperator extends Operator{
 	 * @param individual
 	 * @return 
 	 */
-	public ArrayList<Individual> operate(ArrayList<Individual> ind) {
-		BinaryRepresentationIndividual individual = (BinaryRepresentationIndividual) ind.get(0); //copy?
+
+	@Override
+	public void mutate(Individual ind) {
+		BinaryRepresentationIndividual individual = (BinaryRepresentationIndividual) ind; //copy?
 		int[] allele = individual.getAllele();
 		Random rand = new Random();
 		int limitPosition = allele.length;
 		int choosenPos = rand.nextInt(limitPosition);
 		allele[choosenPos] = allele[choosenPos]==0 ? 1:0;
-		ArrayList<Individual> out = new ArrayList<>();
-		out.add(individual);
-		return out;
 	}
 }
