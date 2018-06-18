@@ -13,9 +13,9 @@ import problemData.SensorsProblemData;
 import utils.PairOfLocationsTuple;
 
 //Es un operador de cruza de sensores, no de individuos
-public class PacoOperator extends TranslocationOperator{
+public class PacoTranslocationOperator extends TranslocationOperator{
 
-	public PacoOperator(ProblemData problemData, float threshold) {
+	public PacoTranslocationOperator(ProblemData problemData, float threshold) {
 		super(problemData, threshold);
 	}
 	
@@ -137,7 +137,7 @@ public class PacoOperator extends TranslocationOperator{
 		int[][] coverageGrid1 = objFunc.getCoverageGrid(new SensorsProblemIndividual(allele, 0, l, fieldData));
 		l[0] = loc2;
 		int[][] coverageGrid2 = objFunc.getCoverageGrid(new SensorsProblemIndividual(allele, 0, l, fieldData));
-		int[][] intersectionGrid = objFunc.initializeGrid();
+		//int[][] intersectionGrid = objFunc.initializeGrid();
 		for(int i=0; i<coverageGrid1.length; i++) {
 			for(int j=0; j<coverageGrid1[0].length; j++) {
 				if(coverageGrid1[i][j]==1 && coverageGrid2[i][j]==1) {

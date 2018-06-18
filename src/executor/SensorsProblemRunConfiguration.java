@@ -25,7 +25,7 @@ public class SensorsProblemRunConfiguration {
 	private CrossoverOperator crossoverOperator;
 	private TranslocationOperator translocationOperator;
 	private MutationOperator mutationOperator;
-	private ReplacementOperator ReplacementOperator;
+	private ReplacementOperator replacementOperator;
 	private int popSolutionNumber; //numero de soluciones de la poblacion
 	private float crossoverProbability;
 	private float translocationOperatorThrershold;
@@ -44,7 +44,7 @@ public class SensorsProblemRunConfiguration {
 		this.crossoverOperator = crossoverOperator;
 		this.translocationOperator = translocationOperator;
 		this.mutationOperator = mutationOperator;
-		this.ReplacementOperator = replacementOperator;
+		this.replacementOperator = replacementOperator;
 		this.maxGen = maxGen;
 		this.crossoverProbability = crossoverProbability;
 		this.translocationOperatorThrershold = translocationOperatorThrershold;
@@ -179,12 +179,16 @@ public class SensorsProblemRunConfiguration {
 		String mutationProbability = String.valueOf(getMutationProbability());
 		String takenFromNewGen = getTakenFromNewGenProportion()>=0 ? "PR="+String.valueOf(getTakenFromNewGenProportion())+"_" : "";
 		String objectiveFunction = getObjectiveFunctionName();
+		String selectionOperatorShorterName = shortenOperatorName(getOperatorClassname(selectionOperator));
 		String crossoverOperatorShorterName = shortenOperatorName(getOperatorClassname(crossoverOperator));
+		String translocationOperatorShorterName = (translocationOperator!=null)? "OPT="+shortenOperatorName(getOperatorClassname(translocationOperator))+"_":"";
 		String mutationOperatorShorterName = shortenOperatorName(getOperatorClassname(mutationOperator));
+		String replacementOperatorShorterName = shortenOperatorName(getOperatorClassname(replacementOperator));
 		String genNumber = String.valueOf(getMaxGen());
-		String name = "PC="+crossoverProbability +"_"+ "PM="+mutationProbability +"_"+ takenFromNewGen +
-				"IT="+genNumber +"_"+"COP="+crossoverOperatorShorterName +"_"+"MOP="+mutationOperatorShorterName +
-				"_"+"OF="+objectiveFunction;
+		String name = "PC="+crossoverProbability +"_"+ "PM="+mutationProbability+"_" +"TTH="+translocationOperatorThrershold+"_"+ takenFromNewGen +
+				"It="+genNumber +"_"+"OPS="+selectionOperatorShorterName +"_"+"OPC="+crossoverOperatorShorterName +"_"+translocationOperatorShorterName+
+				"OPM="+mutationOperatorShorterName+"_"+"OPR="+replacementOperatorShorterName+"_"+"Pop="+popSolutionNumber + "_"+"OF="+objectiveFunction;
+				
 		return name;
 	}
 	
@@ -200,12 +204,24 @@ public class SensorsProblemRunConfiguration {
 				return "3PC";
 			case "SensorsProblemOnePointCrossoverOperator":
 				return "SP1PC";
-			case "SingleVertexNeighborhoodMutationOperator":
+			case "SingleVortexNeighborhoodMutationOperator":
 				return "SVNMO";
 			case "SensorsProblemMutationOperator":
 				return "SPMOP";
-			case "PACOTranslocationOperator":
-				return "PACO";
+			case "PacoTranslocationOperator":
+				return "Paco";
+			case "RandomMutationOperator":
+				return "RMO";
+			case "ElitistReplacementOperator":
+				return "Elit";
+			case "SensorsProblemProportionReplacementOperator":
+				return "Prop";
+			case "RectangularGeographicCrossoverOperator":
+				return "RGC";		
+			case "BinaryTournamentSelectionOperator":
+				return "BT";
+			case "RouletteWheelSelectionOperator":
+				return "RWS";
 			default: return OperatorName;
 		}
 	}
@@ -315,11 +331,11 @@ public class SensorsProblemRunConfiguration {
 	}
 
 	public ReplacementOperator getReplacementOperator() {
-		return ReplacementOperator;
+		return replacementOperator;
 	}
 
 	public void setReplacementOperator(ReplacementOperator replacementOperator) {
-		ReplacementOperator = replacementOperator;
+		this.replacementOperator = replacementOperator;
 	}
 
 	public float getTakenFromNewGenProportion() {

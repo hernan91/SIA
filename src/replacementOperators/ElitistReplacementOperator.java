@@ -1,4 +1,4 @@
-package ReeplacementOperators;
+package replacementOperators;
 
 import operatorsModels.ReplacementOperator;
 import others.Population;

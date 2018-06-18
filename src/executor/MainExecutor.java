@@ -3,7 +3,6 @@ package executor;
 import java.util.ArrayList;
 import java.util.Random;
 
-import ReeplacementOperators.ElitistReplacementOperator;
 import crossoverOperators.OnePointCrossoverOperator;
 import crossoverOperators.TwoPointCrossoverOperator;
 import fileWriters.CsvWriter;
@@ -18,6 +17,7 @@ import others.Location;
 import problemData.OneMaxProblemData;
 import problemData.SensorsFieldData;
 import problemData.SensorsProblemData;
+import replacementOperators.ElitistReplacementOperator;
 import selectionOperators.BinaryTournamentSelectionOperator;
 
 public class MainExecutor{

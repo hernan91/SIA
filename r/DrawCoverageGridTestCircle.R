@@ -1,7 +1,7 @@
 library(plotrix)
 coveredPoints <- read.csv("/home/hernan/git/SIA/pruebas/M1/pre.csv", header = TRUE, sep = ",", dec = ".")
 range= 10
-png("/home/hernan/git/SIA/pruebas/M1/asd.png", width=800, height=800)
+png("/home/hernan/git/SIA/pruebas/M1/rrd.png", width=800, height=800)
 plot(coveredPoints, col = 'black', xlim=c(0,60), ylim=c(0,60), plt="s")
 
 

@@ -10,7 +10,7 @@ import others.Location;
 import others.Population;
 import problemData.SensorsFieldData;
 import problemData.SensorsProblemData;
-import translocationOperators.PacoOperator;
+import translocationOperators.PacoTranslocationOperator;
 
 public class Test2 {
 	public static void main(String args[]) {
@@ -57,7 +57,7 @@ public class Test2 {
 		CircularRatioObjectiveFunction objFunc = new CircularRatioObjectiveFunction(sfData, alfa);
 		SensorsProblemIndividual ind = new SensorsProblemIndividual(alelleLength, sfData);
 		SensorsProblemData spData = new SensorsProblemData(99999, alfa, 0, objFunc, ind, prefixedPositions, maxGen);
-		PacoOperator paco = new PacoOperator(spData, threshold);
+		PacoTranslocationOperator paco = new PacoTranslocationOperator(spData, threshold);
 		ArrayList<Individual> individuals = new ArrayList<>();
 		int[] allele = {1,1,1,1};
 		Location[] loc = {new Location(10,10), new Location(15,15), new Location(20,20), new Location(25,25)};

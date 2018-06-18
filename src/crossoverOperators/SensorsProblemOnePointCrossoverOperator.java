@@ -8,8 +8,9 @@ import operatorsModels.CrossoverOperator;
 import others.Location;
 import problemData.ProblemData;
 
-public class SensorsProblemSimpleTwoPointCrossoverOperator extends CrossoverOperator{
-	public SensorsProblemSimpleTwoPointCrossoverOperator(ProblemData problemData, float crossoverProbability) {
+public class SensorsProblemOnePointCrossoverOperator extends CrossoverOperator{
+
+	public SensorsProblemOnePointCrossoverOperator(ProblemData problemData, float crossoverProbability) {
 		super(problemData, crossoverProbability);
 	}
 
@@ -19,9 +20,8 @@ public class SensorsProblemSimpleTwoPointCrossoverOperator extends CrossoverOper
 		SensorsProblemIndividual ind1 = (SensorsProblemIndividual) individual1;
 		SensorsProblemIndividual ind2 = (SensorsProblemIndividual) individual2;
 		int alleleLength = ind1.getAllele().length;
-		int cutPoint1 = rand.nextInt(alleleLength-2)+1;
-		int cutPoint2 = new Random().nextInt(alleleLength-cutPoint1-1)+cutPoint1;
-		for(int i=cutPoint1; i<=cutPoint2; i++) {
+		int cutPoint = rand.nextInt(alleleLength-1)+1;
+		for(int i=0; i<cutPoint; i++) {
 			int k = ind1.getAllele()[i];
 			Location l = ind1.getTransmissorsPositions()[i]; 	
 			ind1.getAllele()[i] = ind2.getAllele()[i];
@@ -30,4 +30,5 @@ public class SensorsProblemSimpleTwoPointCrossoverOperator extends CrossoverOper
 			ind2.getTransmissorsPositions()[i] = l;
 		}
 	}
+	
 }

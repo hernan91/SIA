@@ -29,7 +29,7 @@ public class SingleVortexNeighborhoodMutationOperator extends MutationOperator {
 			loc = individual.getTransmissorsPositions()[choosenPos];
 		}
 		float randomAngle = rand.nextFloat()*360;
-		double optimalDistance = coverageRatio/2 * (1-((float)currentGen/maxGen));
+		double optimalDistance = Math.sqrt(3)*coverageRatio * (1-((float)currentGen/maxGen));
 		int x = (int) (loc.getPosX() +  optimalDistance*Math.cos(randomAngle));
 		int y = (int) (loc.getPosY() +  optimalDistance*Math.sin(randomAngle));
 		//Hacer bien lo del current gen

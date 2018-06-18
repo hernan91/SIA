@@ -7,12 +7,12 @@ y = bestInd$y
 
 toImage = TRUE;
 
-if(toImage) png("~/git/SIA/pruebas/M1/bestIndLocations.png", width=800, height=800)
+if(toImage) png("~/git/SIA/pruebas/M1/bestIndLocations2.png", width=800, height=800)
 
 # Graph the cars vector with all defaults
-plot(x,y,pch=20, ylim=c(0,287), xlim=c(0,287))
+plot(x,y,pch=20, ylim=c(0,60), xlim=c(0,60))
 
-range=23
+range=5
 
 #  for (i in 1:9){
 #    points(x[i],y[i],col=rgb(1,0,0),pch=20)

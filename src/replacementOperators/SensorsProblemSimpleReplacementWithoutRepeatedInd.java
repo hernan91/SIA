@@ -1,4 +1,4 @@
-package ReeplacementOperators;
+package replacementOperators;
 
 import java.util.ArrayList;
 import java.util.HashSet;
