@@ -1,0 +1,56 @@
+Fitness del mejor individuo de cada generacion
+148.8372093023256
+148.5952380952381
+145.8
+145.8
+144.85714285714286
+144.5
+144.0
+144.0
+143.52083333333334
+143.52083333333334
+143.52083333333334
+143.06382978723406
+143.06382978723406
+142.6304347826087
+141.8409090909091
+141.66666666666666
+141.12
+140.59183673469389
+140.08333333333334
+140.08333333333334
+140.08333333333334
+140.08333333333334
+139.59574468085106
+139.1304347826087
+138.94230769230768
+138.27272727272728
+137.22448979591837
+137.1951219512195
+136.17021276595744
+135.07843137254903
+
+
+DATOS DE CORRIDA Y POBLACION
+Media= 141,762
+Desvío estándar= 3,327
+Fitness del mejor individuo= 148,837
+Cromosoma del mejor individuo= 11011001010000011110101101010100101010100011011001101011110011011010110000111011
+Numero de sensores utilizado= 80
+Numero de sensores aleatoriamente distribuidos= 80
+Numero de ejecuciones= 30
+Operador de seleccion= selectionOperators.BinaryTournamentSelectionOperator@73c57fbf
+Operador de cruza= SensorsProblemOnePointCrossoverOperator
+Operador de mutacion= SingleVortexNeighborhoodMutationOperator
+Operador de reemplazo= replacementOperators.SteadyStateReplacementOperator@3d21d658
+Numero de generaciones= 100
+Probabilidad de cruza= 0.9
+Probabilidad de mutación= 1.0
+Proporción de individuos tomados de la nueva generacion= 0.95
+Función objetivo= RadioCircular
+Número de individuos de la población= 100
+Alfa= 2
+Fitness óptimo= 700.0
+Radio de cobertura de los sensores= 5
+Tamaño del área de despliegue en X= 60
+Tamaño del área de despliegue en Y= 60

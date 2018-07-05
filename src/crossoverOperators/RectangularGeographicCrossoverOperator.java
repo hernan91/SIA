@@ -76,11 +76,14 @@ public class RectangularGeographicCrossoverOperator extends CrossoverOperator{
 	
 	private void interchangeLocations(ArrayList<Location> crossArea1Locations, ArrayList<Location> crossArea2Locations) {
 		for(int i=0; i<crossArea1Locations.size(); i++) {
-			Location aux = crossArea1Locations.get(i);
+			int auxX = crossArea1Locations.get(i).getPosX();
+			int auxY = crossArea1Locations.get(i).getPosY();
 			Location loc1 = crossArea1Locations.get(i);
 			Location loc2 = crossArea2Locations.get(i);
-			loc1 = loc2;
-			loc2 = aux;
+			loc1.setPosX(loc2.getPosX());
+			loc1.setPosY(loc2.getPosY());
+			loc2.setPosX(auxX);
+			loc2.setPosY(auxY);
 		}
 	}
 	
@@ -89,7 +92,7 @@ public class RectangularGeographicCrossoverOperator extends CrossoverOperator{
 		int inactiveSensors = individual.getAlleleLength()-activeSensors;
 		if(inactiveSensors==0) return;
 		Location[] loc = individual.getTransmissorsPositions();
-		for(int i=0; i<inactiveSensors; i++) {
+		for(int i=0; i<individual.getAlleleLength(); i++) {
 			if(loc[i]==null) {
 				loc[i] = new Location(newLoc.getPosX(), newLoc.getPosY());
 				individual.getAllele()[i] = 1;
@@ -102,10 +105,11 @@ public class RectangularGeographicCrossoverOperator extends CrossoverOperator{
 		int i = 0;
 		for(Location loc : individual.getTransmissorsPositions()) {
 			if(loc != null && loc.equals(oldLoc)) {
-				loc = null;
+				individual.getTransmissorsPositions()[i] = null;
 				individual.getAllele()[i] = 0;
-				i++;
+				return;
 			}
+			i++;
 		}
 	}
 }

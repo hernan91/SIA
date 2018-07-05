@@ -24,16 +24,30 @@ public class SingleVortexNeighborhoodMutationOperator extends MutationOperator {
 		int coverageRatio = ((SensorsProblemData)(getProblemData())).getSensorsFieldProblemData().getTransmissorRangeRatio();
 		int choosenPos = rand.nextInt(individual.getAlleleLength()-1);
 		Location loc = individual.getTransmissorsPositions()[choosenPos];
-		while(loc==null) {
-			choosenPos = rand.nextInt(individual.getAlleleLength()-1);
-			loc = individual.getTransmissorsPositions()[choosenPos];
+		int[] allele = individual.getAllele();
+		if(allele[choosenPos]==0) {
+			allele[choosenPos] = 1;
+			individual.moveSensorToRandomLocation(choosenPos);
 		}
-		float randomAngle = rand.nextFloat()*360;
-		double optimalDistance = Math.sqrt(3)*coverageRatio * (1-((float)currentGen/maxGen));
-		int x = (int) (loc.getPosX() +  optimalDistance*Math.cos(randomAngle));
-		int y = (int) (loc.getPosY() +  optimalDistance*Math.sin(randomAngle));
-		//Hacer bien lo del current gen
-		loc.setPosX(x);
-		loc.setPosY(y);
+		else {
+			float moveOrRemoveProbability = rand.nextFloat();
+			if(moveOrRemoveProbability>0.5) {
+				float randomAngle = rand.nextFloat()*360;
+				
+				int numCicles = maxGen/100;
+				int cicleLimit = maxGen/numCicles;
+				float prop = ((currentGen + cicleLimit) % cicleLimit) / (float)cicleLimit;
+				//float prop = ((float)currentGen/maxGen);
+				double optimalDistance = Math.sqrt(3)*coverageRatio * (1-prop);
+				int x = (int) (loc.getPosX() +  optimalDistance*Math.cos(randomAngle));
+				int y = (int) (loc.getPosY() +  optimalDistance*Math.sin(randomAngle));
+				loc.setPosX(x);
+				loc.setPosY(y);
+			}
+			else {
+				allele[choosenPos] = 0;
+				individual.getTransmissorsPositions()[choosenPos] = null;
+			}
+		}
 	}
 }

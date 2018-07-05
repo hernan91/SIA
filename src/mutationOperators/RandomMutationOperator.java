@@ -20,8 +20,7 @@ public class RandomMutationOperator extends MutationOperator{
 		int[] allele = individual.getAllele();
 		Location[] transmissorsPositions = individual.getTransmissorsPositions();
 		Random rand = new Random();
-		int limitPosition = allele.length;
-		int choosenPos = rand.nextInt(limitPosition);
+		int choosenPos = rand.nextInt(individual.getAlleleLength()-1);
 		if(allele[choosenPos]==0) {
 			allele[choosenPos] = 1;
 			individual.moveSensorToRandomLocation(choosenPos);

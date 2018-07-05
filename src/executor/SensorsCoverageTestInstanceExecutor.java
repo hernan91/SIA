@@ -24,46 +24,46 @@ import problemData.SensorsFieldData;
 import problemData.SensorsProblemData;
 
 public class SensorsCoverageTestInstanceExecutor{
-	private static int MAX_NUM_THREADS = 8;
-	private static boolean tracing = false;
+	private static int MAX_NUM_THREADS = 7;
+	private static boolean tracing = true;
 	public static int progressVerbosity = 0;
-	private static String filename = "A2";
-	static String outputDir = "/home/hernan/git/SIA/pruebas"+"/"+filename;
+	private static String filename = "prue2";
+	static String outputDir = "/home/hernan/git/SIA/pruebasInforme"+"/"+filename;
 	
 	static int sensorRatio = 5; //23
-	static int gridSizeX = 60; //287
+	static int gridSizeX = 60; //60
 	static int gridSizeY = 60;
 	static SensorsFieldData sensorsFieldData = new SensorsFieldData(sensorRatio, gridSizeX, gridSizeY);
 	static Location[] prefixedLocations = {};
 	
 	private static int alleleLength = 80; //80
-	private static int[] numExecutions = {20}; //30
-	private static int[] maxGens = {100}; //100,500
+	private static int[] numExecutions = {1}; //30
+	private static int[] maxGens = {1000}; //100,500
 	private static int[] popSolutionNumbers = {100}; //Solo pares
-	private static float[] crossoverProbabilities = {0.6f, 0.8f, 1f};// OP=0.7 {0.1f, 0.3f, 0.5f, 0.7f, 0.9f, 1};
-	private static float[] translocationOpThrershold = {sensorRatio*1.0f, sensorRatio*1.3f, sensorRatio*1.6f};//(float) Math.sqrt(3*sensorRatio)/2
-	private static float[] mutationProbabilities = {0.6f, 0.8f, 1f};// OP=0.9 {0.7f, 0.8f}; // para que la poblacion sea 1/popSOoutionNumber, ingresar un negativo
-	private static float[] takenFromNewGenProportions = {0.99f};// OP=0.6 {0.3f, 0.9f}; //0.1f, 0.3f, 0.5f, 0.7f, 0.9f, 1
+	private static float[] crossoverProbabilities = {0.9f};// OP=0.7 {0.1f, 0.3f, 0.5f, 0.7f, 0.9f, 1};
+	private static float[] translocationOpThrershold = {-1};//(float) Math.sqrt(3*sensorRatio)/2
+	private static float[] mutationProbabilities = {1};// OP=0.9 {0.7f, 0.8f}; // para que la poblacion sea 1/popSOoutionNumber, ingresar un negativo
+	private static float[] takenFromNewGenProportions = {0.05f};// OP=0.6 {0.3f, 0.9f}; //0.1f, 0.3f, 0.5f, 0.7f, 0.9f, 1
 	private static int alfa = 2; //siempre tiene que ser >1 para que funcione bien la func objetivo
 	private static ObjectiveFunction objectiveFunction = new CircularRatioObjectiveFunction(sensorsFieldData, alfa);
 	//new SensorsProblemSquareRatioObjectiveFunction(sensorsFieldData, getTransmissorsPositions(), alfa)
 	private static double maxFit = 700f; //1111,111111111 cuadrado  684,694444444/   676 para 9 sensores circulares radio 10
 	private static Individual individual = new SensorsProblemIndividual(alleleLength, sensorsFieldData);
 	
-	private static String[] selectionOperatorsClassname = {"BinaryTournamentSelectionOperator", "RouletteWheelSelectionOperator"};//new BinaryTournamentSelectionOperator(sensorsProblemData) 
-	private static String[] crossoverOperatorsClassname = {"SensorsProblemTwoPointCrossoverOperator", "RectangularGeographicCrossoverOperator"};//SensorsProblemSimpleTwoPointCrossoverOperator(sensorsProblemData)
-	private static String[] translocationOperatorClassname = {null, "PacoTranslocationOperator"};
+	private static String[] selectionOperatorsClassname = {"BinaryTournamentSelectionOperator"};//"BinaryTournamentSelectionOperator", "RouletteWheelSelectionOperator" 
+	private static String[] crossoverOperatorsClassname = {"RectangularGeographicCrossoverOperator"};//"SensorsProblemSimpleTwoPointCrossoverOperator", "RectangularGeographicCrossoverOperator"
+	private static String[] translocationOperatorClassname = {null}; //"PacoTranslocationOperator"};
 			//new SensorsProblemOnePointCrossoverOperator(sensorsProblemData),
 //	private static Operator[] crossoverOperators = {
 //			new OnePointCrossoverOperator(),
 //			new TwoPointCrossoverOperator(),
 //			new ThreePointCrossoverOperator()};
-	private static String[] mutationOperatorsClassname = {"RandomMutationOperator", "SingleVortexNeighborhoodMutationOperator"}; //new SingleVortexNeighborhoodMutationOperator(sensorsProblemData)
+	private static String[] mutationOperatorsClassname = {"SingleVortexNeighborhoodMutationOperator"}; //"RandomMutationOperator", "SingleVortexNeighborhoodMutationOperator"
 //	private static Operator[] crossoverOperators = {
 //			new OnePointCrossoverOperator(),
 //			new TwoPointCrossoverOperator(),
 //			new ThreePointCrossoverOperator()};
-	private static String[] replacementOperatorsClassname = {"ElitistReplacementOperator", "SensorsProblemProportionReplacementOperator"}; //new SensorsProblemProportionReplacementOperator(sensorsProblemData)
+	private static String[] replacementOperatorsClassname = {"SensorsProblemProportionReplacementOperator"}; //"ElitistReplacementOperator", "SensorsProblemProportionReplacementOperator"
 			//new SensorsProblemSimpleReplacementWithoutRepeatedInd(sensorsProblemData)
 	
 	public static void main(String[] args) {
@@ -90,7 +90,7 @@ public class SensorsCoverageTestInstanceExecutor{
         }
         System.out.println("Terminan todos los hilos de ejecución");
     
-		POIWriter.writeSensorsData(outputDir, "TodosLosDatos", runConfigurations);
+		//POIWriter.writeSensorsData(outputDir, "TodosLosDatos", runConfigurations);
 		POIWriter.writeRelevantData(outputDir, "ResumenDatos", runConfigurations);
 		SensorsProblemIndividual bestInd = SensorsCoverageTestInstanceExecutor.getBestIndividual(runConfigurations);
 		CsvWriter.writeSensorsIndividualData(outputDir, "bestIndData", bestInd, 
