@@ -18,7 +18,7 @@ public class SensorsProblemData extends ProblemData{
 		super(objectiveFunction, maxFit, alfa, individual, maxGen);
 		this.sensorsFieldData = ((SensorsProblemIndividual)getIndividual()).getSensorsFieldData();
 		this.prefixedPositions = prefixedPositions;
-		this.randomlyDistributedTransmissors = getAlleleLength()-prefixedPositions.length;
+		this.randomlyDistributedTransmissors = prefixedPositions.length;
 		this.takenFromNewGenProportion = takenFromNewGenProportion;
 	}
 	
@@ -40,7 +40,18 @@ public class SensorsProblemData extends ProblemData{
 				break;
 			}
 			case "SensorsProblemIndividual": {
-				individual = new SensorsProblemIndividual(getAlleleLength(), getSensorsFieldProblemData()); 
+				SensorsProblemIndividual ind = new SensorsProblemIndividual(getAlleleLength(), getSensorsFieldProblemData());
+				if(randomlyDistributedTransmissors>0) {
+					int[] allele = ind.getAllele();
+					Location[] prefixedLocations = ind.getTransmissorsPositions();					
+					for(int i=0; i<randomlyDistributedTransmissors; i++) {
+						allele[i] = 1;
+						prefixedLocations[i] = prefixedPositions[i];
+					}
+					ind.setAllele(allele);
+					ind.setTransmissorsPositions(prefixedLocations);
+				}
+				individual = ind;
 				break;
 			}
 			default: throw new ClassNotFoundException();

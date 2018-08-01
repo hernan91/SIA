@@ -13,6 +13,7 @@ import individuals.Individual;
 import individuals.SensorsProblemIndividual;
 import objectiveFunctions.CircularRatioObjectiveFunction;
 import objectiveFunctions.ObjectiveFunction;
+import objectiveFunctions.SquareRatioObjectiveFunction;
 import operatorsModels.CrossoverOperator;
 import operatorsModels.MutationOperator;
 import operatorsModels.ReplacementOperator;
@@ -27,30 +28,32 @@ public class SensorsCoverageTestInstanceExecutor{
 	private static int MAX_NUM_THREADS = 7;
 	private static boolean tracing = true;
 	public static int progressVerbosity = 0;
-	private static String filename = "prue2";
+	private static String filename = "prueDefINS2";
 	static String outputDir = "/home/hernan/git/SIA/pruebasInforme"+"/"+filename;
 	
-	static int sensorRatio = 5; //23
+	static int sensorRatio = 10; //23
 	static int gridSizeX = 60; //60
 	static int gridSizeY = 60;
 	static SensorsFieldData sensorsFieldData = new SensorsFieldData(sensorRatio, gridSizeX, gridSizeY);
-	static Location[] prefixedLocations = {};
+	static Location[] prefixedLocations = {
+
+	};
 	
-	private static int alleleLength = 80; //80
-	private static int[] numExecutions = {1}; //30
-	private static int[] maxGens = {1000}; //100,500
+	private static int alleleLength = 18; //80
+	private static int[] numExecutions = {30}; //30
+	private static int[] maxGens = {100}; //100,500
 	private static int[] popSolutionNumbers = {100}; //Solo pares
-	private static float[] crossoverProbabilities = {0.9f};// OP=0.7 {0.1f, 0.3f, 0.5f, 0.7f, 0.9f, 1};
+	private static float[] crossoverProbabilities = {1};// OP=0.7 {0.1f, 0.3f, 0.5f, 0.7f, 0.9f, 1};
 	private static float[] translocationOpThrershold = {-1};//(float) Math.sqrt(3*sensorRatio)/2
 	private static float[] mutationProbabilities = {1};// OP=0.9 {0.7f, 0.8f}; // para que la poblacion sea 1/popSOoutionNumber, ingresar un negativo
 	private static float[] takenFromNewGenProportions = {0.05f};// OP=0.6 {0.3f, 0.9f}; //0.1f, 0.3f, 0.5f, 0.7f, 0.9f, 1
 	private static int alfa = 2; //siempre tiene que ser >1 para que funcione bien la func objetivo
 	private static ObjectiveFunction objectiveFunction = new CircularRatioObjectiveFunction(sensorsFieldData, alfa);
 	//new SensorsProblemSquareRatioObjectiveFunction(sensorsFieldData, getTransmissorsPositions(), alfa)
-	private static double maxFit = 700f; //1111,111111111 cuadrado  684,694444444/   676 para 9 sensores circulares radio 10
+	private static double maxFit = 1111.111111111f; //1111,111111111 cuadrado  684,694444444/   676 para 9 sensores circulares radio 10
 	private static Individual individual = new SensorsProblemIndividual(alleleLength, sensorsFieldData);
 	
-	private static String[] selectionOperatorsClassname = {"BinaryTournamentSelectionOperator"};//"BinaryTournamentSelectionOperator", "RouletteWheelSelectionOperator" 
+	private static String[] selectionOperatorsClassname = {"RouletteWheelSelectionOperator"};//"BinaryTournamentSelectionOperator", "RouletteWheelSelectionOperator" 
 	private static String[] crossoverOperatorsClassname = {"RectangularGeographicCrossoverOperator"};//"SensorsProblemSimpleTwoPointCrossoverOperator", "RectangularGeographicCrossoverOperator"
 	private static String[] translocationOperatorClassname = {null}; //"PacoTranslocationOperator"};
 			//new SensorsProblemOnePointCrossoverOperator(sensorsProblemData),
@@ -63,7 +66,7 @@ public class SensorsCoverageTestInstanceExecutor{
 //			new OnePointCrossoverOperator(),
 //			new TwoPointCrossoverOperator(),
 //			new ThreePointCrossoverOperator()};
-	private static String[] replacementOperatorsClassname = {"SensorsProblemProportionReplacementOperator"}; //"ElitistReplacementOperator", "SensorsProblemProportionReplacementOperator"
+	private static String[] replacementOperatorsClassname = {"ElitistReplacementOperator"}; //"ElitistReplacementOperator", "SensorsProblemProportionReplacementOperator"
 			//new SensorsProblemSimpleReplacementWithoutRepeatedInd(sensorsProblemData)
 	
 	public static void main(String[] args) {
