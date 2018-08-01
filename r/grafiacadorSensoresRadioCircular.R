@@ -1,2 +1,0 @@
-grfica
-grfica
